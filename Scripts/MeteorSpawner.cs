@@ -9,7 +9,7 @@ public partial class MeteorSpawner : Node2D
 
 	private List<string> words = new List<string>
 	{
-		"sol", "luna", "astro", "cometa", "galaxia"
+		"sol", "luna", "astro", "cometa", "galaxia", "día"
 	};
 
 	public override void _Ready()

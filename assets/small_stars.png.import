@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bmb0gubgd8vwn"
-path="res://.godot/imported/small_stars.png-884ca3362564bc84848300c1ed9826a1.ctex"
+path="res://.godot/imported/small_stars.png-7cb3cb8839a7b2df8251f0edf65216f9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/small_stars.png"
-dest_files=["res://.godot/imported/small_stars.png-884ca3362564bc84848300c1ed9826a1.ctex"]
+source_file="res://Assets/small_stars.png"
+dest_files=["res://.godot/imported/small_stars.png-7cb3cb8839a7b2df8251f0edf65216f9.ctex"]
 
 [params]
 

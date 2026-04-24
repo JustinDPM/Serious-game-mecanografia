@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dtviatljt5wgn"
-path="res://.godot/imported/invasion_label.png-5c5b140342a78002319276c249b4bb37.ctex"
+path="res://.godot/imported/invasion_label.png-81b57f54a203189f050fd2cd2948e9da.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/invasion_label.png"
-dest_files=["res://.godot/imported/invasion_label.png-5c5b140342a78002319276c249b4bb37.ctex"]
+source_file="res://Assets/invasion_label.png"
+dest_files=["res://.godot/imported/invasion_label.png-81b57f54a203189f050fd2cd2948e9da.ctex"]
 
 [params]
 

@@ -8,7 +8,7 @@ public partial class InputManager : Node
 
 	public override void _Ready()
 	{
-		spawner = GetNode<Node2D>("../MeteorSpawner");
+		spawner = GetNode<Node2D>("/root/Game/MeteorSpawner");
 	}
 
 	public override void _Input(InputEvent @event)
