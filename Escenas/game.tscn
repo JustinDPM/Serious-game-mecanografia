@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://chuev114hn4yr"]
+
+[ext_resource type="Script" uid="uid://be6ck5fru2jou" path="res://Escenas/MeteorSpawner.cs" id="1_0bm41"]
+[ext_resource type="PackedScene" uid="uid://b1hstvnv4ifcy" path="res://Escenas/meteor.tscn" id="2_obr3f"]
+[ext_resource type="Script" uid="uid://baoanl4xbvigq" path="res://Escenas/InputManager.cs" id="3_3418m"]
+
+[node name="Game" type="Node2D" unique_id=1605905321]
+
+[node name="MeteorSpawner" type="Node2D" parent="." unique_id=1877068755]
+script = ExtResource("1_0bm41")
+MeteorScene = ExtResource("2_obr3f")
+
+[node name="Node" type="Node" parent="." unique_id=562777614]
+
+[node name="InputManager" type="Node2D" parent="." unique_id=1016781327]
+script = ExtResource("3_3418m")

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://b1hstvnv4ifcy"]
+
+[ext_resource type="Script" uid="uid://clnntlerjts05" path="res://Escenas/Meteor.cs" id="1_l1x4f"]
+
+[node name="Meteor" type="CharacterBody2D" unique_id=1046465861]
+script = ExtResource("1_l1x4f")
+
+[node name="Label" type="Label" parent="." unique_id=1662276197]
+offset_right = 40.0
+offset_bottom = 23.0
