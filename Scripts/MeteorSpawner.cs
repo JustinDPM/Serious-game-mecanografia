@@ -35,7 +35,7 @@ public partial class MeteorSpawner : Node2D
 		meteor.Word = words[GD.RandRange(0, words.Count - 1)];
 		meteor.Position = new Vector2(GD.RandRange(50, 700), 0);
 
-		meteor.SetTarget(Player); // 👈 aquí lo conectas
+		meteor.SetTarget(Player);
 
 		AddChild(meteor);
 		GD.Print(Player);

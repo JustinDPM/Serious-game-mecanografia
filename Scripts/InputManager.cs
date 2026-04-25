@@ -5,17 +5,18 @@ public partial class InputManager : Node
 {
 	private string currentInput = "";
 	private Node2D spawner;
+	private Node2D player;
 
 	public override void _Ready()
 	{
 		spawner = GetNode<Node2D>("/root/Game/MeteorSpawner");
+		player = GetNode<Node2D>("../Player");
 	}
 
 	public override void _Input(InputEvent @event)
 	{
 		if (@event is InputEventKey key && key.Pressed)
 		{
-			// 🔴 BACKSPACE
 			if (key.Keycode == Key.Backspace)
 			{
 				if (currentInput.Length > 0)
@@ -25,13 +26,11 @@ public partial class InputManager : Node
 				return;
 			}
 
-			// 🟢 LETRAS
 			if (key.Unicode > 0)
 			{
 				currentInput += (char)key.Unicode;
 
-				// 🔥 VALIDACIÓN INTELIGENTE
-				if (!MatchesAnyMeteor(currentInput))
+				if (!MatchesMeteor(currentInput))
 				{
 					currentInput = "";
 				}
@@ -42,31 +41,61 @@ public partial class InputManager : Node
 		}
 	}
 
-	private void CheckMeteors()
+private void CheckMeteors()
+{
+	Meteor target = GetClosestMeteor();
+	
+	foreach (Node child in spawner.GetChildren())
 	{
-		foreach (Node child in spawner.GetChildren())
+		if (child is Meteor meteor)
 		{
-			if (child is Meteor meteor)
-			{
-				if (meteor.CheckWord(currentInput))
-				{
-					currentInput = "";
-					break;
-				}
-			}
+			meteor.UpdateDisplay("");
 		}
 	}
 
-	private bool MatchesAnyMeteor(string input)
+	if (target != null)
+	{
+		target.UpdateDisplay(currentInput);
+
+		if (target.CheckWord(currentInput))
+		{
+			currentInput = "";
+		}
+	}
+}
+
+	private bool MatchesMeteor(string input)
 	{
 		foreach (Node child in spawner.GetChildren())
 		{
 			if (child is Meteor meteor)
 			{
-				if (meteor.Word.StartsWith(input))
+				if (GetClosestMeteor().Word.StartsWith(input))
 					return true;
 			}
 		}
 		return false;
+	}
+	
+	private Meteor GetClosestMeteor()
+	{
+		Meteor closest = null;
+		float minDistance = float.MaxValue;
+
+		foreach (Node child in spawner.GetChildren())
+		{
+			if (child is Meteor meteor)
+			{
+				float dist = meteor.GlobalPosition.DistanceTo(player.GlobalPosition);
+
+				if (dist < minDistance)
+				{
+					minDistance = dist;
+					closest = meteor;
+				}
+			}
+		}
+
+		return closest;
 	}
 }
