@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://7ibokiyc5a7h"
-path="res://.godot/imported/invasion_bar.png-d9d03f284f4e3ed2e34cb3d4d42e651e.ctex"
+path="res://.godot/imported/invasion_bar.png-ea1259011a6769db340919e640ee847e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/invasion_bar.png"
-dest_files=["res://.godot/imported/invasion_bar.png-d9d03f284f4e3ed2e34cb3d4d42e651e.ctex"]
+source_file="res://Assets/invasion_bar.png"
+dest_files=["res://.godot/imported/invasion_bar.png-ea1259011a6769db340919e640ee847e.ctex"]
 
 [params]
 
