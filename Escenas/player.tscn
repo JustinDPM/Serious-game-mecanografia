@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://gqtggvlvys7r"]
+
+[ext_resource type="Texture2D" uid="uid://c401u7ldp2cu8" path="res://assets/ship.png" id="1_cnkc8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i8vih"]
+
+[node name="Player" type="CharacterBody2D" unique_id=1807233832]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1096657938]
+scale = Vector2(1.28125, 1.25)
+texture = ExtResource("1_cnkc8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1424789678]
+shape = SubResource("RectangleShape2D_i8vih")
