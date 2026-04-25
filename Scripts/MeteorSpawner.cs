@@ -7,10 +7,12 @@ public partial class MeteorSpawner : Node2D
 	[Export] public PackedScene MeteorScene;
 	[Export] public float SpawnInterval = 2f;
 
-	private List<string> words = new List<string>
+	 private List<string> words = new List<string>
 	{
 		"sol", "luna", "astro", "cometa", "galaxia", "día"
 	};
+
+	[Export] public Node2D Player;
 
 	public override void _Ready()
 	{
@@ -33,6 +35,10 @@ public partial class MeteorSpawner : Node2D
 		meteor.Word = words[GD.RandRange(0, words.Count - 1)];
 		meteor.Position = new Vector2(GD.RandRange(50, 700), 0);
 
+		meteor.SetTarget(Player); // 👈 aquí lo conectas
+
 		AddChild(meteor);
+		GD.Print(Player);
 	}
+	
 }

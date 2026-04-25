@@ -3,14 +3,19 @@
 [ext_resource type="Script" uid="uid://be6ck5fru2jou" path="res://Scripts/MeteorSpawner.cs" id="1_0bm41"]
 [ext_resource type="PackedScene" uid="uid://b1hstvnv4ifcy" path="res://Escenas/meteor.tscn" id="2_obr3f"]
 [ext_resource type="Script" uid="uid://baoanl4xbvigq" path="res://Scripts/InputManager.cs" id="3_3418m"]
+[ext_resource type="PackedScene" uid="uid://gqtggvlvys7r" path="res://Escenas/player.tscn" id="4_5g6uq"]
+[ext_resource type="Script" uid="uid://bl6qvl1gpeirr" path="res://Scripts/Player.cs" id="4_o5eqp"]
 
 [node name="Game" type="Node2D" unique_id=1605905321]
 
-[node name="MeteorSpawner" type="Node2D" parent="." unique_id=1877068755]
+[node name="MeteorSpawner" type="Node2D" parent="." unique_id=1877068755 node_paths=PackedStringArray("Player")]
 script = ExtResource("1_0bm41")
 MeteorScene = ExtResource("2_obr3f")
-
-[node name="Node" type="Node" parent="." unique_id=562777614]
+Player = NodePath("../Player")
 
 [node name="InputManager" type="Node2D" parent="." unique_id=1016781327]
 script = ExtResource("3_3418m")
+
+[node name="Player" parent="." unique_id=1807233832 instance=ExtResource("4_5g6uq")]
+position = Vector2(593, 469)
+script = ExtResource("4_o5eqp")
