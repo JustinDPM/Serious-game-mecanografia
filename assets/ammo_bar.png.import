@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://37q5m21eohex"
-path="res://.godot/imported/ammo_bar.png-a3806499c885efd0d9fa9f9244df5880.ctex"
+path="res://.godot/imported/ammo_bar.png-1d3d2fa10ee0c751109fcc45646693c1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/ammo_bar.png"
-dest_files=["res://.godot/imported/ammo_bar.png-a3806499c885efd0d9fa9f9244df5880.ctex"]
+source_file="res://assets/ammo_bar.png"
+dest_files=["res://.godot/imported/ammo_bar.png-1d3d2fa10ee0c751109fcc45646693c1.ctex"]
 
 [params]
 
