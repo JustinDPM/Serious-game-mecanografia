@@ -5,24 +5,26 @@ public partial class InputManager : Node
 {
 	private string currentInput = "";
 	private Node2D spawner;
-	private Node2D player;
+	private Player player;
 
 	public override void _Ready()
 	{
 		spawner = GetNode<Node2D>("/root/Game/MeteorSpawner");
-		player = GetNode<Node2D>("../Player");
+		player = GetNode<Player>("../Player");
 	}
 
 	public override void _Input(InputEvent @event)
 	{
 		if (@event is InputEventKey key && key.Pressed)
 		{
+
 			if (key.Keycode == Key.Backspace)
 			{
 				if (currentInput.Length > 0)
 					currentInput = currentInput.Substring(0, currentInput.Length - 1);
 
 				GD.Print(currentInput);
+				CheckMeteors();
 				return;
 			}
 
@@ -30,53 +32,45 @@ public partial class InputManager : Node
 			{
 				currentInput += (char)key.Unicode;
 
-				if (!MatchesMeteor(currentInput))
-				{
-					currentInput = "";
-				}
+				Meteor target = GetClosestMeteor();
 
+				if (target == null || !target.Word.StartsWith(currentInput))
+				{
+					CheckMeteors();
+					currentInput = currentInput.Substring(0, currentInput.Length -1);
+					return;
+				}
+				
+				player.Shoot(target);
 				GD.Print(currentInput);
 				CheckMeteors();
 			}
 		}
 	}
 
-private void CheckMeteors()
-{
-	Meteor target = GetClosestMeteor();
-	
-	foreach (Node child in spawner.GetChildren())
+	private void CheckMeteors()
 	{
-		if (child is Meteor meteor)
-		{
-			meteor.UpdateDisplay("");
-		}
-	}
+		Meteor target = GetClosestMeteor();
 
-	if (target != null)
-	{
-		target.UpdateDisplay(currentInput);
-
-		if (target.CheckWord(currentInput))
-		{
-			currentInput = "";
-		}
-	}
-}
-
-	private bool MatchesMeteor(string input)
-	{
 		foreach (Node child in spawner.GetChildren())
 		{
 			if (child is Meteor meteor)
 			{
-				if (GetClosestMeteor().Word.StartsWith(input))
-					return true;
+				meteor.UpdateDisplay("");
 			}
 		}
-		return false;
+
+		if (target != null)
+		{
+			target.UpdateDisplay(currentInput);
+
+			if (target.CheckWord(currentInput))
+			{
+				currentInput = "";
+			}
+		}
 	}
-	
+
 	private Meteor GetClosestMeteor()
 	{
 		Meteor closest = null;

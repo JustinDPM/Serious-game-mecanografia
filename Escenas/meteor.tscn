@@ -4,14 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://rnppek8bl13s" path="res://assets/Meteor.png" id="2_l8rnm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0xs45"]
-radius = 18.0
+radius = 32.01562
 
 [node name="Meteor" type="CharacterBody2D" unique_id=1046465861]
 script = ExtResource("1_l1x4f")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1335475739]
-position = Vector2(-9, 5.9604645e-08)
-scale = Vector2(0.05580866, 0.08901252)
+position = Vector2(-17, 1.0000005)
+scale = Vector2(0.089882314, 0.13143255)
 texture = ExtResource("2_l8rnm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1230579221]

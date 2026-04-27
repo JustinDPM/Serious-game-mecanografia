@@ -9,6 +9,7 @@ public partial class Meteor : CharacterBody2D
 	private RichTextLabel label;
 	private Node2D target;
 	private bool firstAttempt = true;
+	private int Health;
 
 	public override void _Ready()
 	{
@@ -20,7 +21,14 @@ public partial class Meteor : CharacterBody2D
 	{
 		target = player;
 	}
-
+	
+	public void SetHealth(int Health){
+		this.Health = Health;
+	}
+	
+	public int GetHealth(){
+		return Health;
+	}
 	public override void _PhysicsProcess(double delta)
 	{
 		if (target != null)
@@ -37,13 +45,23 @@ public partial class Meteor : CharacterBody2D
 
 	public bool CheckWord(string input)
 	{
-		if (input == Word)
+		if (Word == input)
 		{
-			QueueFree();
 			return true;
 		}
 		firstAttempt = false;
 		return false;
+	}
+	
+	public void Die(){
+		QueueFree();
+	}
+	
+	public void TakeDamage(){
+		Health -= 1;
+		if(Health == 0){
+			Die();
+		}
 	}
 	
 	public void UpdateDisplay(string input)
@@ -56,9 +74,9 @@ public partial class Meteor : CharacterBody2D
 			{
 				result += "[color=green]" + Word[i] + "[/color]";
 			}
-			else if (input.Length == 0 && !firstAttempt)
+			else if (i < input.Length && input[i] != Word[i])
 			{
-				result = "[color=red]" + Word + "[/color]";
+				result += "[color=red]" + Word[i] + "[/color]";
 			}
 			else
 			{

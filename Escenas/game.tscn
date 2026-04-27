@@ -1,12 +1,19 @@
 [gd_scene format=3 uid="uid://chuev114hn4yr"]
 
 [ext_resource type="Script" uid="uid://be6ck5fru2jou" path="res://Scripts/MeteorSpawner.cs" id="1_0bm41"]
+[ext_resource type="Texture2D" uid="uid://dj260ql24qeaa" path="res://assets/background.jpg" id="1_ijxpu"]
 [ext_resource type="PackedScene" uid="uid://b1hstvnv4ifcy" path="res://Escenas/meteor.tscn" id="2_obr3f"]
 [ext_resource type="Script" uid="uid://baoanl4xbvigq" path="res://Scripts/InputManager.cs" id="3_3418m"]
 [ext_resource type="PackedScene" uid="uid://gqtggvlvys7r" path="res://Escenas/player.tscn" id="4_5g6uq"]
 [ext_resource type="Script" uid="uid://bl6qvl1gpeirr" path="res://Scripts/Player.cs" id="4_o5eqp"]
+[ext_resource type="PackedScene" uid="uid://bry30lh5uo3mx" path="res://Escenas/bullet.tscn" id="7_dllou"]
 
 [node name="Game" type="Node2D" unique_id=1605905321]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1531298708]
+position = Vector2(609.25, 355.625)
+scale = Vector2(1.1928711, 1.2750448)
+texture = ExtResource("1_ijxpu")
 
 [node name="MeteorSpawner" type="Node2D" parent="." unique_id=1877068755 node_paths=PackedStringArray("Player")]
 script = ExtResource("1_0bm41")
@@ -17,5 +24,6 @@ Player = NodePath("../Player")
 script = ExtResource("3_3418m")
 
 [node name="Player" parent="." unique_id=1807233832 instance=ExtResource("4_5g6uq")]
-position = Vector2(593, 469)
+position = Vector2(600, 501)
 script = ExtResource("4_o5eqp")
+BulletScene = ExtResource("7_dllou")
