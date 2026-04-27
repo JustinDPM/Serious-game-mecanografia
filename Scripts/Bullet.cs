@@ -39,6 +39,7 @@ public partial class Bullet : Area2D
 			
 			meteor.TakeDamage();
 			QueueFree();
+			GD.Print("hola");
 			
 		}
 	}	

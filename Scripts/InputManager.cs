@@ -5,12 +5,12 @@ public partial class InputManager : Node
 {
 	private string currentInput = "";
 	private Node2D spawner;
-	private Player player;
+	private Turret turret;
 
 	public override void _Ready()
 	{
-		spawner = GetNode<Node2D>("/root/Game/MeteorSpawner");
-		player = GetNode<Player>("../Player");
+		spawner = GetNode<Node2D>("/root/Level1/MeteorSpawner");
+		turret = GetNode<Turret>("../Turret");
 	}
 
 	public override void _Input(InputEvent @event)
@@ -41,7 +41,7 @@ public partial class InputManager : Node
 					return;
 				}
 				
-				player.Shoot(target);
+				turret.Shoot(target);
 				GD.Print(currentInput);
 				CheckMeteors();
 			}
@@ -80,7 +80,7 @@ public partial class InputManager : Node
 		{
 			if (child is Meteor meteor)
 			{
-				float dist = meteor.GlobalPosition.DistanceTo(player.GlobalPosition);
+				float dist = meteor.GlobalPosition.DistanceTo(turret.GlobalPosition);
 
 				if (dist < minDistance)
 				{

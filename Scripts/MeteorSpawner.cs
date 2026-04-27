@@ -12,7 +12,7 @@ public partial class MeteorSpawner : Node2D
 		"sol", "luna", "astro", "cometa", "galaxia", "día"
 	};
 
-	[Export] public Node2D Player;
+	[Export] public Node2D Turret;
 
 	public override void _Ready()
 	{
@@ -36,10 +36,10 @@ public partial class MeteorSpawner : Node2D
 		meteor.Position = new Vector2(GD.RandRange(50, 700), 0);
 		
 		meteor.SetHealth(meteor.Word.Length);
-		meteor.SetTarget(Player);
+		meteor.SetTarget(Turret);
 
 		AddChild(meteor);
-		GD.Print(Player);
+		GD.Print(Turret);
 	}
 	
 }

@@ -1,13 +1,19 @@
 [gd_scene format=3 uid="uid://gqtggvlvys7r"]
 
 [ext_resource type="Texture2D" uid="uid://c401u7ldp2cu8" path="res://assets/ship.png" id="1_cnkc8"]
+[ext_resource type="Script" uid="uid://bl6qvl1gpeirr" path="res://Scripts/Turret.cs" id="1_i8vih"]
+[ext_resource type="PackedScene" uid="uid://bry30lh5uo3mx" path="res://Escenas/bullet.tscn" id="2_0wdi6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i8vih"]
 size = Vector2(21, 30)
 
-[node name="Player" type="CharacterBody2D" unique_id=1807233832]
+[node name="Turret" type="CharacterBody2D" unique_id=1807233832]
+rotation = 1.5707964
+script = ExtResource("1_i8vih")
+BulletScene = ExtResource("2_0wdi6")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1096657938]
+rotation = 1.5865043
 scale = Vector2(1.796875, 1.6875)
 texture = ExtResource("1_cnkc8")
 

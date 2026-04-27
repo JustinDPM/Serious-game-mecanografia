@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Player : CharacterBody2D
+public partial class Turret : CharacterBody2D
 {
 	[Export] public float Speed = 300f;
 	[Export] public PackedScene BulletScene;
@@ -28,8 +28,12 @@ public partial class Player : CharacterBody2D
 	{
 		var bullet = (Bullet)BulletScene.Instantiate();
 		bullet.Position = shootPoint.GlobalPosition;
-		
-		bullet.SetTarget(target);
+        if (target != null)
+        {
+            // 1. El Player gira para mirar al objetivo
+            LookAt(target.GlobalPosition);
+        }
+        bullet.SetTarget(target);
 		
 		GetTree().CurrentScene.AddChild(bullet);
 	}
