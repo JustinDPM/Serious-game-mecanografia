@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://criuiv1ensowy"]
+
+[ext_resource type="Script" uid="uid://hpfc4vplfijf" path="res://Scripts/Login.cs" id="1_2siya"]
+
+[node name="Login" type="Control" unique_id=426731288]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2siya")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1650895417]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.5
+offset_top = -88.0
+offset_right = 200.5
+offset_bottom = 88.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="InputUser" type="LineEdit" parent="VBoxContainer" unique_id=138471045]
+layout_mode = 2
+placeholder_text = "Matricula"
+
+[node name="InputPassword" type="LineEdit" parent="VBoxContainer" unique_id=739283529]
+layout_mode = 2
+placeholder_text = "Contraseña"
+secret = true
+secret_character = "*"
+
+[node name="EnterButton" type="Button" parent="VBoxContainer" unique_id=1930213636]
+layout_mode = 2
+text = "Iniciar Sesión"
+
+[node name="ErrorMessage" type="Label" parent="VBoxContainer" unique_id=404234079]
+layout_mode = 2

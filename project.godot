@@ -15,9 +15,13 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Ortografia"
-run/main_scene="uid://chuev114hn4yr"
+run/main_scene="uid://criuiv1ensowy"
 config/features=PackedStringArray("4.6", "C#", "Mobile")
 config/icon="res://assets/icon.svg"
+
+[autoload]
+
+Global="*uid://ckhwdglkb5xm7"
 
 [dotnet]
 
