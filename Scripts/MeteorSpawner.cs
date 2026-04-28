@@ -31,9 +31,11 @@ public partial class MeteorSpawner : Node2D
 	private void SpawnMeteor()
 	{
 		var meteor = (Meteor)MeteorScene.Instantiate();
-
 		meteor.Word = words[GD.RandRange(0, words.Count - 1)];
-		meteor.Position = new Vector2(GD.RandRange(50, 700), 0);
+		
+		float screenWidth = GetViewportRect().Size.X;
+		float randomX = (float)GD.RandRange(50, screenWidth - 50);
+		meteor.Position = new Vector2(randomX, 0);
 		
 		meteor.SetHealth(meteor.Word.Length);
 		meteor.SetTarget(Turret);

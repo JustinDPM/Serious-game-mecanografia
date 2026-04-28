@@ -30,7 +30,6 @@ public partial class Turret : CharacterBody2D
 		bullet.Position = shootPoint.GlobalPosition;
 		if (target != null)
 		{
-			// 1. El Player gira para mirar al objetivo
 			LookAt(target.GlobalPosition);
 		}
 		bullet.SetTarget(target);
