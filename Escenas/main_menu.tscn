@@ -2,18 +2,39 @@
 
 [ext_resource type="Script" uid="uid://fmkvv6qaye7l" path="res://Scripts/MainMenu.cs" id="1_r8uxs"]
 [ext_resource type="Texture2D" uid="uid://c0dgnus0tpyq8" path="res://assets/FondoInicio.png" id="2_a3sw6"]
+[ext_resource type="Shader" uid="uid://b1lespohkr7ab" path="res://Escenas/Shaders/login.gdshader" id="3_7ms0u"]
 [ext_resource type="PackedScene" uid="uid://de0jciynbpbpo" path="res://Escenas/settings_menu.tscn" id="3_hjcy7"]
+[ext_resource type="Texture2D" uid="uid://chvjwf23ivlt1" path="res://assets/logoIASD.png" id="4_xgkoo"]
+[ext_resource type="Texture2D" uid="uid://cx6nic4sl41pl" path="res://assets/NavePrueba.png" id="5_xgkoo"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hjcy7"]
-content_margin_left = 70.0
-content_margin_top = 40.0
-content_margin_right = 70.0
-content_margin_bottom = 40.0
-bg_color = Color(0.23529412, 0.23529412, 0.23529412, 0.47058824)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s5s4m"]
+shader = ExtResource("3_7ms0u")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a082v"]
+content_margin_left = 30.0
+content_margin_top = 30.0
+content_margin_right = 30.0
+content_margin_bottom = 30.0
+bg_color = Color(0.097162016, 0.15172629, 0.1517308, 0.5803922)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ms0u"]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.101960786, 0.10980392, 0.16078432, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.42352942, 0.36078432, 0.90588236, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
 corner_detail = 20
 
 [node name="MainMenu" type="Control" unique_id=547386503]
@@ -24,6 +45,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_r8uxs")
+metadata/_edit_lock_ = true
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=784373680]
 layout_mode = 1
@@ -36,47 +58,164 @@ texture = ExtResource("2_a3sw6")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1030207611]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1247924408]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -106.0
-offset_top = -82.5
-offset_right = 106.0
-offset_bottom = 82.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_hjcy7")
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+metadata/_edit_lock_ = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=182351808]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=2139611217]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="TopBar" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=235055254]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1936551697]
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/VBoxContainer/TopBar" unique_id=154749960]
+material = SubResource("ShaderMaterial_s5s4m")
+custom_minimum_size = Vector2(70, 80)
 layout_mode = 2
-theme_override_font_sizes/font_size = 80
-text = "AstroType"
+texture = ExtResource("4_xgkoo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/TopBar" unique_id=1811063441]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center][font_size=72][b][color=white]Astro[/color][color=#8a2be2]Type[/color][/b][/font_size][/center]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="MainArea" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=889659392]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 30
+
+[node name="LeftContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/MainArea" unique_id=2067082294]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_a082v")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainArea/LeftContainer" unique_id=1121335964]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer/MainArea/LeftContainer/VBoxContainer" unique_id=621247219]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_7ms0u")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7ms0u")
+text = "INICIAR A JUGAR"
+
+[node name="ProfileButton" type="Button" parent="MarginContainer/VBoxContainer/MainArea/LeftContainer/VBoxContainer" unique_id=559906910]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_7ms0u")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7ms0u")
+text = "ESTADÍSTICAS"
+
+[node name="DatabaseButton" type="Button" parent="MarginContainer/VBoxContainer/MainArea/LeftContainer/VBoxContainer" unique_id=21169898]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_7ms0u")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7ms0u")
+text = "BANCO DE PALABRAS"
+
+[node name="SettingsButton" type="Button" parent="MarginContainer/VBoxContainer/MainArea/LeftContainer/VBoxContainer" unique_id=1375238357]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_7ms0u")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7ms0u")
+text = "AJUSTES"
+
+[node name="QuitButton" type="Button" parent="MarginContainer/VBoxContainer/MainArea/LeftContainer/VBoxContainer" unique_id=1812015520]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_7ms0u")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7ms0u")
+text = "CERRAR SESIÓN"
+
+[node name="RightContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/MainArea" unique_id=495473227]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.75
+theme_override_styles/panel = SubResource("StyleBoxFlat_a082v")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainArea/RightContainer" unique_id=1478227683]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="StatsTop" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer" unique_id=1995811140]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer/StatsTop" unique_id=1407756693]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 30
+text = "PILOTO: EDUARDO"
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer/StatsTop" unique_id=269015211]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 30
+text = "RECORD: 300WPM"
+
+[node name="ShipContainer" type="CenterContainer" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer" unique_id=981138310]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer/ShipContainer" unique_id=98864379]
+custom_minimum_size = Vector2(800, 600)
+layout_mode = 2
+texture = ExtResource("5_xgkoo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer/ShipContainer/TextureRect" unique_id=1135774190]
+
+[node name="DictBottom" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer" unique_id=1909849222]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer/DictBottom" unique_id=406374771]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 30
+text = "PALABRAS ACTIVAS: 1,200 CATEGORÍAS: 5"
 horizontal_alignment = 1
-
-[node name="PlayButton" type="Button" parent="PanelContainer/VBoxContainer" unique_id=168471329]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Start"
-
-[node name="SettingsButton" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1812836119]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Opciones"
-
-[node name="QuitButton" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1041794738]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "Quit"
 
 [node name="SettingsMenu" parent="." unique_id=1496994055 node_paths=PackedStringArray("mainMenuPanel") instance=ExtResource("3_hjcy7")]
 layout_mode = 0
@@ -84,6 +223,6 @@ offset_left = 764.5
 offset_top = 339.5
 offset_right = 1155.5
 offset_bottom = 740.5
-mainMenuPanel = NodePath("../PanelContainer")
+mainMenuPanel = NodePath("../MarginContainer")
 
-[connection signal="pressed" from="PanelContainer/VBoxContainer/SettingsButton" to="." method="OnSettingsButtonPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MainArea/LeftContainer/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]

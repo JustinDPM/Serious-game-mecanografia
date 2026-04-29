@@ -6,18 +6,33 @@
 [ext_resource type="Texture2D" uid="uid://chvjwf23ivlt1" path="res://assets/logoIASD.png" id="4_ujdtn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lbs3p"]
-content_margin_left = 50.0
+content_margin_left = 200.0
 content_margin_top = 75.0
-content_margin_right = 50.0
-content_margin_bottom = 20.0
+content_margin_right = 200.0
+content_margin_bottom = 30.0
 bg_color = Color(0.23529412, 0.23529412, 0.23529412, 0.47058824)
-corner_radius_top_left = 30
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_w4g28"]
 shader = ExtResource("3_56407")
+
+[sub_resource type="SystemFont" id="SystemFont_lbs3p"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_56407"]
+content_margin_left = 15.0
+bg_color = Color(0.101960786, 0.10980392, 0.13725491, 1)
+corner_detail = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ujdtn"]
+bg_color = Color(0.1524835, 0.10250535, 0.4213783, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+corner_detail = 20
 
 [node name="Login" type="Control" unique_id=426731288]
 layout_mode = 3
@@ -46,10 +61,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -373.5
-offset_top = -263.0
-offset_right = 373.5
-offset_bottom = 263.0
+offset_left = -326.875
+offset_top = -248.0
+offset_right = 326.875
+offset_bottom = 257.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_lbs3p")
@@ -73,18 +88,33 @@ text = "[center][font_size=48][b][color=white]Astro[/color][color=#8a2be2]Type[/
 fit_content = true
 
 [node name="InputUser" type="LineEdit" parent="PanelContainer/VBoxContainer" unique_id=138471045]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_lbs3p")
+theme_override_styles/normal = SubResource("StyleBoxFlat_56407")
 placeholder_text = "Matricula"
 
 [node name="InputPassword" type="LineEdit" parent="PanelContainer/VBoxContainer" unique_id=739283529]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_lbs3p")
+theme_override_styles/normal = SubResource("StyleBoxFlat_56407")
 placeholder_text = "Contraseña"
 secret = true
 secret_character = "*"
 
 [node name="EnterButton" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1930213636]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-text = "Iniciar Sesión"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("SystemFont_lbs3p")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ujdtn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ujdtn")
+text = "INICIAR SESIÓN"
 
 [node name="ErrorMessage" type="Label" parent="PanelContainer/VBoxContainer" unique_id=404234079]
 layout_mode = 2

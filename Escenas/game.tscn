@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://chuev114hn4yr"]
 
 [ext_resource type="Script" uid="uid://be6ck5fru2jou" path="res://Scripts/MeteorSpawner.cs" id="1_0bm41"]
-[ext_resource type="Texture2D" uid="uid://dj260ql24qeaa" path="res://assets/background.jpg" id="1_ijxpu"]
+[ext_resource type="Texture2D" uid="uid://c0dgnus0tpyq8" path="res://assets/FondoInicio.png" id="1_ijxpu"]
 [ext_resource type="PackedScene" uid="uid://b1hstvnv4ifcy" path="res://Escenas/meteor.tscn" id="2_obr3f"]
 [ext_resource type="Script" uid="uid://baoanl4xbvigq" path="res://Scripts/InputManager.cs" id="3_3418m"]
 [ext_resource type="PackedScene" uid="uid://gqtggvlvys7r" path="res://Escenas/Turret.tscn" id="5_o5eqp"]
@@ -10,8 +10,8 @@
 [node name="Level1" type="Node2D" unique_id=1605905321]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1531298708]
-position = Vector2(960.75, 585.62494)
-scale = Vector2(1.8793944, 2.0979426)
+position = Vector2(975.41315, 636.459)
+scale = Vector2(1.188501, 1.4124142)
 texture = ExtResource("1_ijxpu")
 
 [node name="MeteorSpawner" type="Node2D" parent="." unique_id=1877068755 node_paths=PackedStringArray("Turret")]
