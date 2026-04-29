@@ -39,9 +39,19 @@ public partial class Meteor : CharacterBody2D
 
 		MoveAndSlide();
 
-		if (Position.Y > 800)
-			QueueFree();
-	}
+        for (int i = 0; i < GetSlideCollisionCount(); i++)
+        {
+            var collision = GetSlideCollision(i);
+            var collider = collision.GetCollider();
+
+            if (collider is Turret turret)
+            {
+                turret.TakeDamage(1);
+                QueueFree();
+                break; // 🔥 ESTO ARREGLA TODO
+            }
+        }
+    }
 
 	public bool CheckWord(string input)
 	{

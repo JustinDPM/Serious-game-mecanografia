@@ -24,3 +24,13 @@ script = ExtResource("3_3418m")
 [node name="Turret" parent="." unique_id=1807233832 instance=ExtResource("5_o5eqp")]
 position = Vector2(1044, 1018)
 rotation = -1.5707964
+
+[node name="HealthLabel" type="RichTextLabel" parent="." unique_id=618036892]
+offset_left = 919.0
+offset_top = 24.0
+offset_right = 1140.0
+offset_bottom = 136.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 30
+tab_size = 10
