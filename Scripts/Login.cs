@@ -14,10 +14,10 @@ public partial class Login : Control
 
 	public override void _Ready()
 	{
-		_usernameInput = GetNode<LineEdit>("VBoxContainer/InputUser");
-		_passwordInput = GetNode<LineEdit>("VBoxContainer/InputPassword");
-		_errorMessage = GetNode<Label>("VBoxContainer/ErrorMessage");
-		_enterButton = GetNode<Button>("VBoxContainer/EnterButton");
+		_usernameInput = GetNode<LineEdit>("PanelContainer/VBoxContainer/InputUser");
+		_passwordInput = GetNode<LineEdit>("PanelContainer/VBoxContainer/InputPassword");
+		_errorMessage = GetNode<Label>("PanelContainer/VBoxContainer/ErrorMessage");
+		_enterButton = GetNode<Button>("PanelContainer/VBoxContainer/EnterButton");
 		
 		_global = GetNode<Global>("/root/Global");
 
