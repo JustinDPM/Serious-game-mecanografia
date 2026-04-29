@@ -1,71 +1,92 @@
-	using Godot;
-	using System;
+using Godot;
 
-	public partial class Turret : CharacterBody2D
-	{
-		[Export] public float Speed = 300f;
-		[Export] public PackedScene BulletScene;
-		private Marker2D shootPoint;
-		private int health = 10;
-		private RichTextLabel healthLabel;
+public partial class Turret : CharacterBody2D
+{
+    [Export] public PackedScene BulletScene;
+    [Export] public Marker2D shootPoint;
 
-		public override void _Ready()
-		{
-			shootPoint = GetNode<Marker2D>("ShootPoint");
-			healthLabel = GetNode<RichTextLabel>("/root/Level1/HealthLabel");
-			UpdateUI();
-		
-		}
-		public override void _PhysicsProcess(double delta)
-		{
-			float direction = 0;
+    [Export] public int Health = 10;
+    [Export] public int Score = 0;
 
-			if (Input.IsActionPressed("ui_left"))
-				direction -= 1;
+    // 💫 float settings
+    [Export] public float FloatAmplitude = 10f;
+    [Export] public float FloatSpeed = 2f;
 
-			if (Input.IsActionPressed("ui_right"))
-				direction += 1;
-
-			Velocity = new Vector2(direction * Speed, 0);
-			MoveAndSlide();
-		}
-		public void Shoot(Node2D target)
-		{
-			var bullet = (Bullet)BulletScene.Instantiate();
-			bullet.Position = shootPoint.GlobalPosition;
-			if (target != null)
-			{
-				// 1. El Player gira para mirar al objetivo
-				LookAt(target.GlobalPosition);
-			}
-			bullet.SetTarget(target);
-		
-			GetTree().CurrentScene.AddChild(bullet);
-		}
-
-		public void TakeDamage(int amount)
-		{
-			health -= amount;
-			UpdateUI();
-
-	        GD.Print("Vida restante: " + health);
-
-			if (health <= 0)
-			{
-				Die();
-			}
-		}
-
-		private void Die()
-		{
-			GD.Print("Turret destruida 💀");
-			QueueFree();
-		}
-
-		private void UpdateUI()
-		{
-			healthLabel.Text = "❤️ " + health;
-		}
-	}
+    private RichTextLabel healthLabel;
+    private RichTextLabel scoreLabel;
+    private Global global;
 
 
+
+    private Vector2 startPosition;
+    private float time;
+
+    public override void _Ready()
+    {
+        healthLabel = GetNode<RichTextLabel>("/root/Level1/HealthLabel");
+        scoreLabel = GetNode<RichTextLabel>("/root/Level1/ScoreLabel");
+        global = GetNode<Global>("/root/Global");
+
+        startPosition = Position;
+
+        UpdateUI();
+    }
+
+    public override void _Process(double delta)
+    {
+   
+        time += (float)delta;
+
+        float offsetY = Mathf.Sin(time * FloatSpeed) * FloatAmplitude;
+
+        Position = new Vector2(startPosition.X, startPosition.Y + offsetY);
+    }
+
+    public async void ShootBurst(Node2D target, int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            var bullet = (Bullet)BulletScene.Instantiate();
+            bullet.Position = shootPoint.GlobalPosition;
+            bullet.SetTarget(target);
+
+            GetTree().CurrentScene.AddChild(bullet);
+
+            await ToSignal(GetTree().CreateTimer(0.05f), "timeout");
+        }
+    }
+
+    public void TakeDamage(int dmg)
+    {
+        Health -= dmg;
+
+        UpdateUI();
+
+        if (Health <= 0)
+            Die();
+    }
+    public void AddScore(int value)
+    {
+        Score += value;
+        UpdateUI();
+    }
+    private void UpdateUI()
+    {
+        if (healthLabel != null)
+            healthLabel.Text = "❤️ " + Health;
+
+        if (scoreLabel != null)
+            scoreLabel.Text = "" + Score;
+    }
+
+
+    private void Die()
+    {
+        GD.Print("💀 GAME OVER");
+
+        SetProcess(false);
+        SetPhysicsProcess(false);
+
+        global.CambiarEscena("res://Escenas/main_menu.tscn");
+    }
+}

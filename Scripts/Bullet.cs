@@ -1,46 +1,34 @@
 using Godot;
-using System;
 
 public partial class Bullet : Area2D
 {
-	[Export] public float Speed = 1500f;
-	private Node2D target;
-	
-	public override void _Ready()
-	{
-		BodyEntered += OnBodyEntered;
-	}
-	
-	public void SetTarget(Node2D meteor)
-	{
-		target = meteor;
-	}
+    [Export] public float Speed = 1500f;
 
-	public override void _PhysicsProcess(double delta)
-	{
-	   if (target != null)
-		{
-			Vector2 direction = (target.GlobalPosition - GlobalPosition).Normalized();
-			Position += direction * Speed * (float)delta;
-		}
-		else
-		{
-			Position += new Vector2(0, -Speed * (float)delta);
-		}
+    private Node2D target;
 
-		if (target == null){
-			QueueFree();
-		}
+    public override void _PhysicsProcess(double delta)
+    {
+        if (target == null || !IsInstanceValid(target))
+        {
+            QueueFree();
+            return;
+        }
 
-	}
-	private void OnBodyEntered(Node2D body){
-		
-		if (body is Meteor meteor){
-			
-			meteor.TakeDamage();
-			QueueFree();
-			GD.Print("hola");
-			
-		}
-	}	
+        Vector2 dir = (target.GlobalPosition - GlobalPosition).Normalized();
+        Position += dir * Speed * (float)delta;
+    }
+
+    public void SetTarget(Node2D t)
+    {
+        target = t;
+    }
+
+    private void OnBodyEntered(Node2D body)
+    {
+        if (body is Meteor meteor)
+        {
+            meteor.TakeDamage();
+            QueueFree();
+        }
+    }
 }

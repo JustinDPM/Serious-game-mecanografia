@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://de0jciynbpbpo"]
+
+[ext_resource type="Script" uid="uid://duido8b3o1ufe" path="res://Scripts/SettingsMenu.cs" id="1_xgmn4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n7q0y"]
+content_margin_left = 70.0
+content_margin_top = 50.0
+content_margin_right = 70.0
+content_margin_bottom = 50.0
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="SettingsMenu" type="Control" unique_id=1496994055]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 0
+offset_left = -158.0
+offset_top = -151.0
+offset_right = 310.0
+offset_bottom = 202.0
+script = ExtResource("1_xgmn4")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=444596024]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_n7q0y")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1915448371]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer" unique_id=915616580]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Settings"
+
+[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1420473959]
+layout_mode = 2
+text = "Modo de pantalla"
+
+[node name="OptionButton" type="OptionButton" parent="PanelContainer/VBoxContainer" unique_id=1002931999]
+layout_mode = 2
+item_count = 2
+popup/item_0/text = "Ventana"
+popup/item_0/id = 0
+popup/item_1/text = "Pantalla completa"
+popup/item_1/id = 1
+
+[node name="Reanudar" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1632101312]
+layout_mode = 2
+text = "Volver al menu"
+
+[node name="Salir" type="Button" parent="PanelContainer/VBoxContainer" unique_id=792170604]
+layout_mode = 2
+text = "Salir del juego"
+
+[connection signal="item_selected" from="PanelContainer/VBoxContainer/OptionButton" to="." method="OnDisplayModeChanged"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Reanudar" to="." method="OnResumePressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Salir" to="." method="OnExitPressed"]

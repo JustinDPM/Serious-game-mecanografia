@@ -1,43 +1,32 @@
 using Godot;
-using System;
 
 public partial class Meteor : CharacterBody2D
 {
-[Export] public float Speed = 120f;
+    [Export] public float Speed = 120f;
 
-	public string Word = "";
-	private RichTextLabel label;
-	private Node2D target;
-	private bool firstAttempt = true;
-	private int Health;
+    public string Word = "";
+    private int Health;
 
-	public override void _Ready()
-	{
-		label = GetNode<RichTextLabel>("RichTextLabel");
-		label.Text = Word;
-	}
+    private RichTextLabel label;
+    private Node2D target;
 
-	public void SetTarget(Node2D player)
-	{
-		target = player;
-	}
-	
-	public void SetHealth(int Health){
-		this.Health = Health;
-	}
-	
-	public int GetHealth(){
-		return Health;
-	}
-	public override void _PhysicsProcess(double delta)
-	{
-		if (target != null)
-		{
-			Vector2 direction = (target.GlobalPosition - GlobalPosition).Normalized();
-			Velocity = direction * Speed;
-		}
+    public override void _Ready()
+    {
+        label = GetNode<RichTextLabel>("RichTextLabel");
+        label.Text = Word;
 
-		MoveAndSlide();
+        Health = Word.Length;
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        if (target != null)
+        {
+            Vector2 dir = (target.GlobalPosition - GlobalPosition).Normalized();
+            Velocity = dir * Speed;
+        }
+
+        MoveAndSlide();
 
         for (int i = 0; i < GetSlideCollisionCount(); i++)
         {
@@ -48,55 +37,45 @@ public partial class Meteor : CharacterBody2D
             {
                 turret.TakeDamage(1);
                 QueueFree();
-                break; // 🔥 ESTO ARREGLA TODO
+                break;
             }
         }
     }
 
-	public bool CheckWord(string input)
-	{
-		if (Word == input)
-		{
-			return true;
-		}
-		firstAttempt = false;
-		return false;
-	}
-	
-	public void Die(){
-		QueueFree();
-	}
-	
-	public void TakeDamage(){
-		Health -= 1;
-		if(Health == 0){
-			Die();
-		}
-	}
-	
-	public void UpdateDisplay(string input)
-	{
-		string result = "";
+    public void SetTarget(Node2D t)
+    {
+        target = t;
+    }
 
-		for (int i = 0; i < Word.Length; i++)
-		{
-			if (i < input.Length && input[i] == Word[i])
-			{
-				result += "[color=green]" + Word[i] + "[/color]";
-			}
-			else if (i < input.Length && input[i] != Word[i])
-			{
-				result += "[color=red]" + Word[i] + "[/color]";
-			}
-			else
-			{
-				result += Word[i];
-			}
-		}
+    public void TakeDamage()
+    {
+        Health--;
 
-		label.Text = result;
-	}
-	
-	
+        if (Health <= 0)
+            Die();
+    }
 
+    public void Die()
+    {
+        var turret = GetNode<Turret>("/root/Level1/Turret");
+        turret.AddScore(1);
+        QueueFree();
+    }
+
+    public void UpdateDisplay(string input)
+    {
+        string result = "";
+
+        for (int i = 0; i < Word.Length; i++)
+        {
+            if (i < input.Length && input[i] == Word[i])
+                result += "[color=green]" + Word[i] + "[/color]";
+            else if (i < input.Length)
+                result += "[color=red]" + Word[i] + "[/color]";
+            else
+                result += Word[i];
+        }
+
+        label.Text = result;
+    }
 }

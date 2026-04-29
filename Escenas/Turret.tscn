@@ -7,10 +7,11 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i8vih"]
 size = Vector2(21, 30)
 
-[node name="Turret" type="CharacterBody2D" unique_id=1807233832]
+[node name="Turret" type="CharacterBody2D" unique_id=1807233832 node_paths=PackedStringArray("shootPoint")]
 rotation = 1.5707964
 script = ExtResource("1_i8vih")
 BulletScene = ExtResource("2_0wdi6")
+shootPoint = NodePath("ShootPoint")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1096657938]
 rotation = 1.5865043

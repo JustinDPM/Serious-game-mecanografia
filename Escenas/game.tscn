@@ -5,12 +5,13 @@
 [ext_resource type="PackedScene" uid="uid://b1hstvnv4ifcy" path="res://Escenas/meteor.tscn" id="2_obr3f"]
 [ext_resource type="Script" uid="uid://baoanl4xbvigq" path="res://Scripts/InputManager.cs" id="3_3418m"]
 [ext_resource type="PackedScene" uid="uid://gqtggvlvys7r" path="res://Escenas/Turret.tscn" id="5_o5eqp"]
+[ext_resource type="PackedScene" uid="uid://de0jciynbpbpo" path="res://Escenas/settings_menu.tscn" id="6_ijxpu"]
 
 [node name="Level1" type="Node2D" unique_id=1605905321]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1531298708]
-position = Vector2(1030.25, 583.625)
-scale = Vector2(2.0151367, 2.0907872)
+position = Vector2(960.75, 585.62494)
+scale = Vector2(1.8793944, 2.0979426)
 texture = ExtResource("1_ijxpu")
 
 [node name="MeteorSpawner" type="Node2D" parent="." unique_id=1877068755 node_paths=PackedStringArray("Turret")]
@@ -22,7 +23,7 @@ Turret = NodePath("../Turret")
 script = ExtResource("3_3418m")
 
 [node name="Turret" parent="." unique_id=1807233832 instance=ExtResource("5_o5eqp")]
-position = Vector2(1044, 1018)
+position = Vector2(977, 972)
 rotation = -1.5707964
 
 [node name="HealthLabel" type="RichTextLabel" parent="." unique_id=618036892]
@@ -34,3 +35,23 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_font_sizes/normal_font_size = 30
 tab_size = 10
+
+[node name="ScoreLabel" type="RichTextLabel" parent="." unique_id=2085785267]
+offset_left = 52.0
+offset_top = 32.0
+offset_right = 332.0
+offset_bottom = 154.0
+theme_override_font_sizes/normal_font_size = 30
+
+[node name="SettingsMenu" parent="." unique_id=1496994055 instance=ExtResource("6_ijxpu")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 846.0
+offset_top = 410.0
+offset_right = 1314.0
+offset_bottom = 763.0
+grow_horizontal = 2
+grow_vertical = 2
