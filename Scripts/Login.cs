@@ -1,6 +1,6 @@
 using Godot;
 using System;
-using Npgsql; // ¡NUEVA LIBRERÍA! El traductor para que C# hable con PostgreSQL
+using Npgsql; 
 
 public partial class Login : Control
 {
@@ -10,16 +10,14 @@ public partial class Login : Control
 	private Button _enterButton;
 	private Global _global;
 
-	// LA LLAVE DEL REINO: Tu cadena de conexión a la BD
-	// OJO: Cambia 'tu_contraseña_aqui' por la contraseña de tu usuario postgres
 	private string connectionString = "Host=localhost;Username=postgres;Password=040306;Database=astrotype_db";
 
 	public override void _Ready()
 	{
-		_usernameInput = GetNode<LineEdit>("VBoxContainer/InputUser");
-		_passwordInput = GetNode<LineEdit>("VBoxContainer/InputPassword");
-		_errorMessage = GetNode<Label>("VBoxContainer/ErrorMessage");
-		_enterButton = GetNode<Button>("VBoxContainer/EnterButton");
+		_usernameInput = GetNode<LineEdit>("PanelContainer/VBoxContainer/InputUser");
+		_passwordInput = GetNode<LineEdit>("PanelContainer/VBoxContainer/InputPassword");
+		_errorMessage = GetNode<Label>("PanelContainer/VBoxContainer/ErrorMessage");
+		_enterButton = GetNode<Button>("PanelContainer/VBoxContainer/EnterButton");
 		
 		_global = GetNode<Global>("/root/Global");
 
@@ -32,16 +30,14 @@ public partial class Login : Control
 		string user = _usernameInput.Text.Trim();
 		string pass = _passwordInput.Text.Trim();
 
-		_errorMessage.Text = ""; // Limpiamos errores anteriores
+		_errorMessage.Text = ""; 
 
-		// Validación básica antes de ir a la BD
 		if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
 		{
 			MostrarError("Por favor, llena todos los campos.");
 			return;
 		}
 
-		// ¡EL MOMENTO DE LA VERDAD! Vamos a la base de datos
 		if (ValidarUsuarioBD(user, pass))
 		{
 			_global.UsuarioActivo = user;
@@ -53,30 +49,24 @@ public partial class Login : Control
 		}
 	}
 
-	// Función que se conecta a PostgreSQL y hace la consulta
 	private bool ValidarUsuarioBD(string username, string password)
 	{
 		try
 		{
-			// Creamos y abrimos la conexión
 			using (var connection = new NpgsqlConnection(connectionString))
 			{
 				connection.Open();
 
-				// Tu consulta SQL. 
-				// Usamos @u y @p (parámetros) en lugar de concatenar texto para EVITAR INYECCIONES SQL. ¡Buenas prácticas!
 				string sql = "SELECT rol FROM USUARIO WHERE username = @u AND password_hash = @p AND activo = true";
 				
 				using (var command = new NpgsqlCommand(sql, connection))
 				{
-					// Le asignamos los valores a los parámetros
 					command.Parameters.AddWithValue("u", username);
 					command.Parameters.AddWithValue("p", password);
 
-					// Ejecutamos la lectura
 					using (var reader = command.ExecuteReader())
 					{
-						if (reader.Read()) // Si lee al menos un renglón, el usuario y contraseña son correctos
+						if (reader.Read())
 						{
 							string rol = reader.GetString(0);
 							GD.Print($"¡Ingreso exitoso en BD! Bienvenido {username}, Rol: {rol}");
@@ -88,17 +78,16 @@ public partial class Login : Control
 		}
 		catch (Exception ex)
 		{
-			// Si la base de datos está apagada o la contraseña de Postgres está mal
 			GD.PrintErr("Error de base de datos: " + ex.Message);
 			MostrarError("Error de conexión al servidor.");
 		}
 
-		return false; // Si llega aquí, o falló la conexión o las credenciales no existen
+		return false;
 	}
 
 	private void MostrarError(string mensaje)
 	{
-		_errorMessage.Modulate = new Color(1, 0, 0); // Lo pintamos de rojo
+		_errorMessage.Modulate = new Color(1, 0, 0);
 		_errorMessage.Text = mensaje;
 	}
 }

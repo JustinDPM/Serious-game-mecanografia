@@ -1,6 +1,23 @@
 [gd_scene format=3 uid="uid://criuiv1ensowy"]
 
-[ext_resource type="Script" uid="uid://hpfc4vplfijf" path="res://Scripts/Login.cs" id="1_2siya"]
+[ext_resource type="Script" uid="uid://hpfc4vplfijf" path="res://Scripts/Login.cs" id="1_lbs3p"]
+[ext_resource type="Texture2D" uid="uid://c0dgnus0tpyq8" path="res://assets/FondoInicio.png" id="2_lbs3p"]
+[ext_resource type="Shader" uid="uid://b1lespohkr7ab" path="res://Escenas/Shaders/login.gdshader" id="3_56407"]
+[ext_resource type="Texture2D" uid="uid://chvjwf23ivlt1" path="res://assets/logoIASD.png" id="4_ujdtn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lbs3p"]
+content_margin_left = 50.0
+content_margin_top = 75.0
+content_margin_right = 50.0
+content_margin_bottom = 20.0
+bg_color = Color(0.23529412, 0.23529412, 0.23529412, 0.47058824)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w4g28"]
+shader = ExtResource("3_56407")
 
 [node name="Login" type="Control" unique_id=426731288]
 layout_mode = 3
@@ -9,36 +26,65 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_2siya")
+script = ExtResource("1_lbs3p")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1650895417]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=712437401]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_lbs3p")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1961027496]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -200.5
-offset_top = -88.0
-offset_right = 200.5
-offset_bottom = 88.0
+offset_left = -373.5
+offset_top = -263.0
+offset_right = 373.5
+offset_bottom = 263.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_lbs3p")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1650895417]
+layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="InputUser" type="LineEdit" parent="VBoxContainer" unique_id=138471045]
+[node name="TextureRect2" type="TextureRect" parent="PanelContainer/VBoxContainer" unique_id=1324427188]
+material = SubResource("ShaderMaterial_w4g28")
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("4_ujdtn")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/VBoxContainer" unique_id=1267817451]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center][font_size=48][b][color=white]Astro[/color][color=#8a2be2]Type[/color][/b][/font_size][/center]"
+fit_content = true
+
+[node name="InputUser" type="LineEdit" parent="PanelContainer/VBoxContainer" unique_id=138471045]
 layout_mode = 2
 placeholder_text = "Matricula"
 
-[node name="InputPassword" type="LineEdit" parent="VBoxContainer" unique_id=739283529]
+[node name="InputPassword" type="LineEdit" parent="PanelContainer/VBoxContainer" unique_id=739283529]
 layout_mode = 2
 placeholder_text = "Contraseña"
 secret = true
 secret_character = "*"
 
-[node name="EnterButton" type="Button" parent="VBoxContainer" unique_id=1930213636]
+[node name="EnterButton" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1930213636]
 layout_mode = 2
 text = "Iniciar Sesión"
 
-[node name="ErrorMessage" type="Label" parent="VBoxContainer" unique_id=404234079]
+[node name="ErrorMessage" type="Label" parent="PanelContainer/VBoxContainer" unique_id=404234079]
 layout_mode = 2
