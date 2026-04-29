@@ -9,8 +9,8 @@
 [node name="Level1" type="Node2D" unique_id=1605905321]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1531298708]
-position = Vector2(609.25, 355.625)
-scale = Vector2(1.1928711, 1.2750448)
+position = Vector2(1030.25, 583.625)
+scale = Vector2(2.0151367, 2.0907872)
 texture = ExtResource("1_ijxpu")
 
 [node name="MeteorSpawner" type="Node2D" parent="." unique_id=1877068755 node_paths=PackedStringArray("Turret")]
@@ -22,7 +22,7 @@ Turret = NodePath("../Turret")
 script = ExtResource("3_3418m")
 
 [node name="Turret" parent="." unique_id=1807233832 instance=ExtResource("5_o5eqp")]
-position = Vector2(600, 516)
+position = Vector2(1044, 1018)
 rotation = -1.5707964
 
 [node name="HealthLabel" type="RichTextLabel" parent="." unique_id=618036892]

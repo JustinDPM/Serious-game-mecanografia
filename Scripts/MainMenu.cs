@@ -20,7 +20,6 @@ public partial class MainMenu : Control
 
 	private void OnPlayButtonPressed()
 	{
-		// Conectamos con la escena de tu compañero sin tocar su código
 		_global.CambiarEscena("res://Escenas/game.tscn");
 	}
 
@@ -28,7 +27,6 @@ public partial class MainMenu : Control
 	{
 		_global.LimpiarSesion();
 		
-		// Regresa al login
 		_global.CambiarEscena("res://Escenas/login.tscn");
 	}
 }
