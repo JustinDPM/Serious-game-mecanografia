@@ -90,9 +90,9 @@ public partial class InputManager : Node
 		return closest;
 	}
 
-    public void ResetInput()
-    {
-        currentInput = "";
-        currentTarget = null;
-    }
+	public void ResetInput()
+	{
+		currentInput = "";
+		currentTarget = null;
+	}
 }

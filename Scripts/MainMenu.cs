@@ -52,19 +52,24 @@ public partial class MainMenu : Control
 
 	// --- ANIMACIONES FLUIDAS CON TWEENS ---
 	private void ConfigurarAnimacionBoton(Button boton)
+{
+	boton.MouseEntered += () => 
 	{
-		boton.MouseEntered += () => 
-		{
-			Tween tween = CreateTween();
-			tween.TweenProperty(boton, "scale", new Vector2(1.05f, 1.05f), 0.1f).SetTrans(Tween.TransitionType.Sine);
-		};
+		// Truco de ingeniero: Centramos el pivote dinámicamente según el tamaño actual del botón
+		boton.PivotOffset = boton.Size / 2; 
+		
+		Tween tween = CreateTween();
+		tween.TweenProperty(boton, "scale", new Vector2(1.05f, 1.05f), 0.1f).SetTrans(Tween.TransitionType.Sine);
+	};
 
-		boton.MouseExited += () => 
-		{
-			Tween tween = CreateTween();
-			tween.TweenProperty(boton, "scale", new Vector2(1.0f, 1.0f), 0.1f).SetTrans(Tween.TransitionType.Sine);
-		};
-	}
+	boton.MouseExited += () => 
+	{
+		boton.PivotOffset = boton.Size / 2;
+		
+		Tween tween = CreateTween();
+		tween.TweenProperty(boton, "scale", new Vector2(1.0f, 1.0f), 0.1f).SetTrans(Tween.TransitionType.Sine);
+	};
+}
 
 	// --- ACCIONES DE LOS BOTONES ---
 	private void OnPlayButtonPressed()

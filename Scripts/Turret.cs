@@ -4,9 +4,9 @@ public partial class Turret : CharacterBody2D
 {
 	[Export] public PackedScene BulletScene;
 	[Export] public Marker2D shootPoint;
-    private bool isBlinking = false;
+	private bool isBlinking = false;
 
-    [Export] public int Health = 10;
+	[Export] public int Health = 10;
 	[Export] public int Score = 0;
 
 	[Export] public float FloatAmplitude = 10f;
@@ -46,7 +46,7 @@ public partial class Turret : CharacterBody2D
 
 	public async void ShootBurst(Node2D target, int count)
 	{
-        for (int i = 0; i < count; i++)
+		for (int i = 0; i < count; i++)
 		{
 			var bullet = (Bullet)BulletScene.Instantiate();
 			bullet.Position = shootPoint.GlobalPosition;
@@ -77,8 +77,8 @@ public partial class Turret : CharacterBody2D
 		}
 		else
 		{
-            Score += value;
-        }
+			Score += value;
+		}
 	
 		UpdateUI();
 	}
@@ -95,8 +95,8 @@ public partial class Turret : CharacterBody2D
 			}
 			else
 			{
-                scoreLabel.Text = "" + Score;
-            }
+				scoreLabel.Text = "" + Score;
+			}
 		}
 			
 	}
@@ -111,26 +111,26 @@ public partial class Turret : CharacterBody2D
 		global.CambiarEscena("res://Escenas/main_menu.tscn");
 	}
 
-    private async void Blink()
-    {
-        if (isBlinking) return;
+	private async void Blink()
+	{
+		if (isBlinking) return;
 
-        isBlinking = true;
+		isBlinking = true;
 
-        var sprite = GetNode<Sprite2D>("Sprite2D");
+		var sprite = GetNode<Sprite2D>("Sprite2D");
 
-        var tween = GetTree().CreateTween();
+		var tween = GetTree().CreateTween();
 
-        for (int i = 0; i < 3; i++)
-        {
-            tween.TweenProperty(sprite, "modulate:a", 0.2f, 0.1f);
-            tween.TweenProperty(sprite, "modulate:a", 1.0f, 0.1f);
-        }
+		for (int i = 0; i < 3; i++)
+		{
+			tween.TweenProperty(sprite, "modulate:a", 0.2f, 0.1f);
+			tween.TweenProperty(sprite, "modulate:a", 1.0f, 0.1f);
+		}
 
-        await ToSignal(tween, "finished");
+		await ToSignal(tween, "finished");
 
-        isBlinking = false;
-    }
+		isBlinking = false;
+	}
 
 	public void addStreak()
 	{

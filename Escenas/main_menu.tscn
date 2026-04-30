@@ -5,6 +5,7 @@
 [ext_resource type="Shader" uid="uid://b1lespohkr7ab" path="res://Escenas/Shaders/login.gdshader" id="3_7ms0u"]
 [ext_resource type="PackedScene" uid="uid://de0jciynbpbpo" path="res://Escenas/settings_menu.tscn" id="3_hjcy7"]
 [ext_resource type="Texture2D" uid="uid://chvjwf23ivlt1" path="res://assets/logoIASD.png" id="4_xgkoo"]
+[ext_resource type="Texture2D" uid="uid://br4vd8vjysc70" path="res://assets/icon.svg" id="5_s5s4m"]
 [ext_resource type="Texture2D" uid="uid://cx6nic4sl41pl" path="res://assets/NavePrueba.png" id="5_xgkoo"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s5s4m"]
@@ -93,6 +94,39 @@ bbcode_enabled = true
 text = "[center][font_size=72][b][color=white]Astro[/color][color=#8a2be2]Type[/color][/b][/font_size][/center]"
 fit_content = true
 autowrap_mode = 0
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/TopBar" unique_id=1619780593]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UserProfile" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TopBar" unique_id=321116250]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="ProfileTexts" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TopBar/UserProfile" unique_id=1293511793]
+layout_mode = 2
+
+[node name="NameMain" type="Label" parent="MarginContainer/VBoxContainer/TopBar/UserProfile/ProfileTexts" unique_id=744044488]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5411765, 0.16862746, 0.8862745, 1)
+theme_override_colors/font_outline_color = Color(0.5254902, 0.16470589, 0.8627451, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 35
+text = "Ezequiel Eduardo"
+horizontal_alignment = 2
+
+[node name="UsernameMain" type="Label" parent="MarginContainer/VBoxContainer/TopBar/UserProfile/ProfileTexts" unique_id=1244895150]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "S24016723"
+horizontal_alignment = 2
+
+[node name="AvatarImage" type="TextureRect" parent="MarginContainer/VBoxContainer/TopBar/UserProfile" unique_id=885956305]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("5_s5s4m")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="MainArea" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=889659392]
 layout_mode = 2
@@ -218,6 +252,7 @@ text = "PALABRAS ACTIVAS: 1,200 CATEGORÍAS: 5"
 horizontal_alignment = 1
 
 [node name="SettingsMenu" parent="." unique_id=1496994055 node_paths=PackedStringArray("mainMenuPanel") instance=ExtResource("3_hjcy7")]
+visible = false
 layout_mode = 0
 offset_left = 764.5
 offset_top = 339.5

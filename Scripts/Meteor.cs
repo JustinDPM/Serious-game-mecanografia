@@ -2,99 +2,99 @@ using Godot;
 
 public partial class Meteor : CharacterBody2D
 {
-    [Export] public float Speed = 250f;
+	[Export] public float Speed = 250f;
 
-    public string Word = "";
-    private int Health;
+	public string Word = "";
+	private int Health;
 
-    private RichTextLabel label;
-    private Node2D target;
+	private RichTextLabel label;
+	private Node2D target;
 
-    private bool hasHit = false; // evita multi-hit con turret
-    private bool isDead = false; // 💥 evita doble score
+	private bool hasHit = false; // evita multi-hit con turret
+	private bool isDead = false; // 💥 evita doble score
 
-    public override void _Ready()
-    {
-        label = GetNode<RichTextLabel>("RichTextLabel");
-        label.Text = Word;
+	public override void _Ready()
+	{
+		label = GetNode<RichTextLabel>("RichTextLabel");
+		label.Text = Word;
 
-        Health = Word.Length;
-    }
+		Health = Word.Length;
+	}
 
-    public override void _PhysicsProcess(double delta)
-    {
-        if (target != null)
-        {
-            Vector2 dir = (target.GlobalPosition - GlobalPosition).Normalized();
-            Velocity = dir * Speed;
-        }
+	public override void _PhysicsProcess(double delta)
+	{
+		if (target != null)
+		{
+			Vector2 dir = (target.GlobalPosition - GlobalPosition).Normalized();
+			Velocity = dir * Speed;
+		}
 
-        MoveAndSlide();
+		MoveAndSlide();
 
-        if (hasHit) return;
+		if (hasHit) return;
 
-        for (int i = 0; i < GetSlideCollisionCount(); i++)
-        {
-            var collision = GetSlideCollision(i);
-            var collider = collision.GetCollider();
+		for (int i = 0; i < GetSlideCollisionCount(); i++)
+		{
+			var collision = GetSlideCollision(i);
+			var collider = collision.GetCollider();
 
-            if (collider is Turret turret)
-            {
-                hasHit = true;
+			if (collider is Turret turret)
+			{
+				hasHit = true;
 
-                turret.TakeDamage(1);
+				turret.TakeDamage(1);
 
-                var input = GetNode<InputManager>("/root/Level1/InputManager");
-                input.ResetInput();
+				var input = GetNode<InputManager>("/root/Level1/InputManager");
+				input.ResetInput();
 
-                QueueFree();
-                break;
-            }
-        }
-    }
+				QueueFree();
+				break;
+			}
+		}
+	}
 
-    public void SetTarget(Node2D t)
-    {
-        target = t;
-    }
+	public void SetTarget(Node2D t)
+	{
+		target = t;
+	}
 
-    public void TakeDamage()
-    {
-        if (isDead) return;
+	public void TakeDamage()
+	{
+		if (isDead) return;
 
-        Health--;
+		Health--;
 
-        if (Health <= 0)
-            Die();
-    }
+		if (Health <= 0)
+			Die();
+	}
 
-    public void Die()
-    {
-        if (isDead) return;
+	public void Die()
+	{
+		if (isDead) return;
 
-        isDead = true;
+		isDead = true;
 
-        var turret = GetNode<Turret>("/root/Level1/Turret");
-        turret.AddScore(1);
-        turret.addStreak();
+		var turret = GetNode<Turret>("/root/Level1/Turret");
+		turret.AddScore(1);
+		turret.addStreak();
 
-        QueueFree();
-    }
+		QueueFree();
+	}
 
-    public void UpdateDisplay(string input)
-    {
-        string result = "";
+	public void UpdateDisplay(string input)
+	{
+		string result = "";
 
-        for (int i = 0; i < Word.Length; i++)
-        {
-            if (i < input.Length && input[i] == Word[i])
-                result += "[color=green]" + Word[i] + "[/color]";
-            else if (i < input.Length)
-                result += "[color=red]" + Word[i] + "[/color]";
-            else
-                result += Word[i];
-        }
+		for (int i = 0; i < Word.Length; i++)
+		{
+			if (i < input.Length && input[i] == Word[i])
+				result += "[color=green]" + Word[i] + "[/color]";
+			else if (i < input.Length)
+				result += "[color=red]" + Word[i] + "[/color]";
+			else
+				result += Word[i];
+		}
 
-        label.Text = result;
-    }
+		label.Text = result;
+	}
 }

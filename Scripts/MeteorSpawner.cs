@@ -21,16 +21,16 @@ public partial class MeteorSpawner : Node2D
 
 	private async void SpawnLoop()
 	{
-        while (true)
-        {
-            await ToSignal(GetTree().CreateTimer(SpawnInterval), "timeout");
+		while (true)
+		{
+			await ToSignal(GetTree().CreateTimer(SpawnInterval), "timeout");
 
-            if (GetTree().Paused)
-                continue;
+			if (GetTree().Paused)
+				continue;
 
-            SpawnMeteor();
-        }
-    }
+			SpawnMeteor();
+		}
+	}
 
 	private void SpawnMeteor()
 	{
