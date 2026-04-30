@@ -4,11 +4,11 @@ public partial class Turret : CharacterBody2D
 {
 	[Export] public PackedScene BulletScene;
 	[Export] public Marker2D shootPoint;
+    private bool isBlinking = false;
 
-	[Export] public int Health = 10;
+    [Export] public int Health = 10;
 	[Export] public int Score = 0;
 
-	// 💫 float settings
 	[Export] public float FloatAmplitude = 10f;
 	[Export] public float FloatSpeed = 2f;
 
@@ -61,6 +61,7 @@ public partial class Turret : CharacterBody2D
 		Health -= dmg;
 
 		UpdateUI();
+		Blink();
 
 		if (Health <= 0)
 			Die();
@@ -89,4 +90,25 @@ public partial class Turret : CharacterBody2D
 
 		global.CambiarEscena("res://Escenas/main_menu.tscn");
 	}
+
+    private async void Blink()
+    {
+        if (isBlinking) return;
+
+        isBlinking = true;
+
+        var sprite = GetNode<Sprite2D>("Sprite2D");
+
+        var tween = GetTree().CreateTween();
+
+        for (int i = 0; i < 3; i++)
+        {
+            tween.TweenProperty(sprite, "modulate:a", 0.2f, 0.1f);
+            tween.TweenProperty(sprite, "modulate:a", 1.0f, 0.1f);
+        }
+
+        await ToSignal(tween, "finished");
+
+        isBlinking = false;
+    }
 }
