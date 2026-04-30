@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://dc8i4ytb2600y"]
+
+[ext_resource type="Script" uid="uid://db78sp6kr58os" path="res://Scripts/Background.cs" id="1_gteav"]
+[ext_resource type="Texture2D" uid="uid://dyrhyr3g8fsdd" path="res://assets/Purple_Nebula_07-1024x1024.png" id="2_bxr2s"]
+[ext_resource type="Texture2D" uid="uid://t7rusqota7vq" path="res://assets/image-removebg-preview (1).png" id="5_gfdr5"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hp0gy"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(960, -10, 1)
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 20.0
+initial_velocity_max = 30.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = 19.999998
+linear_accel_max = 29.999996
+scale_min = 0.12
+scale_max = 0.12
+
+[node name="Background" type="Node2D" unique_id=1413272758]
+script = ExtResource("1_gteav")
+
+[node name="BG1" type="Sprite2D" parent="." unique_id=1511852253]
+scale = Vector2(1.9, 1)
+texture = ExtResource("2_bxr2s")
+
+[node name="BG2" type="Sprite2D" parent="." unique_id=1204453008]
+position = Vector2(0, -1024)
+scale = Vector2(1.9, 1)
+texture = ExtResource("2_bxr2s")
+
+[node name="BG3" type="Sprite2D" parent="." unique_id=1144864069]
+position = Vector2(0, -2048)
+scale = Vector2(1.9, 1)
+texture = ExtResource("2_bxr2s")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1598306854]
+position = Vector2(0, -800)
+amount = 400
+texture = ExtResource("5_gfdr5")
+lifetime = 30.69
+preprocess = 2.0
+process_material = SubResource("ParticleProcessMaterial_hp0gy")

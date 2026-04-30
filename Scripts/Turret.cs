@@ -16,6 +16,8 @@ public partial class Turret : CharacterBody2D
 	private RichTextLabel scoreLabel;
 	private Global global;
 
+	private int streak = 0;
+
 
 
 	private Vector2 startPosition;
@@ -44,7 +46,7 @@ public partial class Turret : CharacterBody2D
 
 	public async void ShootBurst(Node2D target, int count)
 	{
-		for (int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
 		{
 			var bullet = (Bullet)BulletScene.Instantiate();
 			bullet.Position = shootPoint.GlobalPosition;
@@ -59,6 +61,7 @@ public partial class Turret : CharacterBody2D
 	public void TakeDamage(int dmg)
 	{
 		Health -= dmg;
+		streak = 0;
 
 		UpdateUI();
 		Blink();
@@ -67,8 +70,16 @@ public partial class Turret : CharacterBody2D
 			Die();
 	}
 	public void AddScore(int value)
-	{
-		Score += value;
+	{	
+		if(streak >= 10)
+		{
+			Score += value * 2;
+		}
+		else
+		{
+            Score += value;
+        }
+	
 		UpdateUI();
 	}
 	private void UpdateUI()
@@ -77,9 +88,18 @@ public partial class Turret : CharacterBody2D
 			healthLabel.Text = "❤️ " + Health;
 
 		if (scoreLabel != null)
-			scoreLabel.Text = "" + Score;
+		{
+			if(streak >= 10)
+			{
+				scoreLabel.Text = Score + " (X2)";
+			}
+			else
+			{
+                scoreLabel.Text = "" + Score;
+            }
+		}
+			
 	}
-
 
 	private void Die()
 	{
@@ -111,4 +131,9 @@ public partial class Turret : CharacterBody2D
 
         isBlinking = false;
     }
+
+	public void addStreak()
+	{
+		streak++;
+	}
 }

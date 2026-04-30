@@ -2,7 +2,7 @@ using Godot;
 
 public partial class Meteor : CharacterBody2D
 {
-    [Export] public float Speed = 120f;
+    [Export] public float Speed = 250f;
 
     public string Word = "";
     private int Health;
@@ -10,7 +10,8 @@ public partial class Meteor : CharacterBody2D
     private RichTextLabel label;
     private Node2D target;
 
-    private bool hasHit = false; // 💥 evita multi-hit
+    private bool hasHit = false; // evita multi-hit con turret
+    private bool isDead = false; // 💥 evita doble score
 
     public override void _Ready()
     {
@@ -39,7 +40,7 @@ public partial class Meteor : CharacterBody2D
 
             if (collider is Turret turret)
             {
-                hasHit = true; // 💥 bloquea futuros hits en este frame
+                hasHit = true;
 
                 turret.TakeDamage(1);
 
@@ -47,7 +48,7 @@ public partial class Meteor : CharacterBody2D
                 input.ResetInput();
 
                 QueueFree();
-                break; // 💥 IMPORTANTÍSIMO
+                break;
             }
         }
     }
@@ -59,6 +60,8 @@ public partial class Meteor : CharacterBody2D
 
     public void TakeDamage()
     {
+        if (isDead) return;
+
         Health--;
 
         if (Health <= 0)
@@ -67,8 +70,13 @@ public partial class Meteor : CharacterBody2D
 
     public void Die()
     {
+        if (isDead) return;
+
+        isDead = true;
+
         var turret = GetNode<Turret>("/root/Level1/Turret");
         turret.AddScore(1);
+        turret.addStreak();
 
         QueueFree();
     }
