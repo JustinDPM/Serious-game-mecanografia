@@ -247,8 +247,6 @@ text = "Sonido al Teclear"
 
 [node name="CheckButton" type="CheckButton" parent="CenterContainer/PanelContainer/HBoxPrincipal/OptionsArea/TabAudio/VBoxContainer" unique_id=1713205522]
 layout_mode = 2
-alignment = 2
-icon_alignment = 2
 
 [node name="TabGameplay" type="MarginContainer" parent="CenterContainer/PanelContainer/HBoxPrincipal/OptionsArea" unique_id=1629571762]
 visible = false

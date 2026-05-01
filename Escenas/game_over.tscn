@@ -1,0 +1,186 @@
+[gd_scene format=3 uid="uid://431656rkk1jd"]
+
+[ext_resource type="Texture2D" uid="uid://c0dgnus0tpyq8" path="res://assets/FondoInicio.png" id="1_mkivq"]
+[ext_resource type="Texture2D" uid="uid://c2k268us1pjbr" path="res://assets/palabras minuto.png" id="2_wv832"]
+[ext_resource type="Texture2D" uid="uid://dghvepiqugqlg" path="res://assets/precision.png" id="3_rtfuk"]
+[ext_resource type="Texture2D" uid="uid://bw4exdch78m5l" path="res://assets/totalpalabras.png" id="4_acdi2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37yi2"]
+bg_color = Color(0.1749846, 0.17498463, 0.1749846, 0.39215687)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_b2ges"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+color = Color(0.5411765, 0.16862746, 0.8862745, 1)
+thickness = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5er1d"]
+bg_color = Color(0.5411765, 0.16862746, 0.8862745, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 20
+expand_margin_left = 30.0
+expand_margin_top = 10.0
+expand_margin_right = 30.0
+expand_margin_bottom = 10.0
+
+[node name="GameOver" type="Control" unique_id=764673616]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=841090724]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_mkivq")
+
+[node name="CenterContainer" type="CenterContainer" parent="TextureRect" unique_id=1600462528]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PrincipalPanel" type="PanelContainer" parent="TextureRect/CenterContainer" unique_id=954897349]
+custom_minimum_size = Vector2(1250, 800)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_37yi2")
+
+[node name="MarginContainer" type="MarginContainer" parent="TextureRect/CenterContainer/PrincipalPanel" unique_id=1682359984]
+layout_mode = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 70
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 60
+
+[node name="PrincipalVBox" type="VBoxContainer" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer" unique_id=1532686368]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="RichTextLabel" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox" unique_id=1921730555]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center][font_size=100][b][color=white]GAME [/color][color=#8a2be2]OVER[/color][/b][/font_size][/center]"
+fit_content = true
+
+[node name="TopSeparator" type="HSeparator" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox" unique_id=109776100]
+layout_mode = 2
+theme_override_constants/separation = 60
+theme_override_styles/separator = SubResource("StyleBoxLine_b2ges")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox" unique_id=335592910]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/HBoxContainer" unique_id=1263905505]
+layout_mode = 2
+theme_override_constants/separation = 47
+
+[node name="TextureRect" type="TextureRect" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/HBoxContainer/VBoxContainer" unique_id=720673496]
+custom_minimum_size = Vector2(100, 60)
+layout_mode = 2
+texture = ExtResource("2_wv832")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect2" type="TextureRect" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/HBoxContainer/VBoxContainer" unique_id=394797094]
+custom_minimum_size = Vector2(120, 60)
+layout_mode = 2
+texture = ExtResource("3_rtfuk")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect3" type="TextureRect" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/HBoxContainer/VBoxContainer" unique_id=1752640908]
+custom_minimum_size = Vector2(100, 60)
+layout_mode = 2
+texture = ExtResource("4_acdi2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StatsGrid" type="GridContainer" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/HBoxContainer" unique_id=977947485]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 500
+theme_override_constants/v_separation = 50
+columns = 2
+
+[node name="LblWPM" type="Label" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/HBoxContainer/StatsGrid" unique_id=2073485607]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 40
+text = "PALABRAS POR MINUTO"
+
+[node name="ValWPM" type="Label" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/HBoxContainer/StatsGrid" unique_id=447605444]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "0"
+
+[node name="LblAccuracy" type="Label" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/HBoxContainer/StatsGrid" unique_id=2082067609]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 40
+text = "PORCENTAJE DE ACIERTO"
+
+[node name="ValAccuracy" type="Label" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/HBoxContainer/StatsGrid" unique_id=571195153]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "0"
+
+[node name="LblWords" type="Label" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/HBoxContainer/StatsGrid" unique_id=11009850]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 40
+text = "TOTAL DE PALABRAS"
+
+[node name="ValWords" type="Label" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/HBoxContainer/StatsGrid" unique_id=1492709418]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "0"
+
+[node name="BottomSeparator" type="HSeparator" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox" unique_id=1532628234]
+layout_mode = 2
+theme_override_constants/separation = 60
+theme_override_styles/separator = SubResource("StyleBoxLine_b2ges")
+
+[node name="ButtonsHBox" type="HBoxContainer" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox" unique_id=1785532756]
+layout_mode = 2
+theme_override_constants/separation = 120
+alignment = 1
+
+[node name="BtnRetry" type="Button" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/ButtonsHBox" unique_id=1232384556]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_5er1d")
+text = "Intentar de nuevo"
+
+[node name="BtnMainMenu" type="Button" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/ButtonsHBox" unique_id=1114070502]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_5er1d")
+text = "Volver al menú"

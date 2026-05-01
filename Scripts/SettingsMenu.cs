@@ -120,7 +120,7 @@ public partial class SettingsMenu : Control
 			
 			if (_global != null)
 			{
-				_global.CambiarEscena("res://Escenas/main_menu.tscn");
+				_global.CallDeferred("CambiarEscena", "res://Escenas/main_menu.tscn");
 			}
 			else
 			{
