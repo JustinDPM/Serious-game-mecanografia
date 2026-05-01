@@ -3,96 +3,137 @@ using System;
 
 public partial class InputManager : Node
 {
-	private string currentInput = "";
-	private Node2D spawner;
-	private Turret turret;
+    private string currentInput = "";
+    private Node2D spawner;
+    private Turret turret;
 
-	private Meteor currentTarget;
+    private Meteor currentTarget;
 
-	public override void _Ready()
-	{
-		spawner = GetNode<Node2D>("/root/Level1/MeteorSpawner");
-		turret = GetNode<Turret>("../Turret");
-	}
+    private int pendingShots = 0;
 
-	public override void _Input(InputEvent @event)
-	{
-		if (!(@event is InputEventKey key) || !key.Pressed)
-			return;
+    private float shootCooldown = 0f;
+    private const float cooldownTime = 0.05f;
 
-		// BACKSPACE
-		if (key.Keycode == Key.Backspace)
-		{
-			if (currentInput.Length > 0)
-				currentInput = currentInput.Substring(0, currentInput.Length - 1);
+    public override void _Ready()
+    {
+        spawner = GetNode<Node2D>("/root/Level1/MeteorSpawner");
+        turret = GetNode<Turret>("../Turret");
+    }
 
-			currentTarget = GetClosestValidMeteor(currentInput);
-			UpdateUI();
-			return;
-		}
+    public override void _Process(double delta)
+    {
+        if (shootCooldown > 0)
+            shootCooldown -= (float)delta;
 
-		// INPUT NORMAL
-		if (key.Unicode > 0 && char.IsLetterOrDigit((char)key.Unicode))
-		{
-			currentInput += (char)key.Unicode;
+        // disparo desde cola
+        if (pendingShots > 0 && shootCooldown <= 0f && currentTarget != null)
+        {
+            turret.Shoot(currentTarget);
+            pendingShots--;
+            shootCooldown = cooldownTime;
+        }
 
-			currentTarget = GetClosestValidMeteor(currentInput);
+        // limpiar si muere
+        if (currentTarget != null && !IsInstanceValid(currentTarget))
+            ResetInput();
+    }
 
-			if (currentTarget == null)
-			{
-				currentInput = currentInput.Substring(0, currentInput.Length - 1);
-				return;
-			}
+    public override void _Input(InputEvent @event)
+    {
+        if (!(@event is InputEventKey key) || !key.Pressed)
+            return;
 
-			UpdateUI();
+        if (key.Keycode == Key.Backspace)
+        {
+            if (currentInput.Length > 0)
+                currentInput = currentInput.Substring(0, currentInput.Length - 1);
 
-			// 💥 PALABRA COMPLETA → DISPARO
-			if (currentTarget.Word == currentInput)
-			{
-				int shots = currentTarget.Word.Length;
+            if (currentInput.Length == 0)
+            {
+                currentTarget = null;
+                return;
+            }
 
-				turret.ShootBurst(currentTarget, shots);
+            currentTarget = GetClosestValidMeteor(currentInput);
+            UpdateUI();
+            return;
+        }
 
-				currentInput = "";
-				currentTarget = null;
-			}
-		}
-	}
+        if (key.Unicode > 0 && char.IsLetterOrDigit((char)key.Unicode))
+        {
+            char newChar = (char)key.Unicode;
 
-	private void UpdateUI()
-	{
-		if (currentTarget != null)
-			currentTarget.UpdateDisplay(currentInput);
-	}
+            if (currentTarget == null)
+            {
+                currentInput += newChar;
+                currentTarget = GetClosestValidMeteor(currentInput);
 
-	private Meteor GetClosestValidMeteor(string input)
-	{
-		Meteor closest = null;
-		float minDistance = float.MaxValue;
+                if (currentTarget == null)
+                {
+                    currentInput = "";
+                    return;
+                }
+            }
+            else
+            {
+                if (currentTarget.Word.Length <= currentInput.Length ||
+                    currentTarget.Word[currentInput.Length] != newChar)
+                {
+                    return;
+                }
 
-		foreach (Node child in spawner.GetChildren())
-		{
-			if (child is Meteor meteor)
-			{
-				if (!meteor.Word.StartsWith(input))
-					continue;
+                currentInput += newChar;
+            }
 
-				float dist = meteor.GlobalPosition.DistanceTo(turret.GlobalPosition);
+            UpdateUI();
 
-				if (dist < minDistance)
-				{
-					minDistance = dist;
-					closest = meteor;
-				}
-			}
-		}
+            // 🔥 SIEMPRE se guarda disparo
+            pendingShots++;
 
-		return closest;
-	}
+            // palabra completa → NO score aquí
+            if (currentTarget.Word == currentInput)
+            {
+                currentInput = "";
+                // NO borrar target aquí
+            }
+        }
+    }
 
-	public void ResetInput()
-	{
-		currentInput = "";
-		currentTarget = null;
-	}
+    private void UpdateUI()
+    {
+        if (currentTarget != null)
+            currentTarget.UpdateDisplay(currentInput);
+    }
+
+    private Meteor GetClosestValidMeteor(string input)
+    {
+        Meteor closest = null;
+        float minDistance = float.MaxValue;
+
+        foreach (Node child in spawner.GetChildren())
+        {
+            if (child is Meteor meteor)
+            {
+                if (!meteor.Word.StartsWith(input))
+                    continue;
+
+                float dist = meteor.GlobalPosition.DistanceTo(turret.GlobalPosition);
+
+                if (dist < minDistance)
+                {
+                    minDistance = dist;
+                    closest = meteor;
+                }
+            }
+        }
+
+        return closest;
+    }
+
+    public void ResetInput()
+    {
+        currentInput = "";
+        currentTarget = null;
+        pendingShots = 0;
+    }
 }

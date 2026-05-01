@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://b34q5q2gfui4p"]
+
+[node name="HUD" type="CanvasLayer" unique_id=541706796]
+
+[node name="TopBar" type="Control" parent="." unique_id=1173157152]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ScoreLabel" type="RichTextLabel" parent="TopBar" unique_id=601045793]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthLabel" type="RichTextLabel" parent="TopBar" unique_id=549945599]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0

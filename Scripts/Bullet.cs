@@ -2,43 +2,46 @@ using Godot;
 
 public partial class Bullet : Area2D
 {
-	[Export] public float Speed = 1900f;
+    [Export] public float Speed = 1700f;
 
-	private Node2D target;
+    private Node2D target;
+    private bool hasHit = false;
 
-	public override void _Ready()
-	{
-		BodyEntered += OnBodyEntered;
-	}
+    public override void _Ready()
+    {
+        BodyEntered += OnBodyEntered;
+    }
 
-	public override void _PhysicsProcess(double delta)
-	{
-		if (target == null || !IsInstanceValid(target))
-		{
-			QueueFree();
-			return;
-		}
+    public override void _PhysicsProcess(double delta)
+    {
+        if (target == null || !IsInstanceValid(target))
+        {
+            QueueFree();
+            return;
+        }
 
-		Vector2 dir = (target.GlobalPosition - GlobalPosition).Normalized();
+        Vector2 dir = (target.GlobalPosition - GlobalPosition).Normalized();
 
-		// mover
-		Position += dir * Speed * (float)delta;
+        Position += dir * Speed * (float)delta;
+        Rotation = dir.Angle();
+    }
 
-		// 🔥 rotar hacia el meteorito
-		Rotation = dir.Angle();
-	}
+    public void SetTarget(Node2D t)
+    {
+        target = t;
+    }
 
-	public void SetTarget(Node2D t)
-	{
-		target = t;
-	}
+    private void OnBodyEntered(Node2D body)
+    {
+        if (hasHit) return;
 
-	private void OnBodyEntered(Node2D body)
-	{
-		if (body is Meteor meteor)
-		{
-			meteor.TakeDamage();
-			QueueFree();
-		}
-	}
+        if (body is Meteor meteor)
+        {
+            hasHit = true;
+
+            meteor.TakeDamage(); // 💥 1 bala = 1 daño
+
+            QueueFree();
+        }
+    }
 }

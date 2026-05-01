@@ -37,7 +37,7 @@ texture = ExtResource("2_bxr2s")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1598306854]
 position = Vector2(0, -800)
-amount = 400
+amount = 500
 texture = ExtResource("5_gfdr5")
 lifetime = 30.69
 preprocess = 2.0
