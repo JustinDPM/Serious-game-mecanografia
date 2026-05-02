@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://431656rkk1jd"]
 
 [ext_resource type="Texture2D" uid="uid://c0dgnus0tpyq8" path="res://assets/FondoInicio.png" id="1_mkivq"]
+[ext_resource type="Script" uid="uid://cqwniljuexax6" path="res://Scripts/GameOver.cs" id="1_rtfuk"]
 [ext_resource type="Texture2D" uid="uid://c2k268us1pjbr" path="res://assets/palabras minuto.png" id="2_wv832"]
 [ext_resource type="Texture2D" uid="uid://dghvepiqugqlg" path="res://assets/precision.png" id="3_rtfuk"]
 [ext_resource type="Texture2D" uid="uid://bw4exdch78m5l" path="res://assets/totalpalabras.png" id="4_acdi2"]
@@ -40,6 +41,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 6
+script = ExtResource("1_rtfuk")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=841090724]
 layout_mode = 1

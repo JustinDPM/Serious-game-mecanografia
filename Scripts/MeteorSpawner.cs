@@ -1,53 +1,54 @@
-using Godot;
-using System;
-using System.Collections.Generic;
+	using Godot;
+	using System;
+	using System.Collections.Generic;
 
-public partial class MeteorSpawner : Node2D
-{
-	[Export] public PackedScene MeteorScene;
-	[Export] public float SpawnInterval = 2f;
-
-	[Export] public Node2D Turret;
-
-	private List<string> words = new List<string>
+	public partial class MeteorSpawner : Node2D
 	{
-		"sol", "luna", "astro", "cometa", "galaxia", "dia"
-	};
+		[Export] public PackedScene MeteorScene;
+		[Export] public float SpawnInterval = 2f;
 
-	public override void _Ready()
-	{
-		SpawnLoop();
-	}
+		[Export] public Turret Turret;
 
-	private async void SpawnLoop()
-	{
-		while (true)
+		private List<string> words = new List<string>
 		{
-			await ToSignal(GetTree().CreateTimer(SpawnInterval), "timeout");
+			"sol", "luna", "astro", "cometa", "galaxia", "dia"
+		};
 
-			if (GetTree().Paused)
-				continue;
+		public override void _Ready()
+		{
+			SpawnLoop();
+		}
 
-			SpawnMeteor();
+		private async void SpawnLoop()
+		{
+			while (true)
+			{
+				await ToSignal(GetTree().CreateTimer(SpawnInterval), "timeout");
+
+				if (GetTree().Paused)
+					continue;
+
+				SpawnMeteor();
+			}
+		}
+
+		private void SpawnMeteor()
+		{
+			var meteor = (Meteor)MeteorScene.Instantiate();
+
+			meteor.Word = words[GD.RandRange(0, words.Count - 1)];
+
+			float screenWidth = GetViewportRect().Size.X;
+			float randomX = (float)GD.RandRange(50, screenWidth - 50);
+
+			meteor.Position = new Vector2(randomX, -100);
+
+			meteor.SetTarget(Turret);
+			meteor.SetTurret(Turret);
+
+			var stats = GetNode<StatsManager>("../StatsManager");
+			meteor.OnMeteorDestroyed += stats.OnMeteorDestroyed;
+
+        AddChild(meteor);
 		}
 	}
-
-	private void SpawnMeteor()
-	{
-		var meteor = (Meteor)MeteorScene.Instantiate();
-
-		// palabra aleatoria
-		meteor.Word = words[GD.RandRange(0, words.Count - 1)];
-
-		// posición random arriba
-		float screenWidth = GetViewportRect().Size.X;
-		float randomX = (float)GD.RandRange(50, screenWidth - 50);
-
-		meteor.Position = new Vector2(randomX, 0);
-
-		// 💥 SOLO SET TARGET (vida ya se calcula sola)
-		meteor.SetTarget(Turret);
-
-		AddChild(meteor);
-	}
-}

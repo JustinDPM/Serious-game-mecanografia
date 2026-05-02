@@ -1,19 +1,151 @@
 [gd_scene format=3 uid="uid://b34q5q2gfui4p"]
 
-[node name="HUD" type="CanvasLayer" unique_id=541706796]
+[ext_resource type="Texture2D" uid="uid://bovxvulxlulnc" path="res://assets/Corazon  (2).png" id="1_4nel0"]
+[ext_resource type="Script" uid="uid://7sukuae57t1k" path="res://Scripts/Hud.cs" id="1_v1vk6"]
 
-[node name="TopBar" type="Control" parent="." unique_id=1173157152]
-layout_mode = 3
+[node name="HUD" type="CanvasLayer" unique_id=541706796]
+script = ExtResource("1_v1vk6")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=108294957]
+offset_right = 1920.0
+offset_bottom = 200.0
+
+[node name="Root" type="Control" parent="MarginContainer" unique_id=473949882]
+layout_mode = 2
+
+[node name="TopLeft" type="Control" parent="MarginContainer/Root" unique_id=1375409891]
+layout_mode = 1
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="ScoreLabel" type="RichTextLabel" parent="TopBar" unique_id=601045793]
-layout_mode = 0
+[node name="LivesContainer" type="HBoxContainer" parent="MarginContainer/Root/TopLeft" unique_id=305151584]
+layout_mode = 1
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="HealthLabel" type="RichTextLabel" parent="TopBar" unique_id=549945599]
+[node name="Heart1" type="TextureRect" parent="MarginContainer/Root/TopLeft/LivesContainer" unique_id=1508133730]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture = ExtResource("1_4nel0")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Heart2" type="TextureRect" parent="MarginContainer/Root/TopLeft/LivesContainer" unique_id=1593384881]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture = ExtResource("1_4nel0")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Heart3" type="TextureRect" parent="MarginContainer/Root/TopLeft/LivesContainer" unique_id=1753023265]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture = ExtResource("1_4nel0")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Heart4" type="TextureRect" parent="MarginContainer/Root/TopLeft/LivesContainer" unique_id=114445275]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture = ExtResource("1_4nel0")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Heart5" type="TextureRect" parent="MarginContainer/Root/TopLeft/LivesContainer" unique_id=1215392947]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture = ExtResource("1_4nel0")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TopCenter" type="Control" parent="MarginContainer/Root" unique_id=1401596044]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+
+[node name="TimeLabel" type="RichTextLabel" parent="MarginContainer/Root/TopCenter" unique_id=1224260427]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -142.0
+offset_right = 142.0
+offset_bottom = 137.0
+grow_horizontal = 2
+theme_override_font_sizes/normal_font_size = 100
+text = "00:00"
+horizontal_alignment = 1
+
+[node name="TopRight" type="Control" parent="MarginContainer/Root" unique_id=525209190]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -76.0
+offset_top = 83.0
+offset_right = 21.0
+offset_bottom = 123.0
+grow_horizontal = 0
+
+[node name="ScoreNameLabel" type="RichTextLabel" parent="MarginContainer/Root/TopRight" unique_id=601045793]
+custom_minimum_size = Vector2(90, 80)
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = -372.0
+offset_top = -70.0
+offset_right = -177.0
+offset_bottom = 10.0
+theme_override_font_sizes/normal_font_size = 60
+text = "Score:"
+scroll_active = false
+
+[node name="ScoreLabel" type="RichTextLabel" parent="MarginContainer/Root/TopRight" unique_id=1706959454]
+custom_minimum_size = Vector2(30, 90)
+layout_mode = 0
+offset_left = -177.0
+offset_top = -70.0
+offset_right = 27.0
+offset_bottom = 20.0
+theme_override_font_sizes/normal_font_size = 60
+scroll_active = false
+
+[node name="AccuracyNameLabel" type="RichTextLabel" parent="MarginContainer/Root/TopRight" unique_id=469311229]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 0
+offset_left = -376.0
+offset_top = 16.0
+offset_right = -64.0
+offset_bottom = 109.0
+theme_override_font_sizes/normal_font_size = 60
+text = "Accuracy:"
+scroll_active = false
+
+[node name="AccuracyLabel" type="RichTextLabel" parent="MarginContainer/Root/TopRight" unique_id=1437480659]
+layout_mode = 0
+offset_left = -80.0
+offset_top = 30.0
+offset_right = 74.0
+offset_bottom = 114.0
+theme_override_font_sizes/normal_font_size = 60
+scroll_active = false
+
+[node name="WpmNameLabel" type="RichTextLabel" parent="MarginContainer/Root/TopRight" unique_id=1649082772]
+layout_mode = 0
+offset_left = -377.0
+offset_top = 103.0
+offset_right = -144.0
+offset_bottom = 221.0
+theme_override_font_sizes/normal_font_size = 60
+text = "WPM:"
+scroll_active = false
+
+[node name="WpmLabel" type="RichTextLabel" parent="MarginContainer/Root/TopRight" unique_id=201180058]
+layout_mode = 0
+offset_left = -188.0
+offset_top = 116.0
+offset_right = -10.0
+offset_bottom = 196.0
+theme_override_font_sizes/normal_font_size = 60
+scroll_active = false

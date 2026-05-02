@@ -3,10 +3,13 @@
 [ext_resource type="Script" uid="uid://be6ck5fru2jou" path="res://Scripts/MeteorSpawner.cs" id="1_0bm41"]
 [ext_resource type="Script" uid="uid://v1fjryacv3us" path="res://Scripts/Level1.cs" id="1_dllou"]
 [ext_resource type="PackedScene" uid="uid://dc8i4ytb2600y" path="res://Escenas/background.tscn" id="2_dllou"]
+[ext_resource type="Script" uid="uid://dk72dakcor1t1" path="res://Scripts/CameraShake.cs" id="2_l8xc3"]
 [ext_resource type="PackedScene" uid="uid://b1hstvnv4ifcy" path="res://Escenas/meteor.tscn" id="2_obr3f"]
 [ext_resource type="Script" uid="uid://baoanl4xbvigq" path="res://Scripts/InputManager.cs" id="3_3418m"]
 [ext_resource type="PackedScene" uid="uid://gqtggvlvys7r" path="res://Escenas/Turret.tscn" id="5_o5eqp"]
 [ext_resource type="PackedScene" uid="uid://de0jciynbpbpo" path="res://Escenas/settings_menu.tscn" id="6_ijxpu"]
+[ext_resource type="PackedScene" uid="uid://b34q5q2gfui4p" path="res://Escenas/hud.tscn" id="9_urgsd"]
+[ext_resource type="Script" uid="uid://bc4u0yjty25hf" path="res://Scripts/StatsManager.cs" id="10_btnvu"]
 
 [node name="Level1" type="Node2D" unique_id=1605905321]
 script = ExtResource("1_dllou")
@@ -17,14 +20,16 @@ position = Vector2(955, 749)
 [node name="MeteorSpawner" type="Node2D" parent="." unique_id=1877068755 node_paths=PackedStringArray("Turret")]
 script = ExtResource("1_0bm41")
 MeteorScene = ExtResource("2_obr3f")
+SpawnInterval = 3.0
 Turret = NodePath("../Turret")
 
 [node name="InputManager" type="Node2D" parent="." unique_id=1016781327]
 script = ExtResource("3_3418m")
 
-[node name="Turret" parent="." unique_id=1807233832 instance=ExtResource("5_o5eqp")]
+[node name="Turret" parent="." unique_id=1807233832 node_paths=PackedStringArray("input") instance=ExtResource("5_o5eqp")]
 position = Vector2(977, 972)
 rotation = -1.5707964
+input = NodePath("../InputManager")
 
 [node name="HealthLabel" type="RichTextLabel" parent="." unique_id=618036892]
 offset_left = 919.0
@@ -49,9 +54,20 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 846.0
-offset_top = 410.0
-offset_right = 1314.0
-offset_bottom = 763.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = 738.0
+offset_top = 397.0
+offset_right = 1206.0
+offset_bottom = 750.0
+
+[node name="CameraShake" type="Camera2D" parent="." unique_id=1126014757]
+position = Vector2(960, 516)
+script = ExtResource("2_l8xc3")
+
+[node name="HUD" parent="." unique_id=541706796 node_paths=PackedStringArray("player", "stats") instance=ExtResource("9_urgsd")]
+player = NodePath("../Turret")
+stats = NodePath("../StatsManager")
+
+[node name="StatsManager" type="Node" parent="." unique_id=1756574790 node_paths=PackedStringArray("input", "turret")]
+script = ExtResource("10_btnvu")
+input = NodePath("../InputManager")
+turret = NodePath("../Turret")

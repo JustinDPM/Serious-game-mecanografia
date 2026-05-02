@@ -3,137 +3,125 @@ using System;
 
 public partial class InputManager : Node
 {
-	private string currentInput = "";
-	private Node2D spawner;
-	private Turret turret;
+    public event Action OnCorrectChar;
+    public event Action OnWrongChar;
+    public event Action OnWordCompleted;
+    public event Action<Meteor> OnShootRequested;
 
-	private Meteor currentTarget;
+    private string currentInput = "";
+    private Node2D spawner;
+    private Turret turret;
 
-	private int pendingShots = 0;
+    private Meteor currentTarget;
 
-	private float shootCooldown = 0f;
-	private const float cooldownTime = 0.05f;
+    public override void _Ready()
+    {
+        spawner = GetNode<Node2D>("/root/Level1/MeteorSpawner");
+        turret = GetNode<Turret>("../Turret");
+    }
 
-	public override void _Ready()
-	{
-		spawner = GetNode<Node2D>("/root/Level1/MeteorSpawner");
-		turret = GetNode<Turret>("../Turret");
-	}
+    public override void _Process(double delta)
+    {
+        if (currentTarget != null && !IsInstanceValid(currentTarget))
+            ResetInput();
+    }
 
-	public override void _Process(double delta)
-	{
-		if (shootCooldown > 0)
-			shootCooldown -= (float)delta;
+    public override void _Input(InputEvent @event)
+    {
+        if (!(@event is InputEventKey key) || !key.Pressed)
+            return;
 
-		// disparo desde cola
-		if (pendingShots > 0 && shootCooldown <= 0f && currentTarget != null)
-		{
-			turret.Shoot(currentTarget);
-			pendingShots--;
-			shootCooldown = cooldownTime;
-		}
+        if (key.Keycode == Key.Backspace)
+        {
+            if (currentInput.Length > 0)
+                currentInput = currentInput.Substring(0, currentInput.Length - 1);
 
-		// limpiar si muere
-		if (currentTarget != null && !IsInstanceValid(currentTarget))
-			ResetInput();
-	}
+            if (currentInput.Length == 0)
+            {
+                currentTarget = null;
+                UpdateUI();
+                return;
+            }
 
-	public override void _Input(InputEvent @event)
-	{
-		if (!(@event is InputEventKey key) || !key.Pressed)
-			return;
+            currentTarget = GetClosestValidMeteor(currentInput);
+            UpdateUI();
+            return;
+        }
 
-		if (key.Keycode == Key.Backspace)
-		{
-			if (currentInput.Length > 0)
-				currentInput = currentInput.Substring(0, currentInput.Length - 1);
+        if (key.Unicode <= 0 || !char.IsLetterOrDigit((char)key.Unicode))
+            return;
 
-			if (currentInput.Length == 0)
-			{
-				currentTarget = null;
-				return;
-			}
+        char newChar = (char)key.Unicode;
 
-			currentTarget = GetClosestValidMeteor(currentInput);
-			UpdateUI();
-			return;
-		}
+        if (currentTarget == null)
+        {
+            currentTarget = GetClosestValidMeteor(currentInput + newChar);
 
-		if (key.Unicode > 0 && char.IsLetterOrDigit((char)key.Unicode))
-		{
-			char newChar = (char)key.Unicode;
+            if (currentTarget == null)
+            {
+                ResetInput();
+                OnWrongChar?.Invoke();
+                return;
+            }
+        }
 
-			if (currentTarget == null)
-			{
-				currentInput += newChar;
-				currentTarget = GetClosestValidMeteor(currentInput);
+        if (currentTarget.Word.Length <= currentInput.Length ||
+            currentTarget.Word[currentInput.Length] != newChar)
+        {
+            OnWrongChar?.Invoke();
+            return;
+        }
 
-				if (currentTarget == null)
-				{
-					currentInput = "";
-					return;
-				}
-			}
-			else
-			{
-				if (currentTarget.Word.Length <= currentInput.Length ||
-					currentTarget.Word[currentInput.Length] != newChar)
-				{
-					return;
-				}
+        OnCorrectChar?.Invoke();
 
-				currentInput += newChar;
-			}
+        currentInput += newChar;
+        UpdateUI();
 
-			UpdateUI();
+        OnShootRequested?.Invoke(currentTarget);
 
-			// 🔥 SIEMPRE se guarda disparo
-			pendingShots++;
+        if (currentInput == currentTarget.Word)
+        {
+            OnWordCompleted?.Invoke();
 
-			// palabra completa → NO score aquí
-			if (currentTarget.Word == currentInput)
-			{
-				currentInput = "";
-				// NO borrar target aquí
-			}
-		}
-	}
+            currentInput = "";
+            currentTarget = null; 
+        }
+    }
 
-	private void UpdateUI()
-	{
-		if (currentTarget != null)
-			currentTarget.UpdateDisplay(currentInput);
-	}
+    private void UpdateUI()
+    {
+        if (currentTarget != null)
+            currentTarget.UpdateDisplay(currentInput);
+    }
 
-	private Meteor GetClosestValidMeteor(string input)
-	{
-		Meteor closest = null;
-		float minDistance = float.MaxValue;
+    private Meteor GetClosestValidMeteor(string input)
+    {
+        Meteor closest = null;
+        float minDistance = float.MaxValue;
 
-		foreach (Node child in spawner.GetChildren())
-		{
-			if (child is Meteor meteor)
-			{
-				if (!meteor.Word.StartsWith(input))
-					continue;
+        foreach (Node child in spawner.GetChildren())
+        {
+            if (child is Meteor meteor)
+            {
+                if (!meteor.Word.StartsWith(input))
+                    continue;
 
-				float dist = meteor.GlobalPosition.DistanceTo(turret.GlobalPosition);
+                float dist = meteor.GlobalPosition.DistanceTo(turret.GlobalPosition);
 
-				if (dist < minDistance)
-				{
-					minDistance = dist;
-					closest = meteor;
-				}
-			}
-		}
+                if (dist < minDistance)
+                {
+                    minDistance = dist;
+                    closest = meteor;
+                }
+            }
+        }
 
-		return closest;
-	}
+        return closest;
+    }
 
-	public void ResetInput()
-	{
-		currentInput = "";
-		currentTarget = null;
-		pendingShots = 0;
-	}
+    public void ResetInput()
+    {
+        currentInput = "";
+        currentTarget = null;
+    }
 }

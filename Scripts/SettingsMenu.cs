@@ -7,15 +7,13 @@ public partial class SettingsMenu : Control
 	private bool openedFromGame = false;
 	[Export] private Control mainMenuPanel;
 	
-	// Botones del menú
 	private Button resumeButton;
 	private Button exitButton;
 	private Button btnVideo;
 	private Button btnAudio;
 	private Button btnGameplay;
 	private Button btnAccessibility;
-	
-	// El contenedor de las pestañas
+
 	private TabContainer optionsArea;
 	private Global _global;
 
@@ -24,20 +22,17 @@ public partial class SettingsMenu : Control
 		Visible = false;
 		_global = GetNodeOrNull<Global>("/root/Global");
 
-		// 1. Rutas de los nodos
 		optionsArea = GetNodeOrNull<TabContainer>("CenterContainer/PanelContainer/HBoxPrincipal/OptionsArea");
 		displayMode = GetNodeOrNull<OptionButton>("CenterContainer/PanelContainer/HBoxPrincipal/OptionsArea/TabVideo/OptionButton");
 		
 		resumeButton = GetNodeOrNull<Button>("CenterContainer/PanelContainer/HBoxPrincipal/SideBar/Return");
 		exitButton = GetNodeOrNull<Button>("CenterContainer/PanelContainer/HBoxPrincipal/SideBar/Close");
 		
-		// Rutas de los botones de categorías
 		btnVideo = GetNodeOrNull<Button>("CenterContainer/PanelContainer/HBoxPrincipal/SideBar/Video");
 		btnAudio = GetNodeOrNull<Button>("CenterContainer/PanelContainer/HBoxPrincipal/SideBar/Audio");
 		btnGameplay = GetNodeOrNull<Button>("CenterContainer/PanelContainer/HBoxPrincipal/SideBar/Gameplay");
 		btnAccessibility = GetNodeOrNull<Button>("CenterContainer/PanelContainer/HBoxPrincipal/SideBar/Accessibility");
 
-		// 2. Configurar video
 		if (displayMode != null)
 		{
 			displayMode.Clear();
@@ -48,7 +43,6 @@ public partial class SettingsMenu : Control
 			displayMode.ItemSelected += OnDisplayModeChanged;
 		}
 
-		// 3. Conectar señales de los botones
 		if (resumeButton != null) 
 		{
 			resumeButton.Pressed += OnResumePressed;
@@ -57,7 +51,6 @@ public partial class SettingsMenu : Control
 		
 		if (exitButton != null) exitButton.Pressed += OnExitPressed;
 
-		// Conectar botones de pestañas (El TabContainer empieza en el índice 0)
 		if (btnVideo != null) btnVideo.Pressed += () => ChangeTab(0);
 		if (btnAudio != null) btnAudio.Pressed += () => ChangeTab(1);
 		if (btnGameplay != null) btnGameplay.Pressed += () => ChangeTab(2);
@@ -72,7 +65,6 @@ public partial class SettingsMenu : Control
 		GD.Print("Settings conectado y pestañas listas");
 	}
 
-	// Cambiar la pestaña visible en el TabContainer
 	private void ChangeTab(int tabIndex)
 	{
 		if (optionsArea != null)
@@ -87,8 +79,7 @@ public partial class SettingsMenu : Control
 		openedFromGame = pauseGame;
 		if (pauseGame) GetTree().Paused = true;
 		Visible = true;
-		
-		// Asegurar que siempre abra en la pestaña de Video (0) por defecto
+
 		if (optionsArea != null) optionsArea.CurrentTab = 0; 
 		
 		if (displayMode != null) displayMode.GrabFocus();
@@ -96,7 +87,7 @@ public partial class SettingsMenu : Control
 
 	public void OnResumePressed()
 	{
-		SceneTree arbol = GetTree(); // Guardamos el árbol primero de forma segura
+		SceneTree arbol = GetTree();
 		
 		if (openedFromGame)
 		{
@@ -115,7 +106,7 @@ public partial class SettingsMenu : Control
 
 		if (openedFromGame)
 		{
-			// Si estamos en partida, quitamos la pausa y volvemos al menú
+
 			if (arbol != null) arbol.Paused = false;
 			
 			if (_global != null)
@@ -129,7 +120,7 @@ public partial class SettingsMenu : Control
 		}
 		else
 		{
-			// Si ya estamos en el menú principal, cerramos el juego
+	
 			if (arbol != null) 
 			{
 				arbol.Quit();

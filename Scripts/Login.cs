@@ -10,9 +10,7 @@ public partial class Login : Control
 	private Button _enterButton;
 	private Global _global;
 
-	// LA LLAVE DEL REINO: Tu cadena de conexión a la BD
-	// OJO: Cambia 'tu_contraseña_aqui' por la contraseña de tu usuario postgres
-	private string connectionString = "Host=localhost;Username=postgres;Password=040306;Database=astrotype_db";
+	private string connectionString = "Host=localhost;Username=postgres;Password=contrasena;Database=astrotype_db";
 
 	public override void _Ready()
 	{
@@ -43,7 +41,7 @@ public partial class Login : Control
 		if (ValidarUsuarioBD(user, pass))
 		{
 			_global.UsuarioActivo = user;
-			_global.CambiarEscena("res://Escenas/main_menu.tscn"); // Ojo con minúsculas/mayúsculas de tu escena
+			_global.CambiarEscena("res://Escenas/main_menu.tscn");
 		}
 		else
 		{

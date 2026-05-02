@@ -8,11 +8,20 @@ public partial class Level1 : Node2D
     public override void _Ready()
     {
         settingsMenu = GetNode<SettingsMenu>("SettingsMenu");
+
+        var turret = GetNode<Turret>("Turret");
+        var global = GetNode<Global>("/root/Global");
+
+        turret.OnGameOver += () =>
+        {
+            global.CallDeferred("CambiarEscena", "res://Escenas/game_over.tscn");
+        };
+
     }
 
     public override void _Input(InputEvent @event)
     {
-        if (Input.IsActionJustPressed("ui_cancel")) // ESC
+        if (Input.IsActionJustPressed("ui_cancel")) 
         {
             if (settingsMenu.Visible)
             {
@@ -20,7 +29,7 @@ public partial class Level1 : Node2D
             }
             else
             {
-                settingsMenu.Open(true); // 🎮 pausa juego
+                settingsMenu.Open(true); 
             }
         }
     }

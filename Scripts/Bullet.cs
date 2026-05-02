@@ -1,47 +1,48 @@
-using Godot;
+	using Godot;
 
-public partial class Bullet : Area2D
-{
-	[Export] public float Speed = 1700f;
-
-	private Node2D target;
-	private bool hasHit = false;
-
-	public override void _Ready()
+	public partial class Bullet : Area2D
 	{
-		BodyEntered += OnBodyEntered;
-	}
+		[Export] public float Speed = 1700f;
 
-	public override void _PhysicsProcess(double delta)
-	{
-		if (target == null || !IsInstanceValid(target))
+		private Node2D target;
+		private bool hasHit = false;
+
+		public override void _Ready()
 		{
-			QueueFree();
-			return;
+			BodyEntered += OnBodyEntered;
 		}
 
-		Vector2 dir = (target.GlobalPosition - GlobalPosition).Normalized();
-
-		Position += dir * Speed * (float)delta;
-		Rotation = dir.Angle();
-	}
-
-	public void SetTarget(Node2D t)
-	{
-		target = t;
-	}
-
-	private void OnBodyEntered(Node2D body)
-	{
-		if (hasHit) return;
-
-		if (body is Meteor meteor)
+		public override void _PhysicsProcess(double delta)
 		{
-			hasHit = true;
+			if (target == null || !IsInstanceValid(target))
+			{
+				QueueFree();
+				return;
+			}
 
-			meteor.TakeDamage(); // 💥 1 bala = 1 daño
+			Vector2 dir = (target.GlobalPosition - GlobalPosition).Normalized();
 
-			QueueFree();
+			Position += dir * Speed * (float)delta;
+			Rotation = dir.Angle();
+		}
+
+		public void SetTarget(Node2D t)
+		{
+			target = t;
+		}
+
+		private void OnBodyEntered(Node2D body)
+		{
+			if (hasHit) return;
+
+			if (body is IDamageable damageable)
+			{
+				hasHit = true;
+
+				damageable.TakeDamage();
+
+				QueueFree();
+			}
 		}
 	}
-}
+	
