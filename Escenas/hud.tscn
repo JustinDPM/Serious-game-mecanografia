@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b34q5q2gfui4p"]
 
-[ext_resource type="Texture2D" uid="uid://bovxvulxlulnc" path="res://assets/Corazon  (2).png" id="1_4nel0"]
 [ext_resource type="Script" uid="uid://7sukuae57t1k" path="res://Scripts/Hud.cs" id="1_v1vk6"]
+[ext_resource type="Texture2D" uid="uid://klvm54lj7avu" path="res://assets/Corazon 7.png" id="2_v1vk6"]
 
 [node name="HUD" type="CanvasLayer" unique_id=541706796]
 script = ExtResource("1_v1vk6")
@@ -21,41 +21,41 @@ offset_bottom = 40.0
 
 [node name="LivesContainer" type="HBoxContainer" parent="MarginContainer/Root/TopLeft" unique_id=305151584]
 layout_mode = 1
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 538.0
+offset_bottom = 147.0
 
 [node name="Heart1" type="TextureRect" parent="MarginContainer/Root/TopLeft/LivesContainer" unique_id=1508133730]
-custom_minimum_size = Vector2(128, 128)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-texture = ExtResource("1_4nel0")
+texture = ExtResource("2_v1vk6")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Heart2" type="TextureRect" parent="MarginContainer/Root/TopLeft/LivesContainer" unique_id=1593384881]
-custom_minimum_size = Vector2(128, 128)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-texture = ExtResource("1_4nel0")
+texture = ExtResource("2_v1vk6")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Heart3" type="TextureRect" parent="MarginContainer/Root/TopLeft/LivesContainer" unique_id=1753023265]
-custom_minimum_size = Vector2(128, 128)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-texture = ExtResource("1_4nel0")
+texture = ExtResource("2_v1vk6")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Heart4" type="TextureRect" parent="MarginContainer/Root/TopLeft/LivesContainer" unique_id=114445275]
-custom_minimum_size = Vector2(128, 128)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-texture = ExtResource("1_4nel0")
+texture = ExtResource("2_v1vk6")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Heart5" type="TextureRect" parent="MarginContainer/Root/TopLeft/LivesContainer" unique_id=1215392947]
-custom_minimum_size = Vector2(128, 128)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-texture = ExtResource("1_4nel0")
+texture = ExtResource("2_v1vk6")
 expand_mode = 1
 stretch_mode = 5
 
@@ -65,6 +65,19 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 grow_horizontal = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/Root/TopCenter" unique_id=1210915352]
+layout_mode = 0
+offset_left = -152.0
+offset_right = 146.0
+offset_bottom = 146.0
+color = Color(0, 0, 0, 0.29411766)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/Root/TopCenter" unique_id=1735385602]
+layout_mode = 0
+offset_left = -151.0
+offset_right = 150.0
+offset_bottom = 152.0
 
 [node name="TimeLabel" type="RichTextLabel" parent="MarginContainer/Root/TopCenter" unique_id=1224260427]
 layout_mode = 1

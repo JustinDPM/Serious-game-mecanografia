@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bovxvulxlulnc"
-path="res://.godot/imported/Corazon  (2).png-7b22f917ea0e9b514b9bf696a0bfb112.ctex"
+uid="uid://cdqso6rrdkiw1"
+path="res://.godot/imported/Flash.png-c32e44026c173d4d6c415ed862ccf34d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Corazon  (2).png"
-dest_files=["res://.godot/imported/Corazon  (2).png-7b22f917ea0e9b514b9bf696a0bfb112.ctex"]
+source_file="res://assets/Flash.png"
+dest_files=["res://.godot/imported/Flash.png-c32e44026c173d4d6c415ed862ccf34d.ctex"]
 
 [params]
 

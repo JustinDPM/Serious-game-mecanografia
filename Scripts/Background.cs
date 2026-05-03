@@ -10,6 +10,7 @@ public partial class Background : Node2D
 
     private GpuParticles2D stars1;
     private GpuParticles2D stars2;
+    private GpuParticles2D stars3;
 
     private float height;
     private Turret turret;
@@ -22,6 +23,7 @@ public partial class Background : Node2D
 
         stars1 = GetNode<GpuParticles2D>("Stars");
         stars2 = GetNode<GpuParticles2D>("BlueStars");
+        stars3 = GetNode<GpuParticles2D>("Stars3");
 
         turret = GetTree().Root.GetNodeOrNull<Turret>("Level1/Turret");
 
@@ -55,6 +57,19 @@ public partial class Background : Node2D
 
         if (stars2 != null)
             stars2.SpeedScale = Mathf.Min(0.7f * factor, 3f);
+
+        if (stars3 != null)
+        {
+            bool enable = streak >= 20;
+
+            stars3.Emitting = enable;
+
+            if (enable)
+            {
+                float factorFlash = 1f + ((streak - 20) * 0.1f);
+                stars3.SpeedScale = Mathf.Min(1.5f * factorFlash, 5f);
+            }
+        }
     }
 
     private void Loop(Sprite2D bg)
