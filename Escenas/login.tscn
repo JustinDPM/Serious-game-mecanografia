@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c0dgnus0tpyq8" path="res://assets/FondoInicio.png" id="2_lbs3p"]
 [ext_resource type="Shader" uid="uid://b1lespohkr7ab" path="res://Escenas/Shaders/login.gdshader" id="3_56407"]
 [ext_resource type="Texture2D" uid="uid://chvjwf23ivlt1" path="res://assets/logoIASD.png" id="4_ujdtn"]
+[ext_resource type="FontFile" uid="uid://csb47k5lcd1bn" path="res://Fonts/RussoOne-Regular.ttf" id="5_56407"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lbs3p"]
 content_margin_left = 200.0
@@ -19,20 +20,18 @@ corner_radius_bottom_left = 20
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_w4g28"]
 shader = ExtResource("3_56407")
 
-[sub_resource type="SystemFont" id="SystemFont_lbs3p"]
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_56407"]
 content_margin_left = 15.0
 bg_color = Color(0.101960786, 0.10980392, 0.13725491, 1)
 corner_detail = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ujdtn"]
-bg_color = Color(0.1524835, 0.10250535, 0.4213783, 1)
-corner_radius_top_left = 100
-corner_radius_top_right = 100
-corner_radius_bottom_right = 100
-corner_radius_bottom_left = 100
+bg_color = Color(0.5411765, 0.16862746, 0.8862745, 1)
 corner_detail = 20
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
 
 [node name="Login" type="Control" unique_id=426731288]
 layout_mode = 3
@@ -70,6 +69,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_lbs3p")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1650895417]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_constants/separation = 20
 
@@ -83,15 +83,19 @@ stretch_mode = 5
 
 [node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/VBoxContainer" unique_id=1267817451]
 layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("5_56407")
 bbcode_enabled = true
-text = "[center][font_size=48][b][color=white]Astro[/color][color=#8a2be2]Type[/color][/b][/font_size][/center]"
+text = "[center][font_size=56
+
+][color=white]Astro[/color][color=#8a2be2]Type[/color][/font_size][/center]"
 fit_content = true
 
 [node name="InputUser" type="LineEdit" parent="PanelContainer/VBoxContainer" unique_id=138471045]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = SubResource("SystemFont_lbs3p")
+theme_override_fonts/font = ExtResource("5_56407")
+theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_56407")
 placeholder_text = "Matricula"
 
@@ -99,7 +103,8 @@ placeholder_text = "Matricula"
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = SubResource("SystemFont_lbs3p")
+theme_override_fonts/font = ExtResource("5_56407")
+theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_56407")
 placeholder_text = "Contraseña"
 secret = true
@@ -110,11 +115,23 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 2
-theme_override_fonts/font = SubResource("SystemFont_lbs3p")
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("5_56407")
+theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_ujdtn")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ujdtn")
 text = "INICIAR SESIÓN"
 
 [node name="ErrorMessage" type="Label" parent="PanelContainer/VBoxContainer" unique_id=404234079]
 layout_mode = 2
+
+[node name="BtnExit" type="Button" parent="." unique_id=51194945]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 36.0
+offset_right = 250.0
+offset_bottom = 61.0
+theme_override_fonts/font = ExtResource("5_56407")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_ujdtn")
+text = "SALIR DEL JUEGO"

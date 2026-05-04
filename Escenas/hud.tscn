@@ -1,7 +1,8 @@
-[gd_scene format=3 uid="uid://b34q5q2gfui4p"]
+[gd_scene format=3 uid="uid://c1dep7cmhro6r"]
 
 [ext_resource type="Script" uid="uid://7sukuae57t1k" path="res://Scripts/Hud.cs" id="1_v1vk6"]
 [ext_resource type="Texture2D" uid="uid://klvm54lj7avu" path="res://assets/Corazon 7.png" id="2_v1vk6"]
+[ext_resource type="FontFile" uid="uid://csb47k5lcd1bn" path="res://Fonts/RussoOne-Regular.ttf" id="3_5x6hg"]
 
 [node name="HUD" type="CanvasLayer" unique_id=541706796]
 script = ExtResource("1_v1vk6")
@@ -70,14 +71,14 @@ grow_horizontal = 2
 layout_mode = 0
 offset_left = -152.0
 offset_right = 146.0
-offset_bottom = 146.0
-color = Color(0, 0, 0, 0.29411766)
+offset_bottom = 93.0
+color = Color(0.5411765, 0.16862746, 0.8862745, 0.29803923)
 
 [node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/Root/TopCenter" unique_id=1735385602]
 layout_mode = 0
 offset_left = -151.0
 offset_right = 150.0
-offset_bottom = 152.0
+offset_bottom = 93.0
 
 [node name="TimeLabel" type="RichTextLabel" parent="MarginContainer/Root/TopCenter" unique_id=1224260427]
 layout_mode = 1
@@ -86,9 +87,10 @@ anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -142.0
 offset_right = 142.0
-offset_bottom = 137.0
+offset_bottom = 98.0
 grow_horizontal = 2
-theme_override_font_sizes/normal_font_size = 100
+theme_override_fonts/normal_font = ExtResource("3_5x6hg")
+theme_override_font_sizes/normal_font_size = 78
 text = "00:00"
 horizontal_alignment = 1
 
@@ -106,59 +108,65 @@ grow_horizontal = 0
 [node name="ScoreNameLabel" type="RichTextLabel" parent="MarginContainer/Root/TopRight" unique_id=601045793]
 custom_minimum_size = Vector2(90, 80)
 layout_mode = 0
-offset_left = -372.0
-offset_top = -70.0
-offset_right = -177.0
-offset_bottom = 10.0
-theme_override_font_sizes/normal_font_size = 60
+offset_left = -215.0
+offset_top = -61.0
+offset_right = -11.0
+offset_bottom = 19.0
+theme_override_fonts/normal_font = ExtResource("3_5x6hg")
+theme_override_font_sizes/normal_font_size = 45
 text = "Score:"
 scroll_active = false
 
 [node name="ScoreLabel" type="RichTextLabel" parent="MarginContainer/Root/TopRight" unique_id=1706959454]
 custom_minimum_size = Vector2(30, 90)
 layout_mode = 0
-offset_left = -177.0
-offset_top = -70.0
-offset_right = 27.0
-offset_bottom = 20.0
-theme_override_font_sizes/normal_font_size = 60
+offset_left = -67.0
+offset_top = -59.0
+offset_right = 137.0
+offset_bottom = 31.0
+theme_override_fonts/normal_font = ExtResource("3_5x6hg")
+theme_override_font_sizes/normal_font_size = 45
 scroll_active = false
 
 [node name="AccuracyNameLabel" type="RichTextLabel" parent="MarginContainer/Root/TopRight" unique_id=469311229]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 0
-offset_left = -376.0
-offset_top = 16.0
-offset_right = -64.0
-offset_bottom = 109.0
-theme_override_font_sizes/normal_font_size = 60
+offset_left = -290.0
+offset_top = -20.0
+offset_right = 22.0
+offset_bottom = 73.0
+theme_override_fonts/normal_font = ExtResource("3_5x6hg")
+theme_override_font_sizes/normal_font_size = 45
 text = "Accuracy:"
 scroll_active = false
 
 [node name="AccuracyLabel" type="RichTextLabel" parent="MarginContainer/Root/TopRight" unique_id=1437480659]
 layout_mode = 0
-offset_left = -94.0
-offset_top = 27.0
-offset_right = 60.0
-offset_bottom = 111.0
-theme_override_font_sizes/normal_font_size = 60
+offset_left = -67.0
+offset_top = -15.0
+offset_right = 87.0
+offset_bottom = 69.0
+theme_override_fonts/normal_font = ExtResource("3_5x6hg")
+theme_override_font_sizes/normal_font_size = 45
 scroll_active = false
 
 [node name="WpmNameLabel" type="RichTextLabel" parent="MarginContainer/Root/TopRight" unique_id=1649082772]
 layout_mode = 0
-offset_left = -377.0
-offset_top = 103.0
-offset_right = -144.0
-offset_bottom = 221.0
-theme_override_font_sizes/normal_font_size = 60
+offset_left = -201.0
+offset_top = 30.0
+offset_right = 32.0
+offset_bottom = 148.0
+theme_override_fonts/normal_font = ExtResource("3_5x6hg")
+theme_override_font_sizes/normal_font_size = 45
 text = "WPM:"
 scroll_active = false
 
 [node name="WpmLabel" type="RichTextLabel" parent="MarginContainer/Root/TopRight" unique_id=201180058]
 layout_mode = 0
-offset_left = -191.0
-offset_top = 107.0
-offset_right = -13.0
-offset_bottom = 187.0
-theme_override_font_sizes/normal_font_size = 60
+offset_left = -67.0
+offset_top = 30.0
+offset_right = 111.0
+offset_bottom = 110.0
+theme_override_fonts/normal_font = ExtResource("3_5x6hg")
+theme_override_font_sizes/normal_font_size = 45
 scroll_active = false

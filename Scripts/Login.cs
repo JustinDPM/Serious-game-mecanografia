@@ -8,9 +8,10 @@ public partial class Login : Control
 	private LineEdit _passwordInput;
 	private Label _errorMessage;
 	private Button _enterButton;
+	private Button _exitButton; 
 	private Global _global;
 
-	private string connectionString = "Host=localhost;Username=postgres;Password=contrasena;Database=astrotype_db";
+	private string connectionString = "Host=localhost;Username=postgres;Password=040306;Database=astrotype_db";
 
 	public override void _Ready()
 	{
@@ -19,10 +20,21 @@ public partial class Login : Control
 		_errorMessage = GetNode<Label>("PanelContainer/VBoxContainer/ErrorMessage");
 		_enterButton = GetNode<Button>("PanelContainer/VBoxContainer/EnterButton");
 		
+		_exitButton = GetNodeOrNull<Button>("BtnExit"); 
+		
 		_global = GetNode<Global>("/root/Global");
 
 		_enterButton.Pressed += OnEnterButtonPressed;
 		_errorMessage.Text = "";
+
+		if (_exitButton != null)
+		{
+			_exitButton.Pressed += OnExitPressed;
+		}
+		else
+		{
+			GD.PrintErr("🚨 Botón de salir no encontrado en el Login. Revisa la ruta en el GetNodeOrNull.");
+		}
 	}
 
 	private void OnEnterButtonPressed()
@@ -89,5 +101,10 @@ public partial class Login : Control
 	{
 		_errorMessage.Modulate = new Color(1, 0, 0);
 		_errorMessage.Text = mensaje;
+	}
+	
+	private void OnExitPressed()
+	{
+		GetTree().Quit();
 	}
 }

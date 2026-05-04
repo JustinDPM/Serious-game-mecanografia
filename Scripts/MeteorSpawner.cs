@@ -49,6 +49,6 @@
 			var stats = GetNode<StatsManager>("../StatsManager");
 			meteor.OnMeteorDestroyed += stats.OnMeteorDestroyed;
 
-        AddChild(meteor);
+		AddChild(meteor);
 		}
 	}
