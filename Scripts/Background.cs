@@ -2,7 +2,9 @@ using Godot;
 
 public partial class Background : Node2D
 {
-    [Export] public float Speed = 100f;
+    [Export] public float BaseSpeed = 200f;
+    [Export] public float MaxSpeedBoost = 300f;
+    [Export] public float Acceleration = 0.08f;
 
     private Sprite2D bg1;
     private Sprite2D bg2;
@@ -14,6 +16,9 @@ public partial class Background : Node2D
 
     private float height;
     private Turret turret;
+
+    private int baseAmount1;
+    private int baseAmount2;
 
     public override void _Ready()
     {
@@ -32,13 +37,17 @@ public partial class Background : Node2D
         bg1.Position = new Vector2(0, 0);
         bg2.Position = new Vector2(0, -height);
         bg3.Position = new Vector2(0, -height * 2);
+
+        baseAmount1 = stars1.Amount;
+        baseAmount2 = stars2.Amount;
     }
 
     public override void _Process(double delta)
     {
         int streak = turret != null ? turret.GetStreak() : 0;
 
-        float dynamicSpeed = Mathf.Min(Speed + (streak * 12f), 350f);
+        float speedBoost = (1 - Mathf.Exp(-streak * Acceleration)) * MaxSpeedBoost;
+        float dynamicSpeed = BaseSpeed + speedBoost;
 
         float move = dynamicSpeed * (float)delta;
 
@@ -50,25 +59,28 @@ public partial class Background : Node2D
         Loop(bg2);
         Loop(bg3);
 
-        float factor = 1f + (streak * 0.08f);
+        float speedFactor = dynamicSpeed / BaseSpeed;
 
         if (stars1 != null)
-            stars1.SpeedScale = Mathf.Min(1.2f * factor, 4f);
+            stars1.SpeedScale = 1.2f * speedFactor;
 
         if (stars2 != null)
-            stars2.SpeedScale = Mathf.Min(0.7f * factor, 3f);
+            stars2.SpeedScale = 0.7f * speedFactor;
+
+        bool highStreak = streak >= 20;
+
+        if (stars1 != null)
+            stars1.Amount = highStreak ? baseAmount1 / 2 : baseAmount1;
+
+        if (stars2 != null)
+            stars2.Amount = highStreak ? baseAmount2 / 2 : baseAmount2;
 
         if (stars3 != null)
         {
-            bool enable = streak >= 20;
+            stars3.Emitting = highStreak;
 
-            stars3.Emitting = enable;
-
-            if (enable)
-            {
-                float factorFlash = 1f + ((streak - 20) * 0.1f);
-                stars3.SpeedScale = Mathf.Min(1.5f * factorFlash, 5f);
-            }
+            if (highStreak)
+                stars3.SpeedScale = 1.5f * speedFactor;
         }
     }
 
@@ -76,10 +88,7 @@ public partial class Background : Node2D
     {
         if (bg.Position.Y >= height)
         {
-            float highest = bg1.Position.Y;
-            highest = Mathf.Min(highest, bg2.Position.Y);
-            highest = Mathf.Min(highest, bg3.Position.Y);
-
+            float highest = Mathf.Min(bg1.Position.Y, Mathf.Min(bg2.Position.Y, bg3.Position.Y));
             bg.Position = new Vector2(0, highest - height);
         }
     }

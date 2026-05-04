@@ -137,10 +137,10 @@ scroll_active = false
 
 [node name="AccuracyLabel" type="RichTextLabel" parent="MarginContainer/Root/TopRight" unique_id=1437480659]
 layout_mode = 0
-offset_left = -80.0
-offset_top = 30.0
-offset_right = 74.0
-offset_bottom = 114.0
+offset_left = -94.0
+offset_top = 27.0
+offset_right = 60.0
+offset_bottom = 111.0
 theme_override_font_sizes/normal_font_size = 60
 scroll_active = false
 
@@ -156,9 +156,9 @@ scroll_active = false
 
 [node name="WpmLabel" type="RichTextLabel" parent="MarginContainer/Root/TopRight" unique_id=201180058]
 layout_mode = 0
-offset_left = -188.0
-offset_top = 116.0
-offset_right = -10.0
-offset_bottom = 196.0
+offset_left = -191.0
+offset_top = 107.0
+offset_right = -13.0
+offset_bottom = 187.0
 theme_override_font_sizes/normal_font_size = 60
 scroll_active = false

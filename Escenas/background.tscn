@@ -40,8 +40,8 @@ emission_shape = 3
 emission_box_extents = Vector3(960, -10, 1)
 direction = Vector3(0, 1, 0)
 spread = 0.0
-initial_velocity_min = 140.0
-initial_velocity_max = 200.0
+initial_velocity_min = 541.97
+initial_velocity_max = 541.97
 gravity = Vector3(0, 0, 0)
 linear_accel_min = -2.2351742e-06
 linear_accel_max = -2.2351742e-06
@@ -68,7 +68,7 @@ texture = ExtResource("2_bxr2s")
 
 [node name="Stars" type="GPUParticles2D" parent="." unique_id=1598306854]
 position = Vector2(0, -800)
-amount = 355
+amount = 250
 texture = ExtResource("5_gfdr5")
 lifetime = 30.69
 preprocess = 2.0
@@ -76,7 +76,7 @@ process_material = SubResource("ParticleProcessMaterial_hp0gy")
 
 [node name="BlueStars" type="GPUParticles2D" parent="." unique_id=1879832964]
 position = Vector2(0, -800)
-amount = 190
+amount = 150
 texture = ExtResource("4_pgjdr")
 lifetime = 30.69
 preprocess = 2.0

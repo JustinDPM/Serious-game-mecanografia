@@ -35,7 +35,7 @@
 		{
 			if (hasHit) return;
 
-			if (body is IDamageable damageable)
+			if ( body == target && body is IDamageable damageable)
 			{
 				hasHit = true;
 

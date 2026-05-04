@@ -20,7 +20,7 @@ position = Vector2(955, 749)
 [node name="MeteorSpawner" type="Node2D" parent="." unique_id=1877068755 node_paths=PackedStringArray("Turret")]
 script = ExtResource("1_0bm41")
 MeteorScene = ExtResource("2_obr3f")
-SpawnInterval = 3.0
+SpawnInterval = 1.5
 Turret = NodePath("../Turret")
 
 [node name="InputManager" type="Node2D" parent="." unique_id=1016781327]

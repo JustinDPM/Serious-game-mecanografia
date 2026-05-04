@@ -27,7 +27,9 @@ public partial class Turret : CharacterBody2D
     private Queue<Meteor> shootQueue = new Queue<Meteor>();
 
     private float shootCooldown = 0f;
-    private const float cooldownTime = 0.05f; 
+    private const float cooldownTime = 0.05f;
+
+    private float targetRotation;
 
     public override void _Ready()
     {
@@ -35,14 +37,22 @@ public partial class Turret : CharacterBody2D
         camera = GetTree().Root.GetNodeOrNull<CameraShake>("Level1/CameraShake");
 
         startPosition = Position;
+        targetRotation = -Mathf.Pi / 2;
+        Rotation = targetRotation;
 
         if (input != null)
             input.OnShootRequested += EnqueueShot;
+
+
     }
 
     public override void _Process(double delta)
     {
         time += (float)delta;
+        float rotationSpeed = 8f; 
+
+        Rotation = Mathf.LerpAngle(Rotation, targetRotation, rotationSpeed * (float)delta);
+
 
         float offsetY = Mathf.Sin(time * FloatSpeed) * FloatAmplitude;
         Position = new Vector2(startPosition.X, startPosition.Y + offsetY);
@@ -56,6 +66,7 @@ public partial class Turret : CharacterBody2D
 
             if (target != null && IsInstanceValid(target))
             {
+                AimAt(target);
                 Shoot(target);
                 shootCooldown = cooldownTime;
             }
@@ -125,5 +136,11 @@ public partial class Turret : CharacterBody2D
         }
 
         await ToSignal(tween, "finished");
+    }
+
+    private void AimAt(Node2D target)
+    {
+        Vector2 dir = (target.GlobalPosition - GlobalPosition).Normalized();
+        targetRotation = dir.Angle();
     }
 }

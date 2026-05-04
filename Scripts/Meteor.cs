@@ -3,11 +3,13 @@ using Godot;
 
 public partial class Meteor : CharacterBody2D, IDamageable
 {
-
     public event Action<Meteor> OnMeteorDestroyed;
 
     [Export] public float Speed = 250f;
     [Export] public float RotationSpeed = 1f;
+
+    private Tween hitTween;
+    private Tween shakeTween;
 
     public string Word = "";
     private int hitsReceived = 0;
@@ -21,6 +23,9 @@ public partial class Meteor : CharacterBody2D, IDamageable
 
     private Turret turret;
 
+    // 💥 CLAVE: posición base REAL
+    private Vector2 baseSpritePos;
+
     public override void _Ready()
     {
         label = GetNodeOrNull<RichTextLabel>("RichTextLabel");
@@ -29,6 +34,8 @@ public partial class Meteor : CharacterBody2D, IDamageable
         if (label != null)
             label.Text = Word;
 
+        // 💥 guardar una sola vez
+        baseSpritePos = sprite.Position;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -49,7 +56,6 @@ public partial class Meteor : CharacterBody2D, IDamageable
             {
                 int streak = turret.GetStreak();
                 dynamicSpeed += streak * 6f;
-
                 dynamicSpeed = Mathf.Min(dynamicSpeed, 450f);
             }
 
@@ -72,9 +78,8 @@ public partial class Meteor : CharacterBody2D, IDamageable
                 turret.TakeDamage(1);
 
                 if (IsInsideTree())
-                {
                     QueueFree();
-                }
+
                 return;
             }
         }
@@ -90,6 +95,8 @@ public partial class Meteor : CharacterBody2D, IDamageable
         if (isDead) return;
 
         hitsReceived++;
+
+        PlayHitAnimation();
 
         if (hitsReceived >= Word.Length)
             Die();
@@ -130,4 +137,36 @@ public partial class Meteor : CharacterBody2D, IDamageable
         turret = t;
     }
 
+    private void PlayHitAnimation()
+    {
+        if (sprite == null) return;
+
+        hitTween?.Kill();
+
+        hitTween = GetTree().CreateTween();
+
+        hitTween.TweenProperty(sprite, "modulate", new Color(1, 0.3f, 0.3f), 0.05f);
+        hitTween.TweenProperty(sprite, "modulate", new Color(1, 1, 1), 0.1f);
+    }
+
+    public void PlayErrorShake()
+    {
+        if (sprite == null) return;
+
+        shakeTween?.Kill();
+
+        // 💥 SIEMPRE resetea antes de animar
+        sprite.Position = baseSpritePos;
+
+        shakeTween = GetTree().CreateTween();
+
+        float strength = 8f;
+        float time = 0.03f;
+
+        shakeTween.TweenProperty(sprite, "position", baseSpritePos + new Vector2(-strength, 0), time);
+        shakeTween.TweenProperty(sprite, "position", baseSpritePos + new Vector2(strength, 0), time);
+        shakeTween.TweenProperty(sprite, "position", baseSpritePos + new Vector2(-strength * 0.5f, 0), time);
+        shakeTween.TweenProperty(sprite, "position", baseSpritePos + new Vector2(strength * 0.5f, 0), time);
+        shakeTween.TweenProperty(sprite, "position", baseSpritePos, time);
+    }
 }

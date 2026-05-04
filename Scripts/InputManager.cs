@@ -48,6 +48,7 @@ public partial class InputManager : Node
             return;
         }
 
+
         if (key.Unicode <= 0 || !char.IsLetterOrDigit((char)key.Unicode))
             return;
 
@@ -59,8 +60,13 @@ public partial class InputManager : Node
 
             if (currentTarget == null)
             {
-                ResetInput();
                 OnWrongChar?.Invoke();
+
+  
+                var nearest = GetClosestValidMeteor("");
+                nearest?.PlayErrorShake();
+
+                ResetInput();
                 return;
             }
         }
@@ -69,6 +75,8 @@ public partial class InputManager : Node
             currentTarget.Word[currentInput.Length] != newChar)
         {
             OnWrongChar?.Invoke();
+
+            currentTarget?.PlayErrorShake();
             return;
         }
 
@@ -84,14 +92,13 @@ public partial class InputManager : Node
             OnWordCompleted?.Invoke();
 
             currentInput = "";
-            currentTarget = null; 
+            currentTarget = null;
         }
     }
 
     private void UpdateUI()
     {
-        if (currentTarget != null)
-            currentTarget.UpdateDisplay(currentInput);
+        currentTarget?.UpdateDisplay(currentInput);
     }
 
     private Meteor GetClosestValidMeteor(string input)
