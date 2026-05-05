@@ -5,6 +5,12 @@ public partial class Global : Node
 {
 	public string UsuarioActivo { get; set; } = "";
 
+	public int IdUsuario { get; set; } = 0;
+	public string NombreCompleto { get; set; } = "";
+	public string RutaFotoPerfil { get; set; } = "";
+	public string Rol { get; set; } = "";
+	public int IdGrado { get; set; } = 0;
+
 	public int LastScore { get; set; } = 0;
 	public float LastAccuracy { get; set; } = 100f;
 	public float LastWPM { get; set; } = 0f;

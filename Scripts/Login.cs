@@ -1,6 +1,6 @@
 using Godot;
 using System;
-using Npgsql; 
+using Npgsql; // No olvides que necesitamos esta librería
 
 public partial class Login : Control
 {
@@ -11,6 +11,7 @@ public partial class Login : Control
 	private Button _exitButton; 
 	private Global _global;
 
+	// Tu cadena de conexión original
 	private string connectionString = "Host=localhost;Username=postgres;Password=040306;Database=astrotype_db";
 
 	public override void _Ready()
@@ -19,7 +20,6 @@ public partial class Login : Control
 		_passwordInput = GetNode<LineEdit>("PanelContainer/VBoxContainer/InputPassword");
 		_errorMessage = GetNode<Label>("PanelContainer/VBoxContainer/ErrorMessage");
 		_enterButton = GetNode<Button>("PanelContainer/VBoxContainer/EnterButton");
-		
 		_exitButton = GetNodeOrNull<Button>("BtnExit"); 
 		
 		_global = GetNode<Global>("/root/Global");
@@ -30,10 +30,6 @@ public partial class Login : Control
 		if (_exitButton != null)
 		{
 			_exitButton.Pressed += OnExitPressed;
-		}
-		else
-		{
-			GD.PrintErr("🚨 Botón de salir no encontrado en el Login. Revisa la ruta en el GetNodeOrNull.");
 		}
 	}
 
@@ -50,39 +46,44 @@ public partial class Login : Control
 			return;
 		}
 
-		if (ValidarUsuarioBD(user, pass))
-		{
-			_global.UsuarioActivo = user;
-			_global.CambiarEscena("res://Escenas/main_menu.tscn");
-		}
-		else
-		{
-			MostrarError("Invalid credentials. Try again.");
-		}
-	}
-
-	private bool ValidarUsuarioBD(string username, string password)
-	{
+		// Conexión real a la Base de Datos
 		try
 		{
-			using (var connection = new NpgsqlConnection(connectionString))
+			using (var conn = new NpgsqlConnection(connectionString))
 			{
-				connection.Open();
-
-				string sql = "SELECT rol FROM USUARIO WHERE username = @u AND password_hash = @p AND activo = true";
+				conn.Open();
+				// Hacemos el SELECT para traer todos los datos útiles del usuario
+				string query = @"SELECT id_usuario, nombre_completo, ruta_foto_perfil, rol, id_grado 
+								 FROM USUARIO 
+								 WHERE username = @user AND password_hash = @pass AND activo = TRUE";
 				
-				using (var command = new NpgsqlCommand(sql, connection))
+				using (var cmd = new NpgsqlCommand(query, conn))
 				{
-					command.Parameters.AddWithValue("u", username);
-					command.Parameters.AddWithValue("p", password);
+					cmd.Parameters.AddWithValue("user", user);
+					cmd.Parameters.AddWithValue("pass", pass); // En el futuro aquí iría el hash
 
-					using (var reader = command.ExecuteReader())
+					using (var reader = cmd.ExecuteReader())
 					{
 						if (reader.Read())
 						{
-							string rol = reader.GetString(0);
-							GD.Print($"¡Ingreso exitoso en BD! Bienvenido {username}, Rol: {rol}");
-							return true;
+							// ¡Credenciales correctas! Guardamos los datos en Global
+							_global.UsuarioActivo = user;
+							_global.IdUsuario = reader.GetInt32(0);
+							
+							// Validamos nulos por si el profe dejó campos vacíos
+							_global.NombreCompleto = reader.IsDBNull(1) ? user : reader.GetString(1);
+							_global.RutaFotoPerfil = reader.IsDBNull(2) ? "res://assets/Perfiles/admin.png" : reader.GetString(2);
+							_global.Rol = reader.GetString(3);
+							_global.IdGrado = reader.IsDBNull(4) ? 0 : reader.GetInt32(4);
+
+							GD.Print($"¡Login Exitoso! Bienvenido {_global.NombreCompleto} (Rol: {_global.Rol})");
+							
+							// Cambiamos a la escena del menú
+							_global.CambiarEscena("res://Escenas/main_menu.tscn");
+						}
+						else
+						{
+							MostrarError("Usuario o contraseña incorrectos.");
 						}
 					}
 				}
@@ -90,11 +91,9 @@ public partial class Login : Control
 		}
 		catch (Exception ex)
 		{
-			GD.PrintErr("Error de base de datos: " + ex.Message);
-			MostrarError("Error de conexión al servidor.");
+			MostrarError("Error al conectar con el servidor.");
+			GD.PrintErr("Detalle del error de BD: " + ex.Message);
 		}
-
-		return false;
 	}
 
 	private void MostrarError(string mensaje)

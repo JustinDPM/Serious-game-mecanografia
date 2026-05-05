@@ -129,7 +129,7 @@ VALUES (
     'S24016728', 
     'Justin Dareh Pérez Montiel', 
     'soygay', 
-    'res://assets/Perfiles/admin.jpg', 
+    'res://assets/Perfiles/avatar_justin.jpg', 
     'Alumno', 
     TRUE, 
     1
@@ -140,7 +140,7 @@ VALUES (
     'S24016704', 
     'Christoper Robles Ricardez', 
     '1234', 
-    'res://assets/Perfiles/admin.jpg', 
+    'res://assets/Perfiles/avatar_chris.jpg', 
     'Alumno', 
     TRUE, 
     2
@@ -151,7 +151,7 @@ VALUES (
     'S24016717', 
     'Eric Ivan Macario lópez', 
     '1234', 
-    'res://assets/Perfiles/admin.jpg', 
+    'res://assets/Perfiles/avatar_eric.jpg', 
     'Alumno', 
     TRUE, 
     3
@@ -162,8 +162,40 @@ VALUES (
     'S24016724', 
     'Ezequiel Eduardo Morales Domínguez', 
     '1234', 
-    'res://assets/Perfiles/admin.jpg', 
+    'res://assets/Perfiles/avatar_eduardo.jpg', 
     'Alumno', 
     TRUE, 
     4
 );
+
+-- Nivel 1: Primaria Baja (Palabras muy cortas, sílabas simples)
+INSERT INTO PALABRA (texto, id_grado) VALUES 
+('casa', 1), 
+('perro', 1), 
+('mesa', 1), 
+('flor', 1), 
+('agua', 1);
+
+-- Nivel 2: Primaria Alta (Palabras de longitud media, uso cotidiano)
+INSERT INTO PALABRA (texto, id_grado) VALUES 
+('bicicleta', 2), 
+('campana', 2), 
+('guitarra', 2), 
+('elefante', 2), 
+('ventana', 2);
+
+-- Nivel 3: Secundaria (Palabras más largas, sílabas compuestas o dobles letras)
+INSERT INTO PALABRA (texto, id_grado) VALUES 
+('naturaleza', 3), 
+('ferrocarril', 3), 
+('aeropuerto', 3), 
+('chocolate', 3), 
+('esmeralda', 3);
+
+-- Nivel 4: Preparatoria (Palabras muy largas, formales y que exigen resistencia al teclear)
+INSERT INTO PALABRA (texto, id_grado) VALUES 
+('extraordinario', 4), 
+('metropolitano', 4), 
+('particularidad', 4), 
+('rompecabezas', 4), 
+('responsabilidad', 4);

@@ -2,16 +2,17 @@
 
 [ext_resource type="Script" uid="uid://clnntlerjts05" path="res://Scripts/Meteor.cs" id="1_l1x4f"]
 [ext_resource type="Texture2D" uid="uid://rnppek8bl13s" path="res://assets/Meteor.png" id="2_l8rnm"]
+[ext_resource type="FontFile" uid="uid://bplgw3dia0tw8" path="res://Fonts/SpaceMono-Bold.ttf" id="3_0xs45"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0xs45"]
-radius = 32.01562
+radius = 45.01111
 
 [node name="Meteor" type="CharacterBody2D" unique_id=1046465861]
 script = ExtResource("1_l1x4f")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1335475739]
-position = Vector2(0, 2.3841858e-07)
-scale = Vector2(0.089882314, 0.13143255)
+position = Vector2(-1, 1)
+scale = Vector2(0.1286411, 0.18810847)
 texture = ExtResource("2_l8rnm")
 region_enabled = true
 region_rect = Rect2(351.96674, 0, 913.169, 719)
@@ -25,14 +26,19 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -29.0
+offset_left = -76.0
 offset_top = -6.0
-offset_right = 30.0
+offset_right = 79.0
 offset_bottom = 7.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/line_separation = -12
+theme_override_constants/outline_size = 1
+theme_override_fonts/normal_font = ExtResource("3_0xs45")
+theme_override_font_sizes/normal_font_size = 18
 bbcode_enabled = true
 fit_content = true
 horizontal_alignment = 1

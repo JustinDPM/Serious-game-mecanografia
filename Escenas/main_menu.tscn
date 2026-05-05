@@ -124,14 +124,14 @@ theme_override_colors/font_outline_color = Color(0.5254902, 0.16470589, 0.862745
 theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("5_a082v")
 theme_override_font_sizes/font_size = 35
-text = "Ezequiel Eduardo"
+text = "Alumno"
 horizontal_alignment = 2
 
 [node name="UsernameMain" type="Label" parent="MarginContainer/VBoxContainer/TopBar/UserProfile/ProfileTexts" unique_id=1244895150]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_a082v")
 theme_override_font_sizes/font_size = 24
-text = "S24016723"
+text = "alumno"
 horizontal_alignment = 2
 
 [node name="AvatarImage" type="TextureRect" parent="MarginContainer/VBoxContainer/TopBar/UserProfile" unique_id=885956305]
@@ -230,7 +230,7 @@ layout_mode = 2
 theme_override_constants/separation = 30
 alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer/StatsTop" unique_id=1407756693]
+[node name="PilotName" type="Label" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer/StatsTop" unique_id=1407756693]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
@@ -238,7 +238,7 @@ theme_override_fonts/font = ExtResource("5_a082v")
 theme_override_font_sizes/font_size = 30
 text = "PILOTO: EDUARDO"
 
-[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer/StatsTop" unique_id=269015211]
+[node name="Record" type="Label" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer/StatsTop" unique_id=269015211]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
@@ -261,15 +261,25 @@ stretch_mode = 5
 
 [node name="DictBottom" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer" unique_id=1909849222]
 layout_mode = 2
+theme_override_constants/separation = 30
 alignment = 1
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer/DictBottom" unique_id=406374771]
+[node name="ActiveWords" type="Label" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer/DictBottom" unique_id=930520666]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("5_a082v")
 theme_override_font_sizes/font_size = 30
-text = "PALABRAS ACTIVAS: 1,200 CATEGORÍAS: 5"
+text = "PALABRAS ACTIVAS: 1,200"
+horizontal_alignment = 1
+
+[node name="Grade" type="Label" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer/DictBottom" unique_id=406374771]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("5_a082v")
+theme_override_font_sizes/font_size = 30
+text = "GRADO: PREPARATORIA"
 horizontal_alignment = 1
 
 [node name="SettingsMenu" parent="." unique_id=1496994055 node_paths=PackedStringArray("mainMenuPanel") instance=ExtResource("3_hjcy7")]

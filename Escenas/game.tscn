@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://baoanl4xbvigq" path="res://Scripts/InputManager.cs" id="3_3418m"]
 [ext_resource type="PackedScene" uid="uid://gqtggvlvys7r" path="res://Escenas/Turret.tscn" id="5_o5eqp"]
 [ext_resource type="PackedScene" uid="uid://de0jciynbpbpo" path="res://Escenas/settings_menu.tscn" id="6_ijxpu"]
-[ext_resource type="PackedScene" uid="uid://b34q5q2gfui4p" path="res://Escenas/hud.tscn" id="9_urgsd"]
+[ext_resource type="PackedScene" uid="uid://c1dep7cmhro6r" path="res://Escenas/hud.tscn" id="9_urgsd"]
 [ext_resource type="Script" uid="uid://bc4u0yjty25hf" path="res://Scripts/StatsManager.cs" id="10_btnvu"]
 
 [node name="Level1" type="Node2D" unique_id=1605905321]
@@ -42,10 +42,10 @@ theme_override_font_sizes/normal_font_size = 30
 tab_size = 10
 
 [node name="ScoreLabel" type="RichTextLabel" parent="." unique_id=2085785267]
-offset_left = 52.0
-offset_top = 32.0
-offset_right = 332.0
-offset_bottom = 154.0
+offset_left = 88.0
+offset_top = 26.0
+offset_right = 368.0
+offset_bottom = 148.0
 theme_override_font_sizes/normal_font_size = 30
 
 [node name="SettingsMenu" parent="." unique_id=1496994055 instance=ExtResource("6_ijxpu")]
