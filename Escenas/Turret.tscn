@@ -1,11 +1,101 @@
 [gd_scene format=3 uid="uid://gqtggvlvys7r"]
 
-[ext_resource type="Texture2D" uid="uid://c401u7ldp2cu8" path="res://assets/ship.png" id="1_cnkc8"]
 [ext_resource type="Script" uid="uid://bl6qvl1gpeirr" path="res://Scripts/Turret.cs" id="1_i8vih"]
 [ext_resource type="PackedScene" uid="uid://bry30lh5uo3mx" path="res://Escenas/bullet.tscn" id="2_0wdi6"]
+[ext_resource type="Texture2D" uid="uid://0b8wufi1durl" path="res://assets/TurrentAnimation/0000.png" id="3_4881t"]
+[ext_resource type="Texture2D" uid="uid://coc4giyapinus" path="res://assets/TurrentAnimation/0001.png" id="4_n2w6k"]
+[ext_resource type="Texture2D" uid="uid://digjv6m64bu0m" path="res://assets/TurrentAnimation/0002.png" id="5_ooyro"]
+[ext_resource type="Texture2D" uid="uid://dbp1ou5yikvnw" path="res://assets/TurrentAnimation/0003.png" id="6_g4cfn"]
+[ext_resource type="Texture2D" uid="uid://cxch57m2sfk71" path="res://assets/TurrentAnimation/0004.png" id="7_yfnd4"]
+[ext_resource type="Texture2D" uid="uid://d1aup7lvf7lt0" path="res://assets/TurrentAnimation/0005.png" id="8_pych6"]
+[ext_resource type="Texture2D" uid="uid://b6kk5ccty7pdb" path="res://assets/TurrentAnimation/0006.png" id="9_yx2j5"]
+[ext_resource type="Texture2D" uid="uid://cjeunxgg6p8ww" path="res://assets/TurrentAnimation/0007.png" id="10_bv1uk"]
+[ext_resource type="Texture2D" uid="uid://dir4xp57nn4kj" path="res://assets/TurrentAnimation/0008.png" id="11_0jagx"]
+[ext_resource type="Texture2D" uid="uid://bj0wlck5w7kw0" path="res://assets/TurrentAnimation/0009.png" id="12_qkkr6"]
+[ext_resource type="Texture2D" uid="uid://crqmfvtb1l06p" path="res://assets/TurrentAnimation/0010.png" id="13_gxdl2"]
+[ext_resource type="Texture2D" uid="uid://d2m022xhh5bfn" path="res://assets/TurrentAnimation/0011.png" id="14_xhbar"]
+[ext_resource type="Texture2D" uid="uid://b4y4lth5ic8y" path="res://assets/TurrentAnimation/0012.png" id="15_3fp5u"]
+[ext_resource type="Texture2D" uid="uid://bmyuqqvxah8uc" path="res://assets/TurrentAnimation/0013.png" id="16_odort"]
+[ext_resource type="Texture2D" uid="uid://bv173cd5uvfld" path="res://assets/TurrentAnimation/0014.png" id="17_lfv4a"]
+[ext_resource type="Texture2D" uid="uid://dwr0t1ialv1tp" path="res://assets/TurrentAnimation/0015.png" id="18_gfix7"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cgaxd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_pych6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_yx2j5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_bv1uk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_0jagx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_qkkr6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_gxdl2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_xhbar")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_3fp5u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_odort")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_lfv4a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_gfix7")
+}],
+"loop": false,
+"name": &"shoot_end",
+"speed": 45.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_yfnd4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_pych6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_yx2j5")
+}],
+"loop": true,
+"name": &"shoot_hold",
+"speed": 45.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_4881t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_n2w6k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ooyro")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_g4cfn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_yfnd4")
+}],
+"loop": false,
+"name": &"shoot_start",
+"speed": 45.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i8vih"]
-size = Vector2(21, 30)
+size = Vector2(9, 34)
 
 [node name="Turret" type="CharacterBody2D" unique_id=1807233832 node_paths=PackedStringArray("shootPoint")]
 rotation = 1.5707964
@@ -13,13 +103,16 @@ script = ExtResource("1_i8vih")
 BulletScene = ExtResource("2_0wdi6")
 shootPoint = NodePath("ShootPoint")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1096657938]
-rotation = 1.5865043
-scale = Vector2(1.796875, 1.6875)
-texture = ExtResource("1_cnkc8")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=622231940]
+rotation = 1.5707964
+scale = Vector2(0.2, 0.2)
+sprite_frames = SubResource("SpriteFrames_cgaxd")
+animation = &"shoot_start"
+speed_scale = 0.4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1424789678]
-position = Vector2(-0.5, 0)
+position = Vector2(0.4999989, -17)
 shape = SubResource("RectangleShape2D_i8vih")
 
 [node name="ShootPoint" type="Marker2D" parent="." unique_id=514566109]
+position = Vector2(0.9999962, -87)

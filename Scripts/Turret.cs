@@ -4,143 +4,219 @@ using System.Collections.Generic;
 
 public partial class Turret : CharacterBody2D
 {
-	public event Action OnGameOver;
+    public event Action OnGameOver;
 
-	[Export] public PackedScene BulletScene;
-	[Export] public Marker2D shootPoint;
-	[Export] public InputManager input;
+    [Export] public PackedScene BulletScene;
+    [Export] public Marker2D shootPoint;
 
-	[Export] public int Health = 5;
-	[Export] public int Score = 0;
+    private InputManager input;
 
-	[Export] public float FloatAmplitude = 10f;
-	[Export] public float FloatSpeed = 2f;
+    [Export] public int Health = 5;
+    [Export] public int Score = 0;
 
-	private Global global;
-	private CameraShake camera;
+    private Global global;
+    private CameraShake camera;
 
-	private int streak = 0;
+    private int streak = 0;
 
-	private Vector2 startPosition;
-	private float time;
+    private Queue<Meteor> shootQueue = new Queue<Meteor>();
 
-	private Queue<Meteor> shootQueue = new Queue<Meteor>();
+    private float shootCooldown = 0f;
+    private const float cooldownTime = 0.10f;
 
-	private float shootCooldown = 0f;
-	private const float cooldownTime = 0.05f;
+    private float targetRotation;
 
-	private float targetRotation;
+    private AnimatedSprite2D animatedSprite;
 
-	public override void _Ready()
-	{
-		global = GetNode<Global>("/root/Global");
-		camera = GetTree().Root.GetNodeOrNull<CameraShake>("Level1/CameraShake");
+    // 🔥 CONTROL DE DISPARO
+    private bool isFiring = false;
+    private float fireTimer = 0f;
+    private const float fireHoldTime = 0.15f;
 
-		startPosition = Position;
-		targetRotation = -Mathf.Pi / 2;
-		Rotation = targetRotation;
+    public override void _Ready()
+    {
+        global = GetNode<Global>("/root/Global");
 
-		if (input != null)
-			input.OnShootRequested += EnqueueShot;
+        input = GetNode<InputManager>("/root/Level1/InputManager");
 
+        camera = GetTree().Root
+            .GetNodeOrNull<CameraShake>("Level1/CameraShake");
 
-	}
+        animatedSprite =
+            GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
-	public override void _Process(double delta)
-	{
-		time += (float)delta;
-		float rotationSpeed = 8f; 
+        targetRotation = -Mathf.Pi / 2;
+        Rotation = targetRotation;
 
-		Rotation = Mathf.LerpAngle(Rotation, targetRotation, rotationSpeed * (float)delta);
+        if (input != null)
+            input.OnShootRequested += EnqueueShot;
 
+        animatedSprite.Play("shoot_end");
+    }
 
-		float offsetY = Mathf.Sin(time * FloatSpeed) * FloatAmplitude;
-		Position = new Vector2(startPosition.X, startPosition.Y + offsetY);
+    public override void _Process(double delta)
+    {
+        float rotationSpeed = 8f;
 
-		if (shootCooldown > 0)
-			shootCooldown -= (float)delta;
+        // 🔥 ROTACIÓN SUAVE
+        Rotation = Mathf.LerpAngle(
+            Rotation,
+            targetRotation,
+            rotationSpeed * (float)delta
+        );
 
-		if (shootQueue.Count > 0 && shootCooldown <= 0f)
-		{
-			var target = shootQueue.Dequeue();
+        // 🔥 COOLDOWN DISPARO
+        if (shootCooldown > 0)
+            shootCooldown -= (float)delta;
 
-			if (target != null && IsInstanceValid(target))
-			{
-				AimAt(target);
-				Shoot(target);
-				shootCooldown = cooldownTime;
-			}
-		}
-	}
+        // 🔥 COLA DE DISPAROS
+        if (shootQueue.Count > 0 && shootCooldown <= 0f)
+        {
+            var target = shootQueue.Dequeue();
 
-	private void EnqueueShot(Meteor target)
-	{
-		if (target == null || !IsInstanceValid(target)) return;
+            if (target != null && IsInstanceValid(target))
+            {
+                AimAt(target);
 
-		shootQueue.Enqueue(target);
-	}
+                Shoot(target);
 
-	public void Shoot(Node2D target)
-	{
-		var bullet = (Bullet)BulletScene.Instantiate();
-		bullet.Position = shootPoint.GlobalPosition;
-		bullet.SetTarget(target);
+                shootCooldown = cooldownTime;
+            }
+        }
 
-		GetTree().CurrentScene.AddChild(bullet);
-	}
+        // 🔥 CONTROLAR SI DEJÓ DE DISPARAR
+        if (isFiring)
+        {
+            fireTimer -= (float)delta;
 
-	public void TakeDamage(int dmg)
-	{
-		Health -= dmg;
-		streak = 0;
+            if (fireTimer <= 0f)
+            {
+                isFiring = false;
 
-		Blink();
-		camera?.Shake(8f, 0.2f);
+                animatedSprite.Play("shoot_end");
+            }
+        }
+    }
 
-		if (Health <= 0)
-			Die();
-	}
+    private void EnqueueShot(Meteor target)
+    {
+        if (target == null || !IsInstanceValid(target))
+            return;
 
-	public void AddScore(int value)
-	{
-		Score += (streak >= 10) ? value * 2 : value;
-	}
+        shootQueue.Enqueue(target);
+    }
 
-	public void addStreak() => streak++;
-	public int GetStreak() => streak;
+    public void Shoot(Node2D target)
+    {
+        // 🔥 PRIMER DISPARO
+        if (!isFiring)
+        {
+            isFiring = true;
 
-	public int GetHealth() => Health;
-	public int GetScore() => Score;
+            animatedSprite.Play("shoot_start");
+        }
+        else
+        {
+            // 🔥 MANTENER RETRAÍDO
+            if (animatedSprite.Animation != "shoot_hold")
+                animatedSprite.Play("shoot_hold");
+        }
 
-	private void Die()
-	{
-		GD.Print("GAME OVER");
+        // 🔥 REINICIAR TIMER
+        fireTimer = fireHoldTime;
 
-		camera?.Shake(12f, 0.3f);
+        var bullet = (Bullet)BulletScene.Instantiate();
 
-		SetProcess(false);
-		SetPhysicsProcess(false);
+        bullet.GlobalPosition = shootPoint.GlobalPosition;
 
-		OnGameOver?.Invoke();
-	}
+        bullet.SetTarget(target);
 
-	private async void Blink()
-	{
-		var sprite = GetNode<Sprite2D>("Sprite2D");
-		var tween = GetTree().CreateTween();
+        GetTree().CurrentScene.AddChild(bullet);
+    }
 
-		for (int i = 0; i < 3; i++)
-		{
-			tween.TweenProperty(sprite, "modulate:a", 0.4f, 0.2f);
-			tween.TweenProperty(sprite, "modulate:a", 1.0f, 0.2f);
-		}
+    public void TakeDamage(int dmg)
+    {
+        Health -= dmg;
 
-		await ToSignal(tween, "finished");
-	}
+        streak = 0;
 
-	private void AimAt(Node2D target)
-	{
-		Vector2 dir = (target.GlobalPosition - GlobalPosition).Normalized();
-		targetRotation = dir.Angle();
-	}
+        Blink();
+
+        camera?.Shake(8f, 0.2f);
+
+        if (Health <= 0)
+            Die();
+    }
+
+    public void AddScore(int value)
+    {
+        Score += (streak >= 10)
+            ? value * 2
+            : value;
+    }
+
+    public void addStreak()
+    {
+        streak++;
+    }
+
+    public int GetStreak()
+    {
+        return streak;
+    }
+
+    public int GetHealth()
+    {
+        return Health;
+    }
+
+    public int GetScore()
+    {
+        return Score;
+    }
+
+    private void Die()
+    {
+        GD.Print("GAME OVER");
+
+        camera?.Shake(12f, 0.3f);
+
+        SetProcess(false);
+        SetPhysicsProcess(false);
+
+        OnGameOver?.Invoke();
+    }
+
+    private async void Blink()
+    {
+        var tween = GetTree().CreateTween();
+
+        for (int i = 0; i < 3; i++)
+        {
+            tween.TweenProperty(
+                animatedSprite,
+                "modulate:a",
+                0.4f,
+                0.2f
+            );
+
+            tween.TweenProperty(
+                animatedSprite,
+                "modulate:a",
+                1.0f,
+                0.2f
+            );
+        }
+
+        await ToSignal(tween, "finished");
+    }
+
+    private void AimAt(Node2D target)
+    {
+        Vector2 dir =
+            (target.GlobalPosition - GlobalPosition)
+            .Normalized();
+
+        targetRotation = dir.Angle();
+    }
 }

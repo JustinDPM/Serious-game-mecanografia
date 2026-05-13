@@ -25,7 +25,7 @@ public partial class MainMenu : Control
 	private Control _mainPanel; 
 
 	// Tu cadena de conexión para las estadísticas
-	private string connectionString = "Host=localhost;Username=postgres;Password=040306;Database=astrotype_db";
+	private string connectionString = "Host=localhost;Username=postgres;Password=contrasena;Database=astrotype_db";
 
 	public override void _Ready()
 	{

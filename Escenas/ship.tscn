@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://d2w521pundbn2"]
+
+[ext_resource type="PackedScene" uid="uid://gqtggvlvys7r" path="res://Escenas/Turret.tscn" id="1_7m6f2"]
+[ext_resource type="Script" uid="uid://cifwydkun62du" path="res://Scripts/Ship.cs" id="1_xpyfw"]
+[ext_resource type="Texture2D" uid="uid://dsrvodho00f3c" path="res://assets/Nave_img.png" id="2_xpyfw"]
+
+[node name="Ship" type="Node2D" unique_id=49404949]
+script = ExtResource("1_xpyfw")
+
+[node name="Turret" parent="." unique_id=1807233832 instance=ExtResource("1_7m6f2")]
+position = Vector2(-54, -8)
+rotation = 0.0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1589949495]
+position = Vector2(8, -15)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("2_xpyfw")

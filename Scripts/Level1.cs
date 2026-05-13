@@ -9,7 +9,7 @@ public partial class Level1 : Node2D
     {
         settingsMenu = GetNode<SettingsMenu>("SettingsMenu");
 
-        var turret = GetNode<Turret>("Turret");
+        var turret = GetNode<Turret>("Ship/Turret");
         var global = GetNode<Global>("/root/Global");
 
         turret.OnGameOver += () =>

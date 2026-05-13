@@ -23,7 +23,6 @@ public partial class Meteor : CharacterBody2D, IDamageable
 
 	private Turret turret;
 
-	// 💥 CLAVE: posición base REAL
 	private Vector2 baseSpritePos;
 
 	public override void _Ready()
@@ -34,7 +33,6 @@ public partial class Meteor : CharacterBody2D, IDamageable
 		if (label != null)
 			label.Text = Word;
 
-		// 💥 guardar una sola vez
 		baseSpritePos = sprite.Position;
 	}
 

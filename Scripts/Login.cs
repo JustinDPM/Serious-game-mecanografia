@@ -12,7 +12,7 @@ public partial class Login : Control
 	private Global _global;
 
 	// Tu cadena de conexión original
-	private string connectionString = "Host=localhost;Username=postgres;Password=040306;Database=astrotype_db";
+	private string connectionString = "Host=localhost;Username=postgres;Password=contrasena;Database=astrotype_db";
 
 	public override void _Ready()
 	{
