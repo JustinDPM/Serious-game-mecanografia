@@ -3,168 +3,287 @@ using Godot;
 
 public partial class Meteor : CharacterBody2D, IDamageable
 {
-	public event Action<Meteor> OnMeteorDestroyed;
+    public event Action<Meteor> OnMeteorDestroyed;
 
-	[Export] public float Speed = 250f;
-	[Export] public float RotationSpeed = 1f;
+    [Export] public float Speed = 250f;
+    [Export] public float RotationSpeed = 1f;
 
-	private Tween hitTween;
-	private Tween shakeTween;
+    private Tween hitTween;
+    private Tween shakeTween;
 
-	public string Word = "";
-	private int hitsReceived = 0;
+    public string Word = "";
+    public string DisplayWord = "";
 
-	private RichTextLabel label;
-	private Node2D target;
-	private Sprite2D sprite;
+    protected int hitsReceived = 0;
 
-	private bool hasHit = false;
-	private bool isDead = false;
+    protected RichTextLabel label;
+    protected Node2D target;
+    protected Sprite2D sprite;
 
-	private Turret turret;
+    private bool hasHit = false;
+    protected bool isDead = false;
 
-	private Vector2 baseSpritePos;
+    protected Turret turret;
 
-	public override void _Ready()
-	{
-		label = GetNodeOrNull<RichTextLabel>("RichTextLabel");
-		sprite = GetNode<Sprite2D>("Sprite2D");
+    private Vector2 baseSpritePos;
 
-		if (label != null)
-			label.Text = Word;
+    // 🔥 escala original del meteorito
+    private Vector2 originalScale;
 
-		baseSpritePos = sprite.Position;
-	}
+    public override void _Ready()
+    {
+        label = GetNodeOrNull<RichTextLabel>("RichTextLabel");
+        sprite = GetNode<Sprite2D>("Sprite2D");
 
-	public override void _PhysicsProcess(double delta)
-	{
-		if (!IsInsideTree())
-			return;
+        originalScale = sprite.Scale;
 
-		if (target != null)
-		{
-			Vector2 dir = (target.GlobalPosition - GlobalPosition).Normalized();
+        UpdateDisplay("");
 
-			if (sprite != null)
-				sprite.Rotation += RotationSpeed * (float)delta;
+        AdjustSizeToWord();
 
-			float dynamicSpeed = Speed;
+        baseSpritePos = sprite.Position;
+    }
 
-			if (turret != null)
-			{
-				int streak = turret.GetStreak();
-				dynamicSpeed += streak * 6f;
-				dynamicSpeed = Mathf.Min(dynamicSpeed, 450f);
-			}
+    public override void _PhysicsProcess(double delta)
+    {
+        if (!IsInsideTree())
+            return;
 
-			Velocity = dir * dynamicSpeed;
-		}
+        if (target != null)
+        {
+            Vector2 dir =
+                (target.GlobalPosition - GlobalPosition)
+                .Normalized();
 
-		MoveAndSlide();
+            if (sprite != null)
+                sprite.Rotation += RotationSpeed * (float)delta;
 
-		if (hasHit) return;
+            float dynamicSpeed = Speed;
 
-		for (int i = 0; i < GetSlideCollisionCount(); i++)
-		{
-			var collision = GetSlideCollision(i);
-			var collider = collision.GetCollider();
+            if (turret != null)
+            {
+                int streak = turret.GetStreak();
 
-			if (collider is Turret turret)
-			{
-				hasHit = true;
+                dynamicSpeed += streak * 6f;
 
-				turret.TakeDamage(1);
+                dynamicSpeed = Mathf.Min(dynamicSpeed, 450f);
+            }
 
-				if (IsInsideTree())
-					QueueFree();
+            Velocity = dir * dynamicSpeed;
+        }
 
-				return;
-			}
-		}
-	}
+        MoveAndSlide();
 
-	public void SetTarget(Node2D t)
-	{
-		target = t;
-	}
+        if (hasHit)
+            return;
 
-	public void TakeDamage()
-	{
-		if (isDead) return;
+        for (int i = 0; i < GetSlideCollisionCount(); i++)
+        {
+            var collision = GetSlideCollision(i);
+            var collider = collision.GetCollider();
 
-		hitsReceived++;
+            if (collider is Turret turret)
+            {
+                hasHit = true;
 
-		PlayHitAnimation();
+                turret.TakeDamage(1);
 
-		if (hitsReceived >= Word.Length)
-			Die();
-	}
+                if (IsInsideTree())
+                    QueueFree();
 
-	public void Die()
-	{
-		if (isDead) return;
+                return;
+            }
+        }
+    }
 
-		isDead = true;
+    public void SetTarget(Node2D t)
+    {
+        target = t;
+    }
 
-		OnMeteorDestroyed?.Invoke(this);
+    public virtual void TakeDamage()
+    {
+        if (isDead)
+            return;
 
-		QueueFree();
-	}
+        hitsReceived++;
 
-	public void UpdateDisplay(string input)
-	{
-		if (label == null) return;
+        PlayHitAnimation();
 
-		string result = "";
+        UpdateDisplay(Word.Substring(0, hitsReceived));
 
-		for (int i = 0; i < Word.Length; i++)
-		{
-			if (i < input.Length && input[i] == Word[i])
-				result += "[color=green]" + Word[i] + "[/color]";
-			else if (i < input.Length)
-				result += "[color=red]" + Word[i] + "[/color]";
-			else
-				result += Word[i];
-		}
+        if (hitsReceived >= Word.Length)
+            Die();
+    }
 
-		label.Text = result;
-	}
+    public void Die()
+    {
+        if (isDead)
+            return;
 
-	public void SetTurret(Turret t)
-	{
-		turret = t;
-	}
+        isDead = true;
 
-	private void PlayHitAnimation()
-	{
-		if (sprite == null) return;
+        OnMeteorDestroyed?.Invoke(this);
 
-		hitTween?.Kill();
+        QueueFree();
+    }
 
-		hitTween = GetTree().CreateTween();
+    // 🔥 VIRTUAL PARA PODER SOBRESCRIBIR EN HiddenMeteor
+    public virtual void UpdateDisplay(string input)
+    {
+        if (label == null)
+            return;
 
-		hitTween.TweenProperty(sprite, "modulate", new Color(1, 0.3f, 0.3f), 0.05f);
-		hitTween.TweenProperty(sprite, "modulate", new Color(1, 1, 1), 0.1f);
-	}
+        string result = "";
 
-	public void PlayErrorShake()
-	{
-		if (sprite == null) return;
+        for (int i = 0; i < Word.Length; i++)
+        {
+            if (i < input.Length && input[i] == Word[i])
+            {
+                result +=
+                    "[color=green]" +
+                    Word[i] +
+                    "[/color]";
+            }
+            else if (i < input.Length)
+            {
+                result +=
+                    "[color=red]" +
+                    Word[i] +
+                    "[/color]";
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(DisplayWord))
+                    result += DisplayWord[i];
+                else
+                    result += Word[i];
+            }
+        }
 
-		shakeTween?.Kill();
+        label.Text = result;
+    }
 
-		// 💥 SIEMPRE resetea antes de animar
-		sprite.Position = baseSpritePos;
+    public void SetTurret(Turret t)
+    {
+        turret = t;
+    }
 
-		shakeTween = GetTree().CreateTween();
+    private void PlayHitAnimation()
+    {
+        if (sprite == null)
+            return;
 
-		float strength = 8f;
-		float time = 0.03f;
+        hitTween?.Kill();
 
-		shakeTween.TweenProperty(sprite, "position", baseSpritePos + new Vector2(-strength, 0), time);
-		shakeTween.TweenProperty(sprite, "position", baseSpritePos + new Vector2(strength, 0), time);
-		shakeTween.TweenProperty(sprite, "position", baseSpritePos + new Vector2(-strength * 0.5f, 0), time);
-		shakeTween.TweenProperty(sprite, "position", baseSpritePos + new Vector2(strength * 0.5f, 0), time);
-		shakeTween.TweenProperty(sprite, "position", baseSpritePos, time);
-	}
+        hitTween = GetTree().CreateTween();
+
+        hitTween.TweenProperty(
+            sprite,
+            "modulate",
+            new Color(1, 0.3f, 0.3f),
+            0.05f
+        );
+
+        hitTween.TweenProperty(
+            sprite,
+            "modulate",
+            new Color(1, 1, 1),
+            0.1f
+        );
+    }
+
+    public void PlayErrorShake()
+    {
+        if (sprite == null)
+            return;
+
+        shakeTween?.Kill();
+
+        sprite.Position = baseSpritePos;
+
+        shakeTween = GetTree().CreateTween();
+
+        float strength = 8f;
+        float time = 0.03f;
+
+        shakeTween.TweenProperty(
+            sprite,
+            "position",
+            baseSpritePos + new Vector2(-strength, 0),
+            time
+        );
+
+        shakeTween.TweenProperty(
+            sprite,
+            "position",
+            baseSpritePos + new Vector2(strength, 0),
+            time
+        );
+
+        shakeTween.TweenProperty(
+            sprite,
+            "position",
+            baseSpritePos + new Vector2(-strength * 0.5f, 0),
+            time
+        );
+
+        shakeTween.TweenProperty(
+            sprite,
+            "position",
+            baseSpritePos + new Vector2(strength * 0.5f, 0),
+            time
+        );
+
+        shakeTween.TweenProperty(
+            sprite,
+            "position",
+            baseSpritePos,
+            time
+        );
+    }
+
+    private void AdjustSizeToWord()
+    {
+        if (label == null || sprite == null)
+            return;
+
+        label.Text =
+            string.IsNullOrEmpty(DisplayWord)
+            ? Word
+            : DisplayWord;
+
+        // 🔥 tamaño REAL del texto
+        float textWidth = label.GetContentWidth();
+        float textHeight = label.GetContentHeight();
+
+        // 🔥 padding extra
+        float horizontalPadding = 140f;
+        float verticalPadding = 80f;
+
+        // 🔥 tamaño REAL del sprite
+        float spriteWidth =
+            sprite.Texture.GetWidth() * originalScale.X;
+
+        float spriteHeight =
+            sprite.Texture.GetHeight() * originalScale.Y;
+
+        // 🔥 escala necesaria
+        float widthScale =
+            (textWidth + horizontalPadding) / spriteWidth;
+
+        float heightScale =
+            (textHeight + verticalPadding) / spriteHeight;
+
+        // 🔥 usar la escala más grande
+        float scaleMultiplier =
+            Mathf.Max(widthScale, heightScale);
+
+        // 🔥 límites
+        scaleMultiplier = Mathf.Clamp(scaleMultiplier, 1f, 3f);
+
+        // 🔥 aplicar desde escala original
+        sprite.Scale =
+            originalScale * scaleMultiplier;
+    }
 }

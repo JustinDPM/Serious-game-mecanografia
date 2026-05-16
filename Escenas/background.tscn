@@ -53,15 +53,18 @@ turbulence_noise_strength = 0.0
 script = ExtResource("1_gteav")
 
 [node name="BG1" type="Sprite2D" parent="." unique_id=1511852253]
+texture_repeat = 2
 scale = Vector2(1.9, 1)
 texture = ExtResource("2_bxr2s")
 
 [node name="BG2" type="Sprite2D" parent="." unique_id=1204453008]
+texture_repeat = 2
 position = Vector2(0, -1024)
 scale = Vector2(1.9, 1)
 texture = ExtResource("2_bxr2s")
 
 [node name="BG3" type="Sprite2D" parent="." unique_id=1144864069]
+texture_repeat = 2
 position = Vector2(0, -2048)
 scale = Vector2(1.9, 1)
 texture = ExtResource("2_bxr2s")

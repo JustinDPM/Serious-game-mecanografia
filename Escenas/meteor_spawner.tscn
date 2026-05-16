@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cwuifhnvtoifk"]
+
+[ext_resource type="Script" uid="uid://be6ck5fru2jou" path="res://Scripts/MeteorSpawner.cs" id="1_b3xs7"]
+[ext_resource type="PackedScene" uid="uid://cb7g7sif6mcvd" path="res://Escenas/hidden_letter_meteor.tscn" id="2_ul6m6"]
+
+[node name="MeteorSpawner" type="Node2D" unique_id=158739484 node_paths=PackedStringArray("Turret")]
+script = ExtResource("1_b3xs7")
+MeteorScene = ExtResource("2_ul6m6")
+SpawnInterval = 3.0
+Turret = NodePath("")

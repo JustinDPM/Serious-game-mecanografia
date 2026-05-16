@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bwdiispqo4vcl"]
+
+[ext_resource type="Script" uid="uid://baoanl4xbvigq" path="res://Scripts/InputManager.cs" id="1_xr8eb"]
+
+[node name="InputManager" type="Node2D" unique_id=1312815400 node_paths=PackedStringArray("spawner", "turret")]
+script = ExtResource("1_xr8eb")
+spawner = NodePath("")
+turret = NodePath("")

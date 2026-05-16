@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cb7g7sif6mcvd"]
+
+[ext_resource type="PackedScene" uid="uid://b1hstvnv4ifcy" path="res://Escenas/meteor.tscn" id="1_4x5ut"]
+[ext_resource type="Script" uid="uid://cwgewuqlh4ut0" path="res://Scripts/HiddenLetterMeteor.cs" id="2_aox38"]
+
+[node name="Hidden_letter_Meteor" unique_id=1046465861 instance=ExtResource("1_4x5ut")]
+script = ExtResource("2_aox38")
