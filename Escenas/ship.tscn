@@ -151,8 +151,8 @@ texture = ExtResource("3_xpyfw")
 [node name="Flame" type="Node2D" parent="." unique_id=347352705]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Flame" unique_id=1959656057]
-position = Vector2(150, -13)
-scale = Vector2(0.13541667, 0.16944446)
+position = Vector2(143, -13)
+scale = Vector2(0.11979166, 0.16944446)
 sprite_frames = SubResource("SpriteFrames_2pw62")
 animation = &"idle"
 frame_progress = 0.26744625

@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://chvjwf23ivlt1" path="res://assets/logoIASD.png" id="4_xgkoo"]
 [ext_resource type="FontFile" uid="uid://csb47k5lcd1bn" path="res://Fonts/RussoOne-Regular.ttf" id="5_a082v"]
 [ext_resource type="Texture2D" uid="uid://br4vd8vjysc70" path="res://assets/icon.svg" id="5_s5s4m"]
-[ext_resource type="Texture2D" uid="uid://cx6nic4sl41pl" path="res://assets/NavePrueba.png" id="5_xgkoo"]
+[ext_resource type="Texture2D" uid="uid://butgqmdmne71j" path="res://assets/nave-background2 (1).png" id="7_a082v"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s5s4m"]
 shader = ExtResource("3_7ms0u")
@@ -253,7 +253,7 @@ size_flags_vertical = 3
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer/ShipContainer" unique_id=98864379]
 custom_minimum_size = Vector2(800, 600)
 layout_mode = 2
-texture = ExtResource("5_xgkoo")
+texture = ExtResource("7_a082v")
 expand_mode = 1
 stretch_mode = 5
 

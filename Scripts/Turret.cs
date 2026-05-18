@@ -17,7 +17,7 @@ public partial class Turret : CharacterBody2D
     private Global global;
     private CameraShake camera;
 
-    private int streak = 10;
+    private int streak = 0;
 
     private Queue<Meteor> shootQueue = new Queue<Meteor>();
 
@@ -32,7 +32,6 @@ public partial class Turret : CharacterBody2D
     private float fireTimer = 0.2f;
     private const float fireHoldTime = 0.15f;
 
-    // ✨ VISUAL ONLY
     private float time = 0f;
 
     public override void _Ready()
@@ -86,17 +85,12 @@ public partial class Turret : CharacterBody2D
             }
         }
 
-        // ✨ =========================
-        // ✨ SOLO VISUAL (SIN MOVIMIENTO)
-        // ✨ =========================
-
         time += dt;
 
         int s = GetStreak();
 
         float intensity = Mathf.Clamp(s / 10f, 0f, 1f);
 
-        // 💡 flicker
         float flickerSpeed = (s >= 10) ? 25f : 8f;
         float flickerAmount = (s >= 10) ? 0.25f : 0.08f;
 
@@ -106,7 +100,6 @@ public partial class Turret : CharacterBody2D
 
         float brightness = 1f + glow * 0.35f;
 
-        // ✨ SOLO COLOR (NO POSITION, NO SHAKE)
         animatedSprite.Modulate = new Color(
             brightness,
             brightness,

@@ -1,23 +1,54 @@
 [gd_scene format=3 uid="uid://b1hstvnv4ifcy"]
 
 [ext_resource type="Script" uid="uid://clnntlerjts05" path="res://Scripts/Meteor.cs" id="1_l1x4f"]
-[ext_resource type="Texture2D" uid="uid://rnppek8bl13s" path="res://assets/Meteor.png" id="2_l8rnm"]
+[ext_resource type="Texture2D" uid="uid://0mxtjmdxf68m" path="res://assets/Meteorito/meteorito1.png" id="2_rl1yd"]
 [ext_resource type="FontFile" uid="uid://bplgw3dia0tw8" path="res://Fonts/SpaceMono-Bold.ttf" id="3_0xs45"]
+[ext_resource type="Texture2D" uid="uid://bb74exxxearrc" path="res://assets/Meteorito/meteorito2.png" id="3_pyltk"]
+[ext_resource type="Texture2D" uid="uid://d2c4ijfnt0d1j" path="res://assets/Meteorito/meteorito3.png" id="4_qf5k1"]
+[ext_resource type="Texture2D" uid="uid://cwu3qi8x4cakb" path="res://assets/Meteorito/meteorito4.png" id="5_7xcrk"]
+[ext_resource type="Texture2D" uid="uid://cw42r8ileisb3" path="res://assets/Meteorito/meteorito5.png" id="6_8i7ky"]
+[ext_resource type="Texture2D" uid="uid://bxnhj0mudh8l5" path="res://assets/Meteorito/meteorito6.png" id="7_h4l47"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aob3w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_rl1yd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_pyltk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_qf5k1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_7xcrk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_8i7ky")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_h4l47")
+}],
+"loop": false,
+"name": &"break",
+"speed": 6.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0xs45"]
-radius = 45.01111
+radius = 46.0
 
 [node name="Meteor" type="CharacterBody2D" unique_id=1046465861]
 script = ExtResource("1_l1x4f")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1335475739]
-position = Vector2(-1, 1)
-scale = Vector2(0.1286411, 0.18810847)
-texture = ExtResource("2_l8rnm")
-region_enabled = true
-region_rect = Rect2(351.96674, 0, 913.169, 719)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1883853145]
+position = Vector2(0, -4)
+scale = Vector2(0.147, 0.117)
+sprite_frames = SubResource("SpriteFrames_aob3w")
+animation = &"break"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1230579221]
+position = Vector2(-4, 3)
 shape = SubResource("CircleShape2D_0xs45")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=1605255419]
@@ -26,10 +57,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -94.0
-offset_top = -6.0
-offset_right = 105.0
-offset_bottom = 7.0
+offset_left = -112.0
+offset_top = -11.0
+offset_right = 87.0
+offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4

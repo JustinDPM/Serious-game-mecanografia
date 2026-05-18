@@ -18,7 +18,7 @@ public partial class Meteor : CharacterBody2D, IDamageable
 
     protected RichTextLabel label;
     protected Node2D target;
-    protected Sprite2D sprite;
+    protected AnimatedSprite2D sprite;
 
     private bool hasHit = false;
     protected bool isDead = false;
@@ -27,13 +27,14 @@ public partial class Meteor : CharacterBody2D, IDamageable
 
     private Vector2 baseSpritePos;
 
-    // 🔥 escala original del meteorito
     private Vector2 originalScale;
+
+    protected string currentDisplayInput = "";
 
     public override void _Ready()
     {
         label = GetNodeOrNull<RichTextLabel>("RichTextLabel");
-        sprite = GetNode<Sprite2D>("Sprite2D");
+        sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
         originalScale = sprite.Scale;
 
@@ -110,7 +111,7 @@ public partial class Meteor : CharacterBody2D, IDamageable
 
         PlayHitAnimation();
 
-        UpdateDisplay(Word.Substring(0, hitsReceived));
+        UpdateDamageFrame();
 
         if (hitsReceived >= Word.Length)
             Die();
@@ -128,23 +129,30 @@ public partial class Meteor : CharacterBody2D, IDamageable
         QueueFree();
     }
 
-    // 🔥 VIRTUAL PARA PODER SOBRESCRIBIR EN HiddenMeteor
     public virtual void UpdateDisplay(string input)
     {
         if (label == null)
             return;
 
+        currentDisplayInput = input;
+
         string result = "";
 
         for (int i = 0; i < Word.Length; i++)
         {
-            if (i < input.Length && input[i] == Word[i])
+
+            if (
+                i < input.Length &&
+                input[i] == Word[i]
+            )
             {
                 result +=
                     "[color=green]" +
                     Word[i] +
                     "[/color]";
             }
+
+ 
             else if (i < input.Length)
             {
                 result +=
@@ -152,6 +160,7 @@ public partial class Meteor : CharacterBody2D, IDamageable
                     Word[i] +
                     "[/color]";
             }
+
             else
             {
                 if (!string.IsNullOrEmpty(DisplayWord))
@@ -253,37 +262,55 @@ public partial class Meteor : CharacterBody2D, IDamageable
             ? Word
             : DisplayWord;
 
-        // 🔥 tamaño REAL del texto
         float textWidth = label.GetContentWidth();
         float textHeight = label.GetContentHeight();
 
-        // 🔥 padding extra
         float horizontalPadding = 140f;
-        float verticalPadding = 80f;
+        float verticalPadding = 160f;
 
-        // 🔥 tamaño REAL del sprite
+        Texture2D texture =
+            sprite.SpriteFrames.GetFrameTexture(
+                "break",
+                0
+            );
+
         float spriteWidth =
-            sprite.Texture.GetWidth() * originalScale.X;
+            texture.GetWidth() * originalScale.X;
 
         float spriteHeight =
-            sprite.Texture.GetHeight() * originalScale.Y;
+            texture.GetHeight() * originalScale.Y;
 
-        // 🔥 escala necesaria
         float widthScale =
             (textWidth + horizontalPadding) / spriteWidth;
 
         float heightScale =
             (textHeight + verticalPadding) / spriteHeight;
 
-        // 🔥 usar la escala más grande
         float scaleMultiplier =
             Mathf.Max(widthScale, heightScale);
 
-        // 🔥 límites
         scaleMultiplier = Mathf.Clamp(scaleMultiplier, 1f, 3f);
 
-        // 🔥 aplicar desde escala original
         sprite.Scale =
             originalScale * scaleMultiplier;
+    }
+
+    private void UpdateDamageFrame()
+    {
+        if (sprite == null)
+            return;
+
+        int totalFrames = sprite.SpriteFrames
+            .GetFrameCount("break");
+
+        float damagePercent =
+            (float)hitsReceived / Word.Length;
+
+        int frame =
+            Mathf.FloorToInt(
+                damagePercent * (totalFrames - 1)
+            );
+
+        sprite.Frame = frame;
     }
 }

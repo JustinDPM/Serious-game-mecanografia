@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7ibokiyc5a7h"
-path="res://.godot/imported/invasion_bar.png-d9d03f284f4e3ed2e34cb3d4d42e651e.ctex"
+uid="uid://cwu3qi8x4cakb"
+path="res://.godot/imported/meteorito4.png-bce6deb22974b129d74e69d157140e9e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/invasion_bar.png"
-dest_files=["res://.godot/imported/invasion_bar.png-d9d03f284f4e3ed2e34cb3d4d42e651e.ctex"]
+source_file="res://assets/Meteorito/meteorito4.png"
+dest_files=["res://.godot/imported/meteorito4.png-bce6deb22974b129d74e69d157140e9e.ctex"]
 
 [params]
 

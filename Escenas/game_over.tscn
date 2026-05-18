@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://r4f167l0pt6s"]
+[gd_scene format=3 uid="uid://431656rkk1jd"]
 
 [ext_resource type="Texture2D" uid="uid://c0dgnus0tpyq8" path="res://assets/FondoInicio.png" id="1_mkivq"]
 [ext_resource type="Script" uid="uid://cqwniljuexax6" path="res://Scripts/GameOver.cs" id="1_rtfuk"]

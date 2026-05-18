@@ -10,7 +10,6 @@ public partial class MeteorSpawner : Node2D
 
 	[Export] public Turret Turret;
 
-	// La lista empieza vacía, la llenaremos con la BD
 	private List<string> words = new List<string>(); 
 	
 	private Global _global;
@@ -20,10 +19,8 @@ public partial class MeteorSpawner : Node2D
 	{
 		_global = GetNode<Global>("/root/Global");
 		
-		// 1. Descargamos las palabras antes de empezar a soltar meteoritos
 		CargarPalabrasDesdeBD();
 
-		// 2. Salvavidas: Si la BD está vacía o falló la conexión, ponemos palabras de emergencia
 		if (words.Count == 0)
 		{
 			GD.PrintErr("No hay palabras en la BD. Usando diccionario de emergencia.");
@@ -41,8 +38,6 @@ public partial class MeteorSpawner : Node2D
 			{
 				conn.Open();
 				
-				// La consulta: Si es alumno, le mandamos palabras de su grado (y los anteriores).
-				// Si es profe/admin, le mandamos TODO el diccionario.
 				string query = "SELECT texto FROM PALABRA";
 				
 				if (_global.Rol == "Alumno")
@@ -61,7 +56,6 @@ public partial class MeteorSpawner : Node2D
 					{
 						while (reader.Read())
 						{
-							// Agregamos la palabra leída a nuestra lista
 							words.Add(reader.GetString(0));
 						}
 					}
@@ -92,7 +86,6 @@ public partial class MeteorSpawner : Node2D
 	{
 		var meteor = (Meteor)MeteorScene.Instantiate();
 
-		// Toma una palabra al azar de nuestra lista recién cargada
 		meteor.Word = words[GD.RandRange(0, words.Count - 1)];
 
 		float screenWidth = GetViewportRect().Size.X;

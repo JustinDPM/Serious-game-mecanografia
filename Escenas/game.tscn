@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://v1fjryacv3us" path="res://Scripts/Level1.cs" id="1_dllou"]
 [ext_resource type="PackedScene" uid="uid://dc8i4ytb2600y" path="res://Escenas/background.tscn" id="2_dllou"]
 [ext_resource type="PackedScene" uid="uid://b1hstvnv4ifcy" path="res://Escenas/meteor.tscn" id="2_obr3f"]
-[ext_resource type="Texture2D" uid="uid://dyrhyr3g8fsdd" path="res://assets/Purple_Nebula_07-1024x1024.png" id="3_btnvu"]
+[ext_resource type="Texture2D" uid="uid://nlgi42lafn4w" path="res://assets/Backgrounds/Purple Nebula/Purple_Nebula_06-1024x1024.png" id="3_m2vww"]
 [ext_resource type="PackedScene" uid="uid://cwuifhnvtoifk" path="res://Escenas/meteor_spawner.tscn" id="4_m2vww"]
 [ext_resource type="PackedScene" uid="uid://bwdiispqo4vcl" path="res://Escenas/input_manager.tscn" id="5_5fqxb"]
 [ext_resource type="PackedScene" uid="uid://de0jciynbpbpo" path="res://Escenas/settings_menu.tscn" id="6_ijxpu"]
@@ -27,7 +27,7 @@ environment = SubResource("Environment_m2vww")
 texture_repeat = 2
 position = Vector2(955, 749)
 MaxSpeedBoost = 600.0
-BackgroundTexture = ExtResource("3_btnvu")
+BackgroundTexture = ExtResource("3_m2vww")
 turret = NodePath("../Ship/Turret")
 
 [node name="MeteorSpawner" parent="." unique_id=158739484 node_paths=PackedStringArray("Turret") instance=ExtResource("4_m2vww")]
@@ -67,5 +67,3 @@ stats = NodePath("../StatsManager")
 script = ExtResource("10_btnvu")
 input = NodePath("../InputManager")
 turret = NodePath("../Ship/Turret")
-
-[editable path="Ship"]

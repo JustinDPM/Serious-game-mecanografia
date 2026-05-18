@@ -189,4 +189,4 @@ position = Vector2(0.4999989, -17)
 shape = SubResource("RectangleShape2D_i8vih")
 
 [node name="ShootPoint" type="Marker2D" parent="." unique_id=514566109]
-position = Vector2(0.99999774, -52)
+position = Vector2(0.99999785, -49)

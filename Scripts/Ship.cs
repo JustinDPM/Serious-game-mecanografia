@@ -33,7 +33,6 @@ public partial class Ship : Node2D
 
         int streak = turret.GetStreak();
 
-        // 🌊 flotación base
         float floatOffset = Mathf.Sin(time * FloatSpeed) * FloatAmplitude;
 
         Vector2 basePos = new Vector2(
@@ -41,10 +40,9 @@ public partial class Ship : Node2D
             startPosition.Y + floatOffset
         );
 
-        // ⚡ intensidad (0 - 1)
+
         float intensity = Mathf.Clamp(streak / 10f, 0f, 1f);
 
-        // 💥 movimiento inestable en overdrive
         if (streak >= 10)
         {
             float shakeX = Mathf.Sin(time * 30f) * (1.5f + intensity * 2f);
@@ -53,7 +51,7 @@ public partial class Ship : Node2D
             basePos += new Vector2(shakeX, shakeY);
         }
 
-        // ✨ PARPADEO (Flicker)
+
         float flickerSpeed = (streak >= 10) ? 25f : 8f;
         float flicker = Mathf.Sin(time * flickerSpeed);
 
@@ -61,7 +59,6 @@ public partial class Ship : Node2D
 
         float flickerOffset = flicker * flickerAmount;
 
-        // 💡 glow base
         float pulse = Mathf.Sin(time * 12f) * 0.1f;
         float glow = intensity + pulse + flickerOffset;
 
@@ -73,13 +70,12 @@ public partial class Ship : Node2D
             brightness
         );
 
-        // 🔥 FLAMA (SIN ESCALA)
+
         if (flame != null)
         {
-            // velocidad de animación
+
             flame.SpeedScale = 1f + intensity * 2.5f;
 
-            // 💜 color morado energético
             flame.Modulate = new Color(
                 1f + intensity * 0.25f,
                 0.5f + intensity * 0.2f,

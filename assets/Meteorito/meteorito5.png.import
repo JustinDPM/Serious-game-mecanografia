@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://nnb0hom1emgw"
-path="res://.godot/imported/pixelart_starfield.png-6854e8a480f24f072511e69d30f72f8e.ctex"
+uid="uid://cw42r8ileisb3"
+path="res://.godot/imported/meteorito5.png-5a865db5d9a01b1a81338b179832b70e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/pixelart_starfield.png"
-dest_files=["res://.godot/imported/pixelart_starfield.png-6854e8a480f24f072511e69d30f72f8e.ctex"]
+source_file="res://assets/Meteorito/meteorito5.png"
+dest_files=["res://.godot/imported/meteorito5.png-5a865db5d9a01b1a81338b179832b70e.ctex"]
 
 [params]
 

@@ -69,7 +69,12 @@ public partial class InputManager : Node
         {
             OnWrongChar?.Invoke();
 
+            currentTarget?.UpdateDisplay(
+                currentInput + newChar
+            );
+
             currentTarget?.PlayErrorShake();
+
             return;
         }
 

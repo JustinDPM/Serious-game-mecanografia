@@ -1,6 +1,6 @@
 using Godot;
 using System;
-using Npgsql; // No olvides importar Npgsql para sacar el Récord y Palabras de la BD
+using Npgsql; 
 
 public partial class MainMenu : Control
 {
@@ -10,7 +10,6 @@ public partial class MainMenu : Control
 	private Button _settingsButton;
 	private Button _quitButton;
 
-	// --- NUEVOS NODOS DE LA INTERFAZ ---
 	private Label _nameMain;
 	private Label _usernameMain;
 	private TextureRect _avatarImage;
@@ -18,28 +17,25 @@ public partial class MainMenu : Control
 	private Label _recordLabel;
 	private Label _activeWordsLabel;
 	private Label _gradeLabel;
-	// -----------------------------------
 
 	private Global _global;
 	private SettingsMenu _settingsMenu;
 	private Control _mainPanel; 
 
-	// Tu cadena de conexión para las estadísticas
 	private string connectionString = "Host=localhost;Username=postgres;Password=contrasena;Database=astrotype_db";
 
 	public override void _Ready()
 	{
-		_global = GetNode<Global>("/root/Global"); //
+		_global = GetNode<Global>("/root/Global"); 
 		
 		string rutaBotones = "MarginContainer/VBoxContainer/MainArea/LeftContainer/VBoxContainer/";
 
-		_playButton = GetNode<Button>(rutaBotones + "PlayButton"); //[cite: 2]
-		_profileButton = GetNode<Button>(rutaBotones + "ProfileButton"); //[cite: 2]
-		_databaseButton = GetNode<Button>(rutaBotones + "DatabaseButton"); //[cite: 2]
-		_settingsButton = GetNode<Button>(rutaBotones + "SettingsButton"); //[cite: 2]
-		_quitButton = GetNode<Button>(rutaBotones + "QuitButton"); //[cite: 2]
+		_playButton = GetNode<Button>(rutaBotones + "PlayButton"); 
+		_profileButton = GetNode<Button>(rutaBotones + "ProfileButton"); 
+		_databaseButton = GetNode<Button>(rutaBotones + "DatabaseButton"); 
+		_settingsButton = GetNode<Button>(rutaBotones + "SettingsButton"); 
+		_quitButton = GetNode<Button>(rutaBotones + "QuitButton"); 
 
-		// 1. CAPTURAR LOS TEXTOS DEL PERFIL BASADO EN TU ÁRBOL DE NODOS
 		string rutaTopBar = "MarginContainer/VBoxContainer/TopBar/UserProfile/";
 		_nameMain = GetNode<Label>(rutaTopBar + "ProfileTexts/NameMain");
 		_usernameMain = GetNode<Label>(rutaTopBar + "ProfileTexts/UsernameMain");
@@ -51,60 +47,50 @@ public partial class MainMenu : Control
 		_activeWordsLabel = GetNode<Label>(rutaRight + "DictBottom/ActiveWords");
 		_gradeLabel = GetNode<Label>(rutaRight + "DictBottom/Grade");
 
-		_mainPanel = GetNode<Control>("MarginContainer"); //[cite: 2]
-		_settingsMenu = GetNode<SettingsMenu>("SettingsMenu"); //[cite: 2]
+		_mainPanel = GetNode<Control>("MarginContainer"); 
+		_settingsMenu = GetNode<SettingsMenu>("SettingsMenu"); 
 
-		_playButton.Pressed += OnPlayButtonPressed; //[cite: 2]
-		_settingsButton.Pressed += OnSettingsButtonPressed; //[cite: 2]
-		_quitButton.Pressed += OnQuitButtonPressed; //[cite: 2]
+		_playButton.Pressed += OnPlayButtonPressed;
+		_settingsButton.Pressed += OnSettingsButtonPressed; 
+		_quitButton.Pressed += OnQuitButtonPressed; 
 
-		ConfigurarAnimacionBoton(_playButton); //[cite: 2]
-		ConfigurarAnimacionBoton(_profileButton); //[cite: 2]
-		ConfigurarAnimacionBoton(_databaseButton); //[cite: 2]
-		ConfigurarAnimacionBoton(_settingsButton); //[cite: 2]
-		ConfigurarAnimacionBoton(_quitButton); //[cite: 2]
+		ConfigurarAnimacionBoton(_playButton); 
+		ConfigurarAnimacionBoton(_profileButton);
+		ConfigurarAnimacionBoton(_databaseButton); 
+		ConfigurarAnimacionBoton(_settingsButton); 
+		ConfigurarAnimacionBoton(_quitButton);
 
-		// 2. ACTUALIZAR TODA LA PANTALLA CON LOS DATOS DEL JUGADOR
 		ActualizarInterfazJugador();
 	}
 
 	private void ActualizarInterfazJugador()
 	{
-		// Textos del perfil superior
-		_nameMain.Text = _global.Rol; // Puedes poner Rol o Nombre
-		_usernameMain.Text = _global.UsuarioActivo; // La matrícula S24016724
+		_nameMain.Text = _global.Rol;
+		_usernameMain.Text = _global.UsuarioActivo; 
 
-		// Nombre del Piloto (Cortamos el nombre completo para que solo salga el primer nombre)
 		string primerNombre = _global.NombreCompleto.Split(' ')[0];
 		_pilotName.Text = $"PILOTO: {primerNombre.ToUpper()}";
 
-		// Mapear el ID del grado a un texto visible
 		string nombreGrado = _global.IdGrado switch
 		{
 			1 => "PRIMARIA BAJA",
 			2 => "PRIMARIA ALTA",
 			3 => "SECUNDARIA",
 			4 => "PREPARATORIA",
-			_ => "SIN ASIGNAR" // Para los profes/admin
+			_ => "SIN ASIGNAR" 
 		};
 		_gradeLabel.Text = $"GRADO: {nombreGrado}";
 
-		// --- AQUÍ ESTÁ EL CÓDIGO NUEVO DE LA FOTO ---
-		// Cargar la foto de perfil dinámicamente con un salvavidas
 		if (ResourceLoader.Exists(_global.RutaFotoPerfil))
 		{
-			// Si la foto existe en los archivos de Godot, la carga
 			_avatarImage.Texture = GD.Load<Texture2D>(_global.RutaFotoPerfil);
 		}
 		else
 		{
-			// Si la ruta está mal o el archivo se borró, carga una genérica
 			GD.Print("Foto no encontrada, cargando avatar por defecto.");
 			_avatarImage.Texture = GD.Load<Texture2D>("res://assets/Perfiles/default.png"); 
 		}
-		// --------------------------------------------
 
-		// 3. CARGAR ESTADÍSTICAS REALES DESDE POSTGRESQL
 		CargarEstadisticasDB();
 	}
 
@@ -119,7 +105,6 @@ public partial class MainMenu : Control
 			{
 				conn.Open();
 
-				// Consulta A: Obtener el Récord Histórico de WPM del alumno actual[cite: 1]
 				string queryRecord = "SELECT COALESCE(MAX(ppm_promedio), 0) FROM PARTIDA WHERE id_alumno = @id";
 				using (var cmd1 = new NpgsqlCommand(queryRecord, conn))
 				{
@@ -127,7 +112,6 @@ public partial class MainMenu : Control
 					maxWpm = Convert.ToInt32(cmd1.ExecuteScalar());
 				}
 
-				// Consulta B: Obtener la cantidad de palabras que el alumno va a enfrentar (<= a su grado)[cite: 1]
 				string queryPalabras = "SELECT COUNT(*) FROM PALABRA";
 				if (_global.Rol == "Alumno") 
 				{
@@ -144,9 +128,7 @@ public partial class MainMenu : Control
 				}
 			}
 
-			// Actualizamos las etiquetas con el formato exacto de tu diseño
 			_recordLabel.Text = $"RECORD: {maxWpm}WPM";
-			// El ":N0" le pone la comita de los miles (ej. 1,200)
 			_activeWordsLabel.Text = $"PALABRAS ACTIVAS: {palabrasActivas:N0}"; 
 		}
 		catch (Exception ex)
@@ -163,31 +145,31 @@ public partial class MainMenu : Control
 		{
 			boton.PivotOffset = boton.Size / 2;  //[cite: 2]
 			Tween tween = CreateTween(); //[cite: 2]
-			tween.TweenProperty(boton, "scale", new Vector2(1.05f, 1.05f), 0.1f).SetTrans(Tween.TransitionType.Sine); //[cite: 2]
+			tween.TweenProperty(boton, "scale", new Vector2(1.05f, 1.05f), 0.1f).SetTrans(Tween.TransitionType.Sine); 
 		};
 
 		boton.MouseExited += () =>  //[cite: 2]
 		{
 			boton.PivotOffset = boton.Size / 2; //[cite: 2]
 			Tween tween = CreateTween(); //[cite: 2]
-			tween.TweenProperty(boton, "scale", new Vector2(1.0f, 1.0f), 0.1f).SetTrans(Tween.TransitionType.Sine); //[cite: 2]
+			tween.TweenProperty(boton, "scale", new Vector2(1.0f, 1.0f), 0.1f).SetTrans(Tween.TransitionType.Sine); 
 		};
 	}
 
-	private void OnPlayButtonPressed() //[cite: 2]
+	private void OnPlayButtonPressed() 
 	{
-		_global.CambiarEscena("res://Escenas/game.tscn"); //[cite: 1, 2]
+		_global.CambiarEscena("res://Escenas/game.tscn"); 
 	}
 
-	private void OnSettingsButtonPressed() //[cite: 2]
+	private void OnSettingsButtonPressed() 
 	{
-		_mainPanel.Visible = false;  //[cite: 2]
-		_settingsMenu.Open(false);   //[cite: 2]
+		_mainPanel.Visible = false; 
+		_settingsMenu.Open(false);   
 	}
 
-	private void OnQuitButtonPressed() //[cite: 2]
+	private void OnQuitButtonPressed() 
 	{
-		_global.LimpiarSesion(); //[cite: 1, 2]
-		_global.CambiarEscena("res://Escenas/login.tscn"); //[cite: 1, 2]
+		_global.LimpiarSesion(); 
+		_global.CambiarEscena("res://Escenas/login.tscn"); 
 	}
 }

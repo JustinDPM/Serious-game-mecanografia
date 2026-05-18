@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1fd6iout0bnu"
-path="res://.godot/imported/moon.png-e4c6172be07b31c7ae536c1ad9030dad.ctex"
+uid="uid://d2c4ijfnt0d1j"
+path="res://.godot/imported/meteorito3.png-4a88ade96d9d56443e54d012bd60942e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/moon.png"
-dest_files=["res://.godot/imported/moon.png-e4c6172be07b31c7ae536c1ad9030dad.ctex"]
+source_file="res://assets/Meteorito/meteorito3.png"
+dest_files=["res://.godot/imported/meteorito3.png-4a88ade96d9d56443e54d012bd60942e.ctex"]
 
 [params]
 

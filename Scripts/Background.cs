@@ -35,7 +35,6 @@ public partial class Background : Node2D
         stars2 = GetNode<GpuParticles2D>("BlueStars");
         stars3 = GetNode<GpuParticles2D>("Stars3");
 
-        // 🔥 ASIGNAR TEXTURA
         if (BackgroundTexture != null)
         {
             bg1.Texture = BackgroundTexture;
@@ -43,15 +42,12 @@ public partial class Background : Node2D
             bg3.Texture = BackgroundTexture;
         }
 
-        // 🔥 ESCALA GLOBAL
         bg1.Scale = BackgroundScale;
         bg2.Scale = BackgroundScale;
         bg3.Scale = BackgroundScale;
 
-        // 🔥 ALTURA REAL CON ESCALA
         height = bg1.Texture.GetHeight() * bg1.Scale.Y;
 
-        // 🔥 POSICIONES
         bg1.Position = new Vector2(0, 0);
         bg2.Position = new Vector2(0, -height);
         bg3.Position = new Vector2(0, -height * 2);

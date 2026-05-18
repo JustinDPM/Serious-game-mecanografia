@@ -18,7 +18,6 @@ public partial class CameraShake : Camera2D
 
         float intensity = Mathf.Clamp(streak / 10f, 0f, 1f);
 
-        // 💥 SHAKE
         if (shakeTime > 0)
         {
             shakeTime -= dt;
@@ -35,7 +34,6 @@ public partial class CameraShake : Camera2D
             Offset = Vector2.Zero;
         }
 
-        // 🎯 ZOOM SOLO EN STREAK >= 10
         float targetZoom = 1f;
 
         if (streak >= 10)
@@ -49,7 +47,6 @@ public partial class CameraShake : Camera2D
         );
     }
 
-    // 💥 shake normal
     public void Shake(float strength, float duration)
     {
         shakeStrength = strength;

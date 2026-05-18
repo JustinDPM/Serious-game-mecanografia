@@ -27,7 +27,6 @@ public partial class HiddenLetterMeteor : Meteor
         {
             char c = Word[i];
 
-            // 🔥 no ocultar espacios
             if (c == ' ')
             {
                 hiddenWord += " ";
@@ -41,7 +40,6 @@ public partial class HiddenLetterMeteor : Meteor
                 : c.ToString();
         }
 
-        // 🔥 evitar que TODAS las letras se oculten
         bool allHidden = true;
 
         foreach (char c in hiddenWord)
@@ -75,7 +73,6 @@ public partial class HiddenLetterMeteor : Meteor
             char realChar = Word[i];
             char visibleChar = hiddenWord[i];
 
-            // 🔥 letra correcta
             if (i < input.Length && input[i] == realChar)
             {
                 result +=
@@ -83,7 +80,6 @@ public partial class HiddenLetterMeteor : Meteor
                     realChar +
                     "[/color]";
             }
-            // 🔥 letra incorrecta
             else if (i < input.Length)
             {
                 result +=
@@ -93,7 +89,6 @@ public partial class HiddenLetterMeteor : Meteor
             }
             else
             {
-                // 🔥 mostrar "_" o letra visible
                 result += visibleChar;
             }
         }

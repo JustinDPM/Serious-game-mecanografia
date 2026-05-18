@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0krmhl5oap2x"
-path="res://.godot/imported/enemy_flashing.png-0c817eafa2cedcd1f388437d42686cca.ctex"
+uid="uid://bxnhj0mudh8l5"
+path="res://.godot/imported/meteorito6.png-0d9c2dd7e855a3d58772cbbeae26b7b4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/enemy_flashing.png"
-dest_files=["res://.godot/imported/enemy_flashing.png-0c817eafa2cedcd1f388437d42686cca.ctex"]
+source_file="res://assets/Meteorito/meteorito6.png"
+dest_files=["res://.godot/imported/meteorito6.png-0d9c2dd7e855a3d58772cbbeae26b7b4.ctex"]
 
 [params]
 
