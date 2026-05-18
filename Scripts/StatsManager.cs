@@ -16,7 +16,7 @@ public partial class StatsManager : Node
 	[Export] public Global global;
 
 	// Cadena de conexión a tu BD
-	private string connectionString = "Host=localhost;Username=postgres;Password=contrasena;Database=astrotype_db";
+	private string connectionString = "Host=localhost;Username=postgres;Password=040306;Database=astrotype_db";
 
 	public override void _Ready()
 	{

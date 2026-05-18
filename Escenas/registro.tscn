@@ -1,10 +1,10 @@
-[gd_scene format=3 uid="uid://criuiv1ensowy"]
+[gd_scene format=3 uid="uid://c3oqoh6qjoci2"]
 
-[ext_resource type="Script" uid="uid://hpfc4vplfijf" path="res://Scripts/Login.cs" id="1_lbs3p"]
-[ext_resource type="Texture2D" uid="uid://c0dgnus0tpyq8" path="res://assets/FondoInicio.png" id="2_lbs3p"]
-[ext_resource type="Shader" uid="uid://b1lespohkr7ab" path="res://Escenas/Shaders/login.gdshader" id="3_56407"]
-[ext_resource type="Texture2D" uid="uid://chvjwf23ivlt1" path="res://assets/logoIASD.png" id="4_ujdtn"]
-[ext_resource type="FontFile" uid="uid://csb47k5lcd1bn" path="res://Fonts/RussoOne-Regular.ttf" id="5_56407"]
+[ext_resource type="Script" uid="uid://cq1bpmg5oejf1" path="res://Scripts/Registro.cs" id="1_5gmvh"]
+[ext_resource type="Texture2D" uid="uid://c0dgnus0tpyq8" path="res://assets/FondoInicio.png" id="2_8kq2f"]
+[ext_resource type="Shader" uid="uid://b1lespohkr7ab" path="res://Escenas/Shaders/login.gdshader" id="3_37ql2"]
+[ext_resource type="Texture2D" uid="uid://chvjwf23ivlt1" path="res://assets/logoIASD.png" id="4_uwr4c"]
+[ext_resource type="FontFile" uid="uid://csb47k5lcd1bn" path="res://Fonts/RussoOne-Regular.ttf" id="5_t255i"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lbs3p"]
 content_margin_left = 200.0
@@ -18,7 +18,7 @@ corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_w4g28"]
-shader = ExtResource("3_56407")
+shader = ExtResource("3_37ql2")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_56407"]
 content_margin_left = 15.0
@@ -33,26 +33,14 @@ expand_margin_top = 5.0
 expand_margin_right = 5.0
 expand_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w4g28"]
-bg_color = Color(0.10980392, 0.12156863, 0.15686275, 1)
-corner_detail = 20
-expand_margin_left = 5.0
-expand_margin_top = 5.0
-expand_margin_right = 5.0
-expand_margin_bottom = 5.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xvi6m"]
-bg_color = Color(0.1804905, 0.19671813, 0.24536136, 1)
-corner_detail = 20
-
-[node name="Login" type="Control" unique_id=426731288]
+[node name="Registro" type="Control" unique_id=426731288]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_lbs3p")
+script = ExtResource("1_5gmvh")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=712437401]
 layout_mode = 1
@@ -61,7 +49,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_lbs3p")
+texture = ExtResource("2_8kq2f")
 expand_mode = 1
 stretch_mode = 6
 
@@ -89,24 +77,34 @@ theme_override_constants/separation = 20
 material = SubResource("ShaderMaterial_w4g28")
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
-texture = ExtResource("4_ujdtn")
+texture = ExtResource("4_uwr4c")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/VBoxContainer" unique_id=1267817451]
 layout_mode = 2
-theme_override_fonts/normal_font = ExtResource("5_56407")
+theme_override_fonts/normal_font = ExtResource("5_t255i")
 bbcode_enabled = true
 text = "[center][font_size=56
 
 ][color=white]Astro[/color][color=#8a2be2]Type[/color][/font_size][/center]"
 fit_content = true
 
+[node name="InputName" type="LineEdit" parent="PanelContainer/VBoxContainer" unique_id=1014404237]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_t255i")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_56407")
+placeholder_text = "Nombre Completo"
+secret_character = "*"
+
 [node name="InputUser" type="LineEdit" parent="PanelContainer/VBoxContainer" unique_id=138471045]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("5_56407")
+theme_override_fonts/font = ExtResource("5_t255i")
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_56407")
 placeholder_text = "Matricula"
@@ -115,39 +113,31 @@ placeholder_text = "Matricula"
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("5_56407")
+theme_override_fonts/font = ExtResource("5_t255i")
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_56407")
 placeholder_text = "Contraseña"
 secret = true
 secret_character = "*"
 
-[node name="EnterButton" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1930213636]
+[node name="InputGrade" type="OptionButton" parent="PanelContainer/VBoxContainer" unique_id=254366133]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_t255i")
+
+[node name="RegisterButton" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1930213636]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
-theme_override_fonts/font = ExtResource("5_56407")
+theme_override_fonts/font = ExtResource("5_t255i")
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_ujdtn")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ujdtn")
-text = "INICIAR SESIÓN"
+text = "Crear cuenta"
 
 [node name="ErrorMessage" type="Label" parent="PanelContainer/VBoxContainer" unique_id=404234079]
 layout_mode = 2
-
-[node name="RegisterButton" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1045886620]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 0
-theme_override_fonts/font = ExtResource("5_56407")
-theme_override_font_sizes/font_size = 14
-theme_override_styles/normal = SubResource("StyleBoxFlat_w4g28")
-theme_override_styles/hover = SubResource("StyleBoxFlat_xvi6m")
-text = "¿No tienes cuenta? Regístrate aquí"
 
 [node name="BtnExit" type="Button" parent="." unique_id=51194945]
 layout_mode = 0
@@ -155,7 +145,7 @@ offset_left = 36.0
 offset_top = 36.0
 offset_right = 250.0
 offset_bottom = 61.0
-theme_override_fonts/font = ExtResource("5_56407")
+theme_override_fonts/font = ExtResource("5_t255i")
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_ujdtn")
 text = "SALIR DEL JUEGO"

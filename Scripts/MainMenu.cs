@@ -22,7 +22,7 @@ public partial class MainMenu : Control
 	private SettingsMenu _settingsMenu;
 	private Control _mainPanel; 
 
-	private string connectionString = "Host=localhost;Username=postgres;Password=contrasena;Database=astrotype_db";
+	private string connectionString = "Host=localhost;Username=postgres;Password=040306;Database=astrotype_db";
 
 	public override void _Ready()
 	{
@@ -88,7 +88,7 @@ public partial class MainMenu : Control
 		else
 		{
 			GD.Print("Foto no encontrada, cargando avatar por defecto.");
-			_avatarImage.Texture = GD.Load<Texture2D>("res://assets/Perfiles/default.png"); 
+			_avatarImage.Texture = GD.Load<Texture2D>("res://assets/Perfiles/default.jpg"); 
 		}
 
 		CargarEstadisticasDB();

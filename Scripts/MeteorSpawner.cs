@@ -13,7 +13,7 @@ public partial class MeteorSpawner : Node2D
 	private List<string> words = new List<string>(); 
 	
 	private Global _global;
-	private string connectionString = "Host=localhost;Username=postgres;Password=contrasena;Database=astrotype_db";
+	private string connectionString = "Host=localhost;Username=postgres;Password=040306;Database=astrotype_db";
 
 	public override void _Ready()
 	{

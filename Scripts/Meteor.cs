@@ -3,314 +3,314 @@ using Godot;
 
 public partial class Meteor : CharacterBody2D, IDamageable
 {
-    public event Action<Meteor> OnMeteorDestroyed;
+	public event Action<Meteor> OnMeteorDestroyed;
 
-    [Export] public float Speed = 250f;
-    [Export] public float RotationSpeed = 1f;
+	[Export] public float Speed = 250f;
+	[Export] public float RotationSpeed = 1f;
 
-    private Tween hitTween;
-    private Tween shakeTween;
+	private Tween hitTween;
+	private Tween shakeTween;
 
-    public string Word = "";
-    public string DisplayWord = "";
+	public string Word = "";
+	public string DisplayWord = "";
 
-    protected int hitsReceived = 0;
+	protected int hitsReceived = 0;
 
-    protected RichTextLabel label;
-    protected Node2D target;
-    protected AnimatedSprite2D sprite;
+	protected RichTextLabel label;
+	protected Node2D target;
+	protected AnimatedSprite2D sprite;
 
-    private bool hasHit = false;
-    protected bool isDead = false;
+	private bool hasHit = false;
+	protected bool isDead = false;
 
-    protected Turret turret;
+	protected Turret turret;
 
-    private Vector2 baseSpritePos;
+	private Vector2 baseSpritePos;
 
-    private Vector2 originalScale;
+	private Vector2 originalScale;
 
-    protected string currentDisplayInput = "";
+	protected string currentDisplayInput = "";
 
-    public override void _Ready()
-    {
-        label = GetNodeOrNull<RichTextLabel>("RichTextLabel");
-        sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+	public override void _Ready()
+	{
+		label = GetNodeOrNull<RichTextLabel>("RichTextLabel");
+		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
-        originalScale = sprite.Scale;
+		originalScale = sprite.Scale;
 
-        UpdateDisplay("");
+		UpdateDisplay("");
 
-        AdjustSizeToWord();
+		AdjustSizeToWord();
 
-        baseSpritePos = sprite.Position;
-    }
+		baseSpritePos = sprite.Position;
+	}
 
-    public override void _PhysicsProcess(double delta)
-    {
-        if (!IsInsideTree())
-            return;
+	public override void _PhysicsProcess(double delta)
+	{
+		if (!IsInsideTree())
+			return;
 
-        if (target != null)
-        {
-            Vector2 dir =
-                (target.GlobalPosition - GlobalPosition)
-                .Normalized();
+		if (target != null)
+		{
+			Vector2 dir =
+				(target.GlobalPosition - GlobalPosition)
+				.Normalized();
 
-            if (sprite != null)
-                sprite.Rotation += RotationSpeed * (float)delta;
+			if (sprite != null)
+				sprite.Rotation += RotationSpeed * (float)delta;
 
-            float dynamicSpeed = Speed;
+			float dynamicSpeed = Speed;
 
-            if (turret != null)
-            {
-                int streak = turret.GetStreak();
+			if (turret != null)
+			{
+				int streak = turret.GetStreak();
 
-                dynamicSpeed += streak * 6f;
+				dynamicSpeed += streak * 6f;
 
-                dynamicSpeed = Mathf.Min(dynamicSpeed, 450f);
-            }
+				dynamicSpeed = Mathf.Min(dynamicSpeed, 450f);
+			}
 
-            Velocity = dir * dynamicSpeed;
-        }
+			Velocity = dir * dynamicSpeed;
+		}
 
-        MoveAndSlide();
+		MoveAndSlide();
 
-        if (hasHit)
-            return;
+		if (hasHit)
+			return;
 
-        for (int i = 0; i < GetSlideCollisionCount(); i++)
-        {
-            var collision = GetSlideCollision(i);
-            var collider = collision.GetCollider();
+		for (int i = 0; i < GetSlideCollisionCount(); i++)
+		{
+			var collision = GetSlideCollision(i);
+			var collider = collision.GetCollider();
 
-            if (collider is Turret turret)
-            {
-                hasHit = true;
+			if (collider is Turret turret)
+			{
+				hasHit = true;
 
-                turret.TakeDamage(1);
+				turret.TakeDamage(1);
 
-                if (IsInsideTree())
-                    QueueFree();
+				if (IsInsideTree())
+					QueueFree();
 
-                return;
-            }
-        }
-    }
+				return;
+			}
+		}
+	}
 
-    public void SetTarget(Node2D t)
-    {
-        target = t;
-    }
+	public void SetTarget(Node2D t)
+	{
+		target = t;
+	}
 
-    public virtual void TakeDamage()
-    {
-        if (isDead)
-            return;
+	public virtual void TakeDamage()
+	{
+		if (isDead)
+			return;
 
-        hitsReceived++;
+		hitsReceived++;
 
-        PlayHitAnimation();
+		PlayHitAnimation();
 
-        UpdateDamageFrame();
+		UpdateDamageFrame();
 
-        if (hitsReceived >= Word.Length)
-            Die();
-    }
+		if (hitsReceived >= Word.Length)
+			Die();
+	}
 
-    public void Die()
-    {
-        if (isDead)
-            return;
+	public void Die()
+	{
+		if (isDead)
+			return;
 
-        isDead = true;
+		isDead = true;
 
-        OnMeteorDestroyed?.Invoke(this);
+		OnMeteorDestroyed?.Invoke(this);
 
-        QueueFree();
-    }
+		QueueFree();
+	}
 
-    public virtual void UpdateDisplay(string input)
-    {
-        if (label == null)
-            return;
+	public virtual void UpdateDisplay(string input)
+	{
+		if (label == null)
+			return;
 
-        currentDisplayInput = input;
+		currentDisplayInput = input;
 
-        string result = "";
+		string result = "";
 
-        for (int i = 0; i < Word.Length; i++)
-        {
+		for (int i = 0; i < Word.Length; i++)
+		{
 
-            if (
-                i < input.Length &&
-                input[i] == Word[i]
-            )
-            {
-                result +=
-                    "[color=green]" +
-                    Word[i] +
-                    "[/color]";
-            }
+			if (
+				i < input.Length &&
+				input[i] == Word[i]
+			)
+			{
+				result +=
+					"[color=green]" +
+					Word[i] +
+					"[/color]";
+			}
 
  
-            else if (i < input.Length)
-            {
-                result +=
-                    "[color=red]" +
-                    Word[i] +
-                    "[/color]";
-            }
+			else if (i < input.Length)
+			{
+				result +=
+					"[color=red]" +
+					Word[i] +
+					"[/color]";
+			}
 
-            else
-            {
-                if (!string.IsNullOrEmpty(DisplayWord))
-                    result += DisplayWord[i];
-                else
-                    result += Word[i];
-            }
-        }
+			else
+			{
+				if (!string.IsNullOrEmpty(DisplayWord))
+					result += DisplayWord[i];
+				else
+					result += Word[i];
+			}
+		}
 
-        label.Text = result;
-    }
+		label.Text = result;
+	}
 
-    public void SetTurret(Turret t)
-    {
-        turret = t;
-    }
+	public void SetTurret(Turret t)
+	{
+		turret = t;
+	}
 
-    private void PlayHitAnimation()
-    {
-        if (sprite == null)
-            return;
+	private void PlayHitAnimation()
+	{
+		if (sprite == null)
+			return;
 
-        hitTween?.Kill();
+		hitTween?.Kill();
 
-        hitTween = GetTree().CreateTween();
+		hitTween = GetTree().CreateTween();
 
-        hitTween.TweenProperty(
-            sprite,
-            "modulate",
-            new Color(1, 0.3f, 0.3f),
-            0.05f
-        );
+		hitTween.TweenProperty(
+			sprite,
+			"modulate",
+			new Color(1, 0.3f, 0.3f),
+			0.05f
+		);
 
-        hitTween.TweenProperty(
-            sprite,
-            "modulate",
-            new Color(1, 1, 1),
-            0.1f
-        );
-    }
+		hitTween.TweenProperty(
+			sprite,
+			"modulate",
+			new Color(1, 1, 1),
+			0.1f
+		);
+	}
 
-    public void PlayErrorShake()
-    {
-        if (sprite == null)
-            return;
+	public void PlayErrorShake()
+	{
+		if (sprite == null)
+			return;
 
-        shakeTween?.Kill();
+		shakeTween?.Kill();
 
-        sprite.Position = baseSpritePos;
+		sprite.Position = baseSpritePos;
 
-        shakeTween = GetTree().CreateTween();
+		shakeTween = GetTree().CreateTween();
 
-        float strength = 8f;
-        float time = 0.03f;
+		float strength = 8f;
+		float time = 0.03f;
 
-        shakeTween.TweenProperty(
-            sprite,
-            "position",
-            baseSpritePos + new Vector2(-strength, 0),
-            time
-        );
+		shakeTween.TweenProperty(
+			sprite,
+			"position",
+			baseSpritePos + new Vector2(-strength, 0),
+			time
+		);
 
-        shakeTween.TweenProperty(
-            sprite,
-            "position",
-            baseSpritePos + new Vector2(strength, 0),
-            time
-        );
+		shakeTween.TweenProperty(
+			sprite,
+			"position",
+			baseSpritePos + new Vector2(strength, 0),
+			time
+		);
 
-        shakeTween.TweenProperty(
-            sprite,
-            "position",
-            baseSpritePos + new Vector2(-strength * 0.5f, 0),
-            time
-        );
+		shakeTween.TweenProperty(
+			sprite,
+			"position",
+			baseSpritePos + new Vector2(-strength * 0.5f, 0),
+			time
+		);
 
-        shakeTween.TweenProperty(
-            sprite,
-            "position",
-            baseSpritePos + new Vector2(strength * 0.5f, 0),
-            time
-        );
+		shakeTween.TweenProperty(
+			sprite,
+			"position",
+			baseSpritePos + new Vector2(strength * 0.5f, 0),
+			time
+		);
 
-        shakeTween.TweenProperty(
-            sprite,
-            "position",
-            baseSpritePos,
-            time
-        );
-    }
+		shakeTween.TweenProperty(
+			sprite,
+			"position",
+			baseSpritePos,
+			time
+		);
+	}
 
-    private void AdjustSizeToWord()
-    {
-        if (label == null || sprite == null)
-            return;
+	private void AdjustSizeToWord()
+	{
+		if (label == null || sprite == null)
+			return;
 
-        label.Text =
-            string.IsNullOrEmpty(DisplayWord)
-            ? Word
-            : DisplayWord;
+		label.Text =
+			string.IsNullOrEmpty(DisplayWord)
+			? Word
+			: DisplayWord;
 
-        float textWidth = label.GetContentWidth();
-        float textHeight = label.GetContentHeight();
+		float textWidth = label.GetContentWidth();
+		float textHeight = label.GetContentHeight();
 
-        float horizontalPadding = 140f;
-        float verticalPadding = 160f;
+		float horizontalPadding = 140f;
+		float verticalPadding = 160f;
 
-        Texture2D texture =
-            sprite.SpriteFrames.GetFrameTexture(
-                "break",
-                0
-            );
+		Texture2D texture =
+			sprite.SpriteFrames.GetFrameTexture(
+				"break",
+				0
+			);
 
-        float spriteWidth =
-            texture.GetWidth() * originalScale.X;
+		float spriteWidth =
+			texture.GetWidth() * originalScale.X;
 
-        float spriteHeight =
-            texture.GetHeight() * originalScale.Y;
+		float spriteHeight =
+			texture.GetHeight() * originalScale.Y;
 
-        float widthScale =
-            (textWidth + horizontalPadding) / spriteWidth;
+		float widthScale =
+			(textWidth + horizontalPadding) / spriteWidth;
 
-        float heightScale =
-            (textHeight + verticalPadding) / spriteHeight;
+		float heightScale =
+			(textHeight + verticalPadding) / spriteHeight;
 
-        float scaleMultiplier =
-            Mathf.Max(widthScale, heightScale);
+		float scaleMultiplier =
+			Mathf.Max(widthScale, heightScale);
 
-        scaleMultiplier = Mathf.Clamp(scaleMultiplier, 1f, 3f);
+		scaleMultiplier = Mathf.Clamp(scaleMultiplier, 1f, 3f);
 
-        sprite.Scale =
-            originalScale * scaleMultiplier;
-    }
+		sprite.Scale =
+			originalScale * scaleMultiplier;
+	}
 
-    private void UpdateDamageFrame()
-    {
-        if (sprite == null)
-            return;
+	private void UpdateDamageFrame()
+	{
+		if (sprite == null)
+			return;
 
-        int totalFrames = sprite.SpriteFrames
-            .GetFrameCount("break");
+		int totalFrames = sprite.SpriteFrames
+			.GetFrameCount("break");
 
-        float damagePercent =
-            (float)hitsReceived / Word.Length;
+		float damagePercent =
+			(float)hitsReceived / Word.Length;
 
-        int frame =
-            Mathf.FloorToInt(
-                damagePercent * (totalFrames - 1)
-            );
+		int frame =
+			Mathf.FloorToInt(
+				damagePercent * (totalFrames - 1)
+			);
 
-        sprite.Frame = frame;
-    }
+		sprite.Frame = frame;
+	}
 }

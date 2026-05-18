@@ -1,6 +1,6 @@
 using Godot;
 using System;
-using Npgsql; // No olvides que necesitamos esta librería
+using Npgsql; 
 
 public partial class Login : Control
 {
@@ -9,10 +9,11 @@ public partial class Login : Control
 	private Label _errorMessage;
 	private Button _enterButton;
 	private Button _exitButton; 
+	private Button _registerLinkButton; // NUEVO: El botón para ir a registro
 	private Global _global;
 
 	// Tu cadena de conexión original
-	private string connectionString = "Host=localhost;Username=postgres;Password=contrasena;Database=astrotype_db";
+	private string connectionString = "Host=localhost;Username=postgres;Password=040306;Database=astrotype_db";
 
 	public override void _Ready()
 	{
@@ -20,6 +21,10 @@ public partial class Login : Control
 		_passwordInput = GetNode<LineEdit>("PanelContainer/VBoxContainer/InputPassword");
 		_errorMessage = GetNode<Label>("PanelContainer/VBoxContainer/ErrorMessage");
 		_enterButton = GetNode<Button>("PanelContainer/VBoxContainer/EnterButton");
+		
+		// Asegúrate de que el nombre del nodo aquí sea el mismo que le pusiste en Godot
+		_registerLinkButton = GetNodeOrNull<Button>("PanelContainer/VBoxContainer/RegisterButton"); 
+		
 		_exitButton = GetNodeOrNull<Button>("BtnExit"); 
 		
 		_global = GetNode<Global>("/root/Global");
@@ -30,6 +35,12 @@ public partial class Login : Control
 		if (_exitButton != null)
 		{
 			_exitButton.Pressed += OnExitPressed;
+		}
+
+		// NUEVO: Conectamos el botón de registro
+		if (_registerLinkButton != null)
+		{
+			_registerLinkButton.Pressed += OnRegisterLinkPressed;
 		}
 	}
 
@@ -60,7 +71,7 @@ public partial class Login : Control
 				using (var cmd = new NpgsqlCommand(query, conn))
 				{
 					cmd.Parameters.AddWithValue("user", user);
-					cmd.Parameters.AddWithValue("pass", pass); // En el futuro aquí iría el hash
+					cmd.Parameters.AddWithValue("pass", pass);
 
 					using (var reader = cmd.ExecuteReader())
 					{
@@ -70,9 +81,8 @@ public partial class Login : Control
 							_global.UsuarioActivo = user;
 							_global.IdUsuario = reader.GetInt32(0);
 							
-							// Validamos nulos por si el profe dejó campos vacíos
 							_global.NombreCompleto = reader.IsDBNull(1) ? user : reader.GetString(1);
-							_global.RutaFotoPerfil = reader.IsDBNull(2) ? "res://assets/Perfiles/admin.png" : reader.GetString(2);
+							_global.RutaFotoPerfil = reader.IsDBNull(2) ? "res://assets/Perfiles/default.png" : reader.GetString(2);
 							_global.Rol = reader.GetString(3);
 							_global.IdGrado = reader.IsDBNull(4) ? 0 : reader.GetInt32(4);
 
@@ -94,6 +104,12 @@ public partial class Login : Control
 			MostrarError("Error al conectar con el servidor.");
 			GD.PrintErr("Detalle del error de BD: " + ex.Message);
 		}
+	}
+
+	// NUEVO: Función que cambia a la pantalla de registro
+	private void OnRegisterLinkPressed()
+	{
+		_global.CambiarEscena("res://Escenas/registro.tscn");
 	}
 
 	private void MostrarError(string mensaje)
