@@ -2,54 +2,113 @@ using Godot;
 
 public partial class CameraShake : Camera2D
 {
-	[Export] public Turret turret;
+    [Export] public Turret turret;
 
-	private float shakeTime = 0f;
-	private float shakeStrength = 0f;
+    private float shakeTime = 0f;
+    private float shakeStrength = 0f;
 
-	private float time = 0f;
+    private float time = 0f;
 
-	public override void _Process(double delta)
-	{
-		float dt = (float)delta;
-		time += dt;
+    // 🔥 estado combo
+    private bool comboActive = false;
 
-		int streak = (turret != null) ? turret.GetStreak() : 0;
+    // 🔥 zoom objetivo
+    private float targetZoom = 1f;
 
-		float intensity = Mathf.Clamp(streak / 10f, 0f, 1f);
+    public override void _Ready()
+    {
+        if (turret != null)
+        {
+            turret.OnComboStarted += EnableComboMode;
+            turret.OnComboEnded += DisableComboMode;
+        }
+    }
 
-		if (shakeTime > 0)
-		{
-			shakeTime -= dt;
+    public override void _ExitTree()
+    {
+        if (turret != null)
+        {
+            turret.OnComboStarted -= EnableComboMode;
+            turret.OnComboEnded -= DisableComboMode;
+        }
+    }
 
-			float currentStrength = shakeStrength + (1.5f + intensity * 2.5f);
+    public override void _Process(double delta)
+    {
+        float dt = (float)delta;
 
-			Offset = new Vector2(
-				(float)GD.RandRange(-1, 1),
-				(float)GD.RandRange(-1, 1)
-			) * currentStrength;
-		}
-		else
-		{
-			Offset = Vector2.Zero;
-		}
+        time += dt;
 
-		float targetZoom = 1f;
+        int streak =
+            (turret != null)
+            ? turret.GetStreak()
+            : 0;
 
-		if (streak >= 10)
-		{
-			targetZoom = 1f + intensity * 0.08f;
-		}
+        float intensity =
+            Mathf.Clamp(
+                streak / 10f,
+                0f,
+                1f
+            );
 
-		Zoom = Zoom.Lerp(
-			new Vector2(targetZoom, targetZoom),
-			4f * dt
-		);
-	}
+        // 🔥 shake normal
+        if (shakeTime > 0)
+        {
+            shakeTime -= dt;
 
-	public void Shake(float strength, float duration)
-	{
-		shakeStrength = strength;
-		shakeTime = duration;
-	}
+            float currentStrength =
+                shakeStrength
+                + (
+                    1.5f
+                    + intensity * 2.5f
+                );
+
+            Offset = new Vector2(
+                (float)GD.RandRange(-1, 1),
+                (float)GD.RandRange(-1, 1)
+            ) * currentStrength;
+        }
+        else
+        {
+            Offset = Vector2.Zero;
+        }
+
+        // 🔥 pulso combo
+        if (comboActive)
+        {
+            float pulse =
+                Mathf.Sin(time * 5f) * 0.015f;
+
+            targetZoom =
+                1.08f + pulse;
+        }
+
+        Zoom = Zoom.Lerp(
+            new Vector2(targetZoom, targetZoom),
+            4f * dt
+        );
+    }
+
+    public void Shake(
+        float strength,
+        float duration
+    )
+    {
+        shakeStrength = strength;
+        shakeTime = duration;
+    }
+
+    private void EnableComboMode()
+    {
+        comboActive = true;
+
+        targetZoom = 1.08f;
+    }
+
+    private void DisableComboMode()
+    {
+        comboActive = false;
+
+        targetZoom = 1f;
+    }
 }

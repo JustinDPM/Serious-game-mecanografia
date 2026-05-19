@@ -14,8 +14,16 @@ public partial class Ship : Node2D
     private AnimatedSprite2D flame;
     private Sprite2D sprite;
 
+    private bool comboActive = false;
+
     public override void _Ready()
     {
+        if (turret != null)
+        {
+            turret.OnComboStarted += ActivateCombo;
+            turret.OnComboEnded += DeactivateCombo;
+        }
+
         startPosition = Position;
 
         sprite = GetNode<Sprite2D>("Sprite2D");
@@ -43,7 +51,7 @@ public partial class Ship : Node2D
 
         float intensity = Mathf.Clamp(streak / 10f, 0f, 1f);
 
-        if (streak >= 10)
+        if (comboActive)
         {
             float shakeX = Mathf.Sin(time * 30f) * (1.5f + intensity * 2f);
             float shakeY = Mathf.Cos(time * 34f) * (1.5f + intensity * 2f);
@@ -84,5 +92,15 @@ public partial class Ship : Node2D
         }
 
         Position = basePos;
+    }
+
+    private void ActivateCombo()
+    {
+        comboActive = true;
+    }
+
+    private void DeactivateCombo()
+    {
+        comboActive = false;
     }
 }

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b1hstvnv4ifcy"]
 
 [ext_resource type="Script" uid="uid://clnntlerjts05" path="res://Scripts/Meteor.cs" id="1_l1x4f"]
+[ext_resource type="PackedScene" uid="uid://bdv4wriaf4xdt" path="res://Escenas/floating_score.tscn" id="2_pyltk"]
 [ext_resource type="Texture2D" uid="uid://0mxtjmdxf68m" path="res://assets/Meteorito/meteorito1.png" id="2_rl1yd"]
 [ext_resource type="FontFile" uid="uid://bplgw3dia0tw8" path="res://Fonts/SpaceMono-Bold.ttf" id="3_0xs45"]
 [ext_resource type="Texture2D" uid="uid://bb74exxxearrc" path="res://assets/Meteorito/meteorito2.png" id="3_pyltk"]
@@ -40,6 +41,7 @@ radius = 46.0
 
 [node name="Meteor" type="CharacterBody2D" unique_id=1046465861]
 script = ExtResource("1_l1x4f")
+ScorePopupScene = ExtResource("2_pyltk")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1883853145]
 position = Vector2(0, -4)

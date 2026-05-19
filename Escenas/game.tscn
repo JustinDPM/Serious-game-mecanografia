@@ -44,6 +44,9 @@ position = Vector2(952, 817)
 rotation = 1.5707964
 turret = NodePath("Turret")
 
+[node name="Turret" parent="Ship" index="0" unique_id=1807233832 node_paths=PackedStringArray("input")]
+input = NodePath("../../InputManager")
+
 [node name="SettingsMenu" parent="." unique_id=1496994055 instance=ExtResource("6_ijxpu")]
 visible = false
 anchors_preset = 8
@@ -66,3 +69,5 @@ stats = NodePath("../StatsManager")
 
 [node name="StatsManager" type="Node" parent="." unique_id=1756574790]
 script = ExtResource("10_btnvu")
+
+[editable path="Ship"]

@@ -3,135 +3,208 @@ using System;
 
 public partial class InputManager : Node
 {
-	public event Action OnCorrectChar;
-	public event Action OnWrongChar;
-	public event Action OnWordCompleted;
-	public event Action<Meteor> OnShootRequested;
+    public event Action OnCorrectChar;
+    public event Action OnWrongChar;
+    public event Action OnWordCompleted;
+    public event Action<Meteor> OnShootRequested;
 
-	private string currentInput = "";
+    private string currentInput = "";
 
-	[Export] public Node2D spawner;
-	[Export] public Turret turret;
+    [Export] public Node2D spawner;
+    [Export] public Turret turret;
 
-	private Meteor currentTarget;
+    private Meteor currentTarget;
 
-	public override void _Process(double delta)
-	{
-		if (currentTarget != null && !IsInstanceValid(currentTarget))
-			ResetInput();
-	}
+    private bool hadMistake = false;
 
-	public override void _Input(InputEvent @event)
-	{
-		if (!(@event is InputEventKey key) || !key.Pressed)
-			return;
+    public override void _Process(double delta)
+    {
+        if (
+            currentTarget != null &&
+            !IsInstanceValid(currentTarget)
+        )
+        {
+            ResetInput();
+        }
+    }
 
-		if (key.Keycode == Key.Backspace)
-		{
-			if (currentInput.Length > 0)
-				currentInput = currentInput.Substring(0, currentInput.Length - 1);
+    public override void _Input(InputEvent @event)
+    {
+        if (
+            !(@event is InputEventKey key) ||
+            !key.Pressed
+        )
+        {
+            return;
+        }
 
-			if (currentInput.Length == 0)
-			{
-				currentTarget = null;
-				UpdateUI();
-				return;
-			}
+        if (key.Keycode == Key.Backspace)
+        {
+            if (currentInput.Length > 0)
+            {
+                currentInput =
+                    currentInput.Substring(
+                        0,
+                        currentInput.Length - 1
+                    );
+            }
 
-			currentTarget = GetClosestValidMeteor(currentInput);
-			UpdateUI();
-			return;
-		}
+            if (currentInput.Length == 0)
+            {
+                currentTarget = null;
 
-		if (key.Unicode <= 0 || !char.IsLetterOrDigit((char)key.Unicode))
-			return;
+                UpdateUI();
 
-		char newChar = (char)key.Unicode;
+                return;
+            }
 
-		if (currentTarget == null)
-		{
-			currentTarget = GetClosestValidMeteor(currentInput + newChar);
+            currentTarget =
+                GetClosestValidMeteor(
+                    currentInput
+                );
 
-			if (currentTarget == null)
-			{
-				OnWrongChar?.Invoke();
+            UpdateUI();
 
-				var nearest = GetClosestValidMeteor("");
-				nearest?.PlayErrorShake();
+            return;
+        }
 
-				ResetInput();
-				return;
-			}
-		}
+        if (
+            key.Unicode <= 0 ||
+            !char.IsLetterOrDigit(
+                (char)key.Unicode
+            )
+        )
+        {
+            return;
+        }
 
-		if (currentTarget.Word.Length <= currentInput.Length ||
-			currentTarget.Word[currentInput.Length] != newChar)
-		{
-			OnWrongChar?.Invoke();
+        char newChar = (char)key.Unicode;
 
-			currentTarget?.UpdateDisplay(
-				currentInput + newChar
-			);
+        if (currentTarget == null)
+        {
+            currentTarget =
+                GetClosestValidMeteor(
+                    currentInput + newChar
+                );
 
-			currentTarget?.PlayErrorShake();
+            if (currentTarget == null)
+            {
+                OnWrongChar?.Invoke();
 
-			return;
-		}
+                hadMistake = true;
 
-		OnCorrectChar?.Invoke();
+                var nearest =
+                    GetClosestValidMeteor("");
 
-		currentInput += newChar;
+                nearest?.PlayErrorShake();
 
-		UpdateUI();
+                ResetInput();
 
-		OnShootRequested?.Invoke(currentTarget);
+                return;
+            }
+        }
 
-		if (currentInput == currentTarget.Word)
-		{
-			OnWordCompleted?.Invoke();
+        if (
+            currentTarget.Word.Length
+                <= currentInput.Length ||
 
-			currentInput = "";
-			currentTarget = null;
-		}
-	}
+            currentTarget.Word[
+                currentInput.Length
+            ] != newChar
+        )
+        {
+            OnWrongChar?.Invoke();
 
-	private void UpdateUI()
-	{
-		currentTarget?.UpdateDisplay(currentInput);
-	}
+            hadMistake = true;
 
-	private Meteor GetClosestValidMeteor(string input)
-	{
-		Meteor closest = null;
+            currentTarget?.UpdateDisplay(
+                currentInput + newChar
+            );
 
-		float minDistance = float.MaxValue;
+            currentTarget?.PlayErrorShake();
 
-		foreach (Node child in spawner.GetChildren())
-		{
-			if (child is Meteor meteor)
-			{
-				if (!meteor.Word.StartsWith(input))
-					continue;
+            return;
+        }
 
-				float dist =
-					meteor.GlobalPosition.DistanceTo(
-						turret.GlobalPosition
-					);
+        OnCorrectChar?.Invoke();
 
-				if (dist < minDistance)
-				{
-					minDistance = dist;
-					closest = meteor;
-				}
-			}
-		}
+        currentInput += newChar;
 
-		return closest;
-	}
+        UpdateUI();
 
-	public void ResetInput()
-	{
-		currentInput = "";
-		currentTarget = null;
-	}
+        OnShootRequested?.Invoke(
+            currentTarget
+        );
+
+        if (currentInput == currentTarget.Word)
+        {
+            currentTarget.SetHadMistake(
+                hadMistake
+            );
+
+            OnWordCompleted?.Invoke();
+
+            currentInput = "";
+
+            hadMistake = false;
+
+            currentTarget = null;
+        }
+    }
+
+    private void UpdateUI()
+    {
+        currentTarget?.UpdateDisplay(
+            currentInput
+        );
+    }
+
+    private Meteor GetClosestValidMeteor(
+        string input
+    )
+    {
+        Meteor closest = null;
+
+        float minDistance =
+            float.MaxValue;
+
+        foreach (Node child in spawner.GetChildren())
+        {
+            if (child is Meteor meteor)
+            {
+                if (
+                    !meteor.Word.StartsWith(
+                        input
+                    )
+                )
+                {
+                    continue;
+                }
+
+                float dist =
+                    meteor.GlobalPosition
+                    .DistanceTo(
+                        turret.GlobalPosition
+                    );
+
+                if (dist < minDistance)
+                {
+                    minDistance = dist;
+
+                    closest = meteor;
+                }
+            }
+        }
+
+        return closest;
+    }
+
+    public void ResetInput()
+    {
+        currentInput = "";
+
+        currentTarget = null;
+
+        hadMistake = false;
+    }
 }
