@@ -1,72 +1,27 @@
 using Godot;
-using System;
 using System.Collections.Generic;
-using Npgsql; // Obligatorio para conectar con Postgres
 
 public partial class MeteorSpawner : Node2D
 {
 	[Export] public PackedScene MeteorScene;
 	[Export] public float SpawnInterval = 2f;
-
 	[Export] public Turret Turret;
 
-	private List<string> words = new List<string>(); 
-	
-	private Global _global;
-	private string connectionString = "Host=localhost;Username=postgres;Password=040306;Database=astrotype_db";
+	private List<string> words = new List<string>();
 
 	public override void _Ready()
 	{
-		_global = GetNode<Global>("/root/Global");
-		
-		CargarPalabrasDesdeBD();
+		// Cargamos palabras desde el diccionario local de Global
+		words.AddRange(Global.Diccionario);
 
 		if (words.Count == 0)
 		{
-			GD.PrintErr("No hay palabras en la BD. Usando diccionario de emergencia.");
+			GD.PrintErr("MeteorSpawner: diccionario vacío, usando respaldo.");
 			words = new List<string> { "error", "base", "datos", "vacia", "ayuda" };
 		}
 
+		GD.Print($"MeteorSpawner: {words.Count} palabras cargadas.");
 		SpawnLoop();
-	}
-
-	private void CargarPalabrasDesdeBD()
-	{
-		try
-		{
-			using (var conn = new NpgsqlConnection(connectionString))
-			{
-				conn.Open();
-				
-				string query = "SELECT texto FROM PALABRA";
-				
-				if (_global.Rol == "Alumno")
-				{
-					query += " WHERE id_grado <= @grado";
-				}
-
-				using (var cmd = new NpgsqlCommand(query, conn))
-				{
-					if (_global.Rol == "Alumno")
-					{
-						cmd.Parameters.AddWithValue("grado", _global.IdGrado);
-					}
-
-					using (var reader = cmd.ExecuteReader())
-					{
-						while (reader.Read())
-						{
-							words.Add(reader.GetString(0));
-						}
-					}
-				}
-				GD.Print($"Éxito: Se cargaron {words.Count} palabras en memoria.");
-			}
-		}
-		catch (Exception ex)
-		{
-			GD.PrintErr("Error fatal al cargar el diccionario: " + ex.Message);
-		}
 	}
 
 	private async void SpawnLoop()
@@ -89,15 +44,16 @@ public partial class MeteorSpawner : Node2D
 		meteor.Word = words[GD.RandRange(0, words.Count - 1)];
 
 		float screenWidth = GetViewportRect().Size.X;
-		float randomX = (float)GD.RandRange(50, screenWidth - 50);
+		float randomX     = (float)GD.RandRange(50, screenWidth - 50);
 
 		meteor.Position = new Vector2(randomX, -100);
 
 		meteor.SetTarget(Turret);
 		meteor.SetTurret(Turret);
 
-		var stats = GetNode<StatsManager>("../StatsManager");
-		meteor.OnMeteorDestroyed += stats.OnMeteorDestroyed;
+		var stats = GetNodeOrNull<StatsManager>("../StatsManager");
+		if (stats != null)
+			meteor.OnMeteorDestroyed += stats.OnMeteorDestroyed;
 
 		AddChild(meteor);
 	}

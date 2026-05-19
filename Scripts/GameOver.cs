@@ -12,30 +12,19 @@ public partial class GameOver : Control
 
 	public override void _Ready()
 	{
-		retryButton = GetNode<Button>("TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/ButtonsHBox/BtnRetry");
-		exitButton = GetNode<Button>("TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/ButtonsHBox/BtnMainMenu");
-		global = GetNode<Global>("/root/Global");
+		retryButton   = GetNode<Button>("TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/ButtonsHBox/BtnRetry");
+		exitButton    = GetNode<Button>("TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/ButtonsHBox/BtnMainMenu");
+		global        = GetNode<Global>("/root/Global");
 
-		scoreLabel = GetNode<Label>("TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/HBoxContainer/StatsGrid/ValWords");
+		scoreLabel    = GetNode<Label>("TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/HBoxContainer/StatsGrid/ValWords");
 		accuracyLabel = GetNode<Label>("TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/HBoxContainer/StatsGrid/ValAccuracy");
-		wpmLabel = GetNode<Label>("TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/HBoxContainer/StatsGrid/ValWPM");
+		wpmLabel      = GetNode<Label>("TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/HBoxContainer/StatsGrid/ValWPM");
 
-		scoreLabel.Text = global.LastScore.ToString();
+		scoreLabel.Text    = global.LastScore.ToString();
 		accuracyLabel.Text = global.LastAccuracy.ToString("0.0") + "%";
-		wpmLabel.Text = ((int)global.LastWPM).ToString();
+		wpmLabel.Text      = ((int)global.LastWPM).ToString();
 
-		retryButton.Pressed += OnRetryPressed;
-		exitButton.Pressed += OnExitPressed;
-	}
-
-	private void OnRetryPressed()
-	{
-		global.CallDeferred("CambiarEscena", "res://Escenas/game.tscn");
-	}
-
-	private void OnExitPressed()
-	{
-
-		global.CallDeferred("CambiarEscena", "res://Escenas/main_menu.tscn");
+		retryButton.Pressed += () => global.CallDeferred("CambiarEscena", "res://Escenas/game.tscn");
+		exitButton.Pressed  += () => global.CallDeferred("CambiarEscena", "res://Escenas/main_menu.tscn");
 	}
 }

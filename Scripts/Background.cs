@@ -6,7 +6,6 @@ public partial class Background : Node2D
 	[Export] public float MaxSpeedBoost = 300f;
 	[Export] public float Acceleration = 0.08f;
 
-	// 🔥 NUEVO
 	[Export] public Texture2D BackgroundTexture;
 	[Export] public Vector2 BackgroundScale = new Vector2(1.9f, 1f);
 
