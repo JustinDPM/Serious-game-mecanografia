@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://c0dgnus0tpyq8" path="res://assets/FondoInicio.png" id="1_mkivq"]
 [ext_resource type="Script" uid="uid://bc1uoqesxxqa2" path="res://Scripts/GameOver.cs" id="1_rtfuk"]
 [ext_resource type="Texture2D" uid="uid://c2k268us1pjbr" path="res://assets/palabras minuto.png" id="2_wv832"]
-[ext_resource type="PackedScene" uid="uid://dc8i4ytb2600y" path="res://Escenas/background.tscn" id="3_5er1d"]
+[ext_resource type="FontFile" uid="uid://baoo727a24t57" path="res://Fonts/Orbitron-Black.ttf" id="3_5er1d"]
 [ext_resource type="FontFile" uid="uid://csb47k5lcd1bn" path="res://Fonts/RussoOne-Regular.ttf" id="3_acdi2"]
 [ext_resource type="Texture2D" uid="uid://dghvepiqugqlg" path="res://assets/precision.png" id="3_rtfuk"]
 [ext_resource type="Texture2D" uid="uid://bw4exdch78m5l" path="res://assets/totalpalabras.png" id="4_acdi2"]
@@ -95,7 +95,7 @@ theme_override_constants/separation = 10
 
 [node name="Title" type="RichTextLabel" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox" unique_id=1921730555]
 layout_mode = 2
-theme_override_fonts/normal_font = ExtResource("3_acdi2")
+theme_override_fonts/normal_font = ExtResource("3_5er1d")
 bbcode_enabled = true
 text = "[center][font_size=100][color=white]GAME [/color][color=#8a2be2]OVER[/color][/font_size][/center]"
 fit_content = true
@@ -145,7 +145,7 @@ columns = 2
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 1
-theme_override_fonts/font = ExtResource("3_acdi2")
+theme_override_fonts/font = ExtResource("3_5er1d")
 theme_override_font_sizes/font_size = 40
 text = "PALABRAS POR MINUTO"
 
@@ -159,7 +159,7 @@ text = "0"
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 1
-theme_override_fonts/font = ExtResource("3_acdi2")
+theme_override_fonts/font = ExtResource("3_5er1d")
 theme_override_font_sizes/font_size = 40
 text = "PORCENTAJE DE ACIERTO"
 
@@ -173,7 +173,7 @@ text = "0"
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 1
-theme_override_fonts/font = ExtResource("3_acdi2")
+theme_override_fonts/font = ExtResource("3_5er1d")
 theme_override_font_sizes/font_size = 40
 text = "TOTAL DE PALABRAS"
 
@@ -198,7 +198,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
-theme_override_fonts/font = ExtResource("3_acdi2")
+theme_override_fonts/font = ExtResource("3_5er1d")
 theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxFlat_5er1d")
 theme_override_styles/hover = SubResource("StyleBoxFlat_acdi2")
@@ -209,7 +209,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
-theme_override_fonts/font = ExtResource("3_acdi2")
+theme_override_fonts/font = ExtResource("3_5er1d")
 theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxFlat_5er1d")
 theme_override_styles/hover = SubResource("StyleBoxFlat_acdi2")
