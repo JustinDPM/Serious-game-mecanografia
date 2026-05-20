@@ -1,23 +1,32 @@
 using Godot;
-
+using System.Collections.Generic;
+public class MatchResult
+{
+    public int Score;
+    public float Accuracy;
+    public float WPM;
+    public string Duration;
+    public string LevelName;
+}
 public partial class Global : Node
 {
-	// Datos de sesión (ya no viene de BD, se pueden dejar en defaults)
-	public string UsuarioActivo  = "Jugador";
+
+    public List<MatchResult> MatchHistory = new List<MatchResult>();
+
+    public string UsuarioActivo  = "Jugador";
 	public string NombreCompleto = "Jugador Local";
 	public string Rol            = "Alumno";
-	public int    IdUsuario      = 0;   // 0 = sin BD
+	public int    IdUsuario      = 0;   
 	public int    IdGrado        = 3;   // Grado por defecto: Secundaria
 	public string RutaFotoPerfil = "res://assets/Perfiles/default.jpg";
 
-	// Resultados de la última partida (para Game Over)
+
 	public int   LastScore    = 0;
 	public float LastAccuracy = 0f;
 	public float LastWPM      = 0f;
 
-	// ────────── Diccionario local ──────────
-	// Añade o quita palabras aquí libremente.
-	public static readonly string[] Diccionario = new string[]
+
+    public static readonly string[] Diccionario = new string[]
 	{
 		"gato", "perro", "casa", "árbol", "libro",
 		"cielo", "luna", "sol", "mar", "río",
@@ -37,7 +46,6 @@ public partial class Global : Node
 		"victoria", "derrota", "batalla", "guerra", "paz"
 	};
 
-	// ────────── Métodos de escena ──────────
 	public void CambiarEscena(string rutaEscena)
 	{
 		Error error = GetTree().ChangeSceneToFile(rutaEscena);

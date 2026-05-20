@@ -148,6 +148,10 @@ public partial class StatsManager : Node
         gameEnded = true;
 
         SaveResults();
+
+        GetTree().ChangeSceneToFile(
+            "res://Escenas/game_over.tscn"
+        );
     }
 
     private void SaveResults()
@@ -159,10 +163,22 @@ public partial class StatsManager : Node
         global.LastAccuracy = GetAccuracy();
         global.LastWPM = GetWPM();
 
+        global.MatchHistory.Add(
+            new MatchResult
+            {
+                Score = global.LastScore,
+                Accuracy = global.LastAccuracy,
+                WPM = global.LastWPM,
+                Duration = GetTime(),
+                LevelName = GetTree().CurrentScene.Name
+            }
+        );
+
         GD.Print("=== PARTIDA TERMINADA ===");
         GD.Print($"Score:    {global.LastScore}");
         GD.Print($"Accuracy: {global.LastAccuracy:0.0}%");
         GD.Print($"WPM:      {global.LastWPM:0.0}");
+        GD.Print($"Partidas guardadas: {global.MatchHistory.Count}");
     }
 
     public void OnMeteorDestroyed(Meteor meteor)

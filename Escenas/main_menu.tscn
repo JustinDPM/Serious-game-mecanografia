@@ -295,4 +295,5 @@ grow_horizontal = 1
 grow_vertical = 1
 mainMenuPanel = NodePath("../MarginContainer")
 
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MainArea/LeftContainer/VBoxContainer/ProfileButton" to="." method="OnStatsPressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MainArea/LeftContainer/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]

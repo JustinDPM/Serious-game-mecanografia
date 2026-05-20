@@ -3,12 +3,13 @@
 [ext_resource type="Texture2D" uid="uid://c0dgnus0tpyq8" path="res://assets/FondoInicio.png" id="1_mkivq"]
 [ext_resource type="Script" uid="uid://bc1uoqesxxqa2" path="res://Scripts/GameOver.cs" id="1_rtfuk"]
 [ext_resource type="Texture2D" uid="uid://c2k268us1pjbr" path="res://assets/palabras minuto.png" id="2_wv832"]
+[ext_resource type="PackedScene" uid="uid://dc8i4ytb2600y" path="res://Escenas/background.tscn" id="3_5er1d"]
 [ext_resource type="FontFile" uid="uid://csb47k5lcd1bn" path="res://Fonts/RussoOne-Regular.ttf" id="3_acdi2"]
 [ext_resource type="Texture2D" uid="uid://dghvepiqugqlg" path="res://assets/precision.png" id="3_rtfuk"]
 [ext_resource type="Texture2D" uid="uid://bw4exdch78m5l" path="res://assets/totalpalabras.png" id="4_acdi2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37yi2"]
-bg_color = Color(0.1749846, 0.17498463, 0.1749846, 0.39215687)
+bg_color = Color(0.1764706, 0.1764706, 0.1764706, 0.6392157)
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
@@ -64,6 +65,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_mkivq")
+
+[node name="Background" parent="TextureRect" unique_id=1413272758 instance=ExtResource("3_5er1d")]
+position = Vector2(973, 568)
 
 [node name="CenterContainer" type="CenterContainer" parent="TextureRect" unique_id=1600462528]
 layout_mode = 1
