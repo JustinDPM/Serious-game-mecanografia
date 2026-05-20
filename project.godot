@@ -22,7 +22,6 @@ config/icon="res://assets/icon.svg"
 [autoload]
 
 Global="*uid://dbe2cv2iv2c7s"
-AudioManager="*uid://cc3b4p6u25mxe"
 
 [display]
 

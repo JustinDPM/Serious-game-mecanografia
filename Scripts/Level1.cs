@@ -12,10 +12,12 @@ public partial class Level1 : Node2D
 		var turret = GetNode<Turret>("Ship/Turret");
 		var global = GetNode<Global>("/root/Global");
 
-        GetNode<AudioManager>("/root/AudioManager")
-			.PlayGameMusic();
+		turret.OnGameOver += () =>
+		{
+			global.CallDeferred("CambiarEscena", "res://Escenas/game_over.tscn");
+		};
 
-    }
+	}
 
 	public override void _Input(InputEvent @event)
 	{

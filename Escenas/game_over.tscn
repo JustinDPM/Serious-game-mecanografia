@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bw4exdch78m5l" path="res://assets/totalpalabras.png" id="4_acdi2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37yi2"]
-bg_color = Color(0.1764706, 0.1764706, 0.1764706, 0.6392157)
+bg_color = Color(0.1749846, 0.17498463, 0.1749846, 0.39215687)
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
@@ -65,9 +65,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_mkivq")
-
-[node name="Background" parent="TextureRect" unique_id=1413272758 instance=ExtResource("3_5er1d")]
-position = Vector2(973, 568)
 
 [node name="CenterContainer" type="CenterContainer" parent="TextureRect" unique_id=1600462528]
 layout_mode = 1
