@@ -32,7 +32,7 @@ turret = NodePath("../Ship/Turret")
 
 [node name="MeteorSpawner" parent="." unique_id=158739484 node_paths=PackedStringArray("Turret") instance=ExtResource("4_m2vww")]
 MeteorScene = ExtResource("2_obr3f")
-SpawnInterval = 3.0
+SpawnInterval = 1.8
 Turret = NodePath("../Ship/Turret")
 
 [node name="InputManager" parent="." unique_id=1312815400 node_paths=PackedStringArray("spawner", "turret") instance=ExtResource("5_5fqxb")]

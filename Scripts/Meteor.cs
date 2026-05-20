@@ -187,6 +187,9 @@ public partial class Meteor : CharacterBody2D, IDamageable
 
         if (hitsReceived >= Word.Length)
             Die();
+
+        GetNode<AudioManager>("/root/AudioManager")
+            .PlayMeteorDestroy();
     }
 
     public void Die()
@@ -214,6 +217,9 @@ public partial class Meteor : CharacterBody2D, IDamageable
         SpawnScorePopup(score);
 
         OnMeteorDestroyed?.Invoke(this);
+
+        GetNode<AudioManager>("/root/AudioManager")
+            .PlayMeteorDestroyed();
 
         QueueFree();
     }
