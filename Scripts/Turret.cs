@@ -6,7 +6,6 @@ public partial class Turret : CharacterBody2D
 {
     public event Action OnGameOver;
 
-    // 🔥 nuevos eventos
     public event Action OnComboStarted;
     public event Action OnComboEnded;
 
@@ -23,7 +22,6 @@ public partial class Turret : CharacterBody2D
 
     private int streak = 0;
 
-    // 🔥 estado del combo
     private bool comboActive = false;
 
     private Queue<Meteor> shootQueue =
@@ -201,6 +199,9 @@ public partial class Turret : CharacterBody2D
 
         GetTree().CurrentScene
             .AddChild(bullet);
+
+        GetNode<AudioManager>("/root/AudioManager")
+            .PlayShoot();
     }
 
     public void TakeDamage(int dmg)
