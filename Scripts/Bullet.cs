@@ -2,7 +2,7 @@
 
 	public partial class Bullet : Area2D
 	{
-		[Export] public float Speed = 1700f;
+		[Export] public float Speed = 2500f;
 
 		private Node2D target;
 		private bool hasHit = false;

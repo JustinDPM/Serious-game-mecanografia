@@ -7,7 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://chvjwf23ivlt1" path="res://assets/logoIASD.png" id="4_xgkoo"]
 [ext_resource type="FontFile" uid="uid://csb47k5lcd1bn" path="res://Fonts/RussoOne-Regular.ttf" id="5_a082v"]
 [ext_resource type="Texture2D" uid="uid://br4vd8vjysc70" path="res://assets/icon.svg" id="5_s5s4m"]
+[ext_resource type="FontFile" uid="uid://baoo727a24t57" path="res://Fonts/Orbitron-Black.ttf" id="7_0bd8u"]
 [ext_resource type="Texture2D" uid="uid://butgqmdmne71j" path="res://assets/nave-background2 (1).png" id="7_a082v"]
+[ext_resource type="FontFile" uid="uid://cpd145hveek8t" path="res://Fonts/Orbitron-Medium.ttf" id="8_mrusn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s5s4m"]
 shader = ExtResource("3_7ms0u")
@@ -158,9 +160,14 @@ theme_override_constants/separation = 25
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_pressed_color = Color(0.4635085, 0.40963116, 0.40432504, 1)
 theme_override_constants/outline_size = 1
-theme_override_fonts/font = ExtResource("5_a082v")
+theme_override_fonts/font = ExtResource("7_0bd8u")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_7rocb")
 theme_override_styles/hover = SubResource("StyleBoxFlat_7ms0u")
@@ -172,7 +179,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 1
-theme_override_fonts/font = ExtResource("5_a082v")
+theme_override_fonts/font = ExtResource("7_0bd8u")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_7rocb")
 theme_override_styles/hover = SubResource("StyleBoxFlat_7ms0u")
@@ -184,7 +191,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 1
-theme_override_fonts/font = ExtResource("5_a082v")
+theme_override_fonts/font = ExtResource("7_0bd8u")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_7rocb")
 theme_override_styles/hover = SubResource("StyleBoxFlat_7ms0u")
@@ -196,7 +203,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 1
-theme_override_fonts/font = ExtResource("5_a082v")
+theme_override_fonts/font = ExtResource("7_0bd8u")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_7rocb")
 theme_override_styles/hover = SubResource("StyleBoxFlat_7ms0u")
@@ -208,7 +215,7 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 1
-theme_override_fonts/font = ExtResource("5_a082v")
+theme_override_fonts/font = ExtResource("7_0bd8u")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_7rocb")
 theme_override_styles/hover = SubResource("StyleBoxFlat_7ms0u")
@@ -233,7 +240,7 @@ alignment = 1
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
-theme_override_fonts/font = ExtResource("5_a082v")
+theme_override_fonts/font = ExtResource("8_mrusn")
 theme_override_font_sizes/font_size = 30
 text = "PILOTO: EDUARDO"
 
@@ -241,7 +248,7 @@ text = "PILOTO: EDUARDO"
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
-theme_override_fonts/font = ExtResource("5_a082v")
+theme_override_fonts/font = ExtResource("8_mrusn")
 theme_override_font_sizes/font_size = 30
 text = "RECORD: 300WPM"
 
@@ -267,7 +274,7 @@ alignment = 1
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
-theme_override_fonts/font = ExtResource("5_a082v")
+theme_override_fonts/font = ExtResource("8_mrusn")
 theme_override_font_sizes/font_size = 30
 text = "PALABRAS ACTIVAS: 1,200"
 horizontal_alignment = 1
@@ -276,7 +283,7 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
-theme_override_fonts/font = ExtResource("5_a082v")
+theme_override_fonts/font = ExtResource("8_mrusn")
 theme_override_font_sizes/font_size = 30
 text = "GRADO: PREPARATORIA"
 horizontal_alignment = 1
