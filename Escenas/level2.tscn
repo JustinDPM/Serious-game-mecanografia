@@ -2,22 +2,23 @@
 
 [ext_resource type="Script" uid="uid://b3hym8fxnt03t" path="res://Scripts/Level1.cs" id="1_gdtlt"]
 [ext_resource type="PackedScene" uid="uid://dc8i4ytb2600y" path="res://Escenas/background.tscn" id="2_pwscp"]
-[ext_resource type="Texture2D" uid="uid://bxnjbmo0d0ogd" path="res://assets/Backgrounds/Purple Nebula/Purple_Nebula_03-1024x1024.png" id="3_gdtlt"]
+[ext_resource type="Texture2D" uid="uid://dmsxc7stcqlog" path="res://assets/Backgrounds/Purple Nebula/Purple_Nebula_01-1024x1024.png" id="3_pwscp"]
 [ext_resource type="PackedScene" uid="uid://cwuifhnvtoifk" path="res://Escenas/meteor_spawner.tscn" id="4_k57ow"]
+[ext_resource type="PackedScene" uid="uid://b1hstvnv4ifcy" path="res://Escenas/meteor.tscn" id="5_8fhks"]
 [ext_resource type="PackedScene" uid="uid://bwdiispqo4vcl" path="res://Escenas/input_manager.tscn" id="5_pb73w"]
-[ext_resource type="PackedScene" uid="uid://cb7g7sif6mcvd" path="res://Escenas/hidden_letter_meteor.tscn" id="5_pwscp"]
 [ext_resource type="PackedScene" uid="uid://d2w521pundbn2" path="res://Escenas/ship.tscn" id="6_e3ki8"]
+[ext_resource type="PackedScene" uid="uid://cj500okn6b4ve" path="res://Escenas/meteor_long.tscn" id="6_k57ow"]
 [ext_resource type="PackedScene" uid="uid://de0jciynbpbpo" path="res://Escenas/settings_menu.tscn" id="7_bc1nb"]
 [ext_resource type="PackedScene" uid="uid://c1dep7cmhro6r" path="res://Escenas/hud.tscn" id="9_jyfuy"]
-[ext_resource type="Script" uid="uid://bu5dkxb7nb2a0" path="res://Scripts/StatsManager.cs" id="10_d8ecf"]
 [ext_resource type="PackedScene" uid="uid://cs6fh2pahx2ac" path="res://Escenas/camera_shake.tscn" id="10_gdtlt"]
+[ext_resource type="PackedScene" uid="uid://bffrnjby0h5qs" path="res://Escenas/stats_manager.tscn" id="12_8fhks"]
 
 [sub_resource type="Environment" id="Environment_gdtlt"]
 glow_enabled = true
 glow_intensity = 1.3
 glow_bloom = 0.2
 
-[node name="Level1" type="Node2D" unique_id=1605905321]
+[node name="Level2" type="Node2D" unique_id=1605905321]
 script = ExtResource("1_gdtlt")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2005315056]
@@ -26,12 +27,15 @@ environment = SubResource("Environment_gdtlt")
 [node name="Background" parent="." unique_id=1413272758 node_paths=PackedStringArray("turret") instance=ExtResource("2_pwscp")]
 position = Vector2(955, 749)
 MaxSpeedBoost = 600.0
-BackgroundTexture = ExtResource("3_gdtlt")
+BackgroundTexture = ExtResource("3_pwscp")
 turret = NodePath("../Ship/Turret")
 
 [node name="MeteorSpawner" parent="." unique_id=158739484 node_paths=PackedStringArray("Turret") instance=ExtResource("4_k57ow")]
-MeteorScene = ExtResource("5_pwscp")
+MeteorScene = ExtResource("5_8fhks")
+MeteorLongScene = ExtResource("6_k57ow")
 Turret = NodePath("../Ship/Turret")
+NormalMeteorSpeed = 150.0
+LongMeteorSpeed = 15.0
 
 [node name="InputManager" parent="." unique_id=1312815400 node_paths=PackedStringArray("spawner", "turret") instance=ExtResource("5_pb73w")]
 spawner = NodePath("../MeteorSpawner")
@@ -61,11 +65,10 @@ offset_bottom = 750.0
 player = NodePath("../Ship/Turret")
 stats = NodePath("../StatsManager")
 
-[node name="StatsManager" type="Node" parent="." unique_id=1756574790]
-script = ExtResource("10_d8ecf")
-
 [node name="CameraShake" parent="." unique_id=1034371420 node_paths=PackedStringArray("turret") instance=ExtResource("10_gdtlt")]
 position = Vector2(960, 516)
 turret = NodePath("../Ship/Turret")
+
+[node name="StatsManager" parent="." unique_id=833691552 instance=ExtResource("12_8fhks")]
 
 [editable path="Ship"]

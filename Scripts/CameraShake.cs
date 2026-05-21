@@ -9,10 +9,9 @@ public partial class CameraShake : Camera2D
 
     private float time = 0f;
 
-    // 🔥 estado combo
     private bool comboActive = false;
 
-    // 🔥 zoom objetivo
+
     private float targetZoom = 1f;
 
     public override void _Ready()
@@ -51,7 +50,6 @@ public partial class CameraShake : Camera2D
                 1f
             );
 
-        // 🔥 shake normal
         if (shakeTime > 0)
         {
             shakeTime -= dt;
@@ -73,7 +71,6 @@ public partial class CameraShake : Camera2D
             Offset = Vector2.Zero;
         }
 
-        // 🔥 pulso combo
         if (comboActive)
         {
             float pulse =

@@ -36,6 +36,8 @@ public partial class Background : Node2D
         bg2 = GetNode<Sprite2D>("BG2");
         bg3 = GetNode<Sprite2D>("BG3");
 
+
+
         stars1 =
             GetNode<GpuParticles2D>("Stars");
 
@@ -44,6 +46,10 @@ public partial class Background : Node2D
 
         stars3 =
             GetNode<GpuParticles2D>("Stars3");
+
+        stars1.Preprocess = 10f;
+        stars2.Preprocess = 10f;
+        stars3.Preprocess = 10f;
 
         if (BackgroundTexture != null)
         {

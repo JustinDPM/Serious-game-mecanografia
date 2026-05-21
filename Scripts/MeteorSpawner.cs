@@ -9,8 +9,12 @@ public partial class MeteorSpawner : Node2D
     [Export] public float SpawnInterval = 2f;
     [Export] public Turret Turret;
 
-    // Cada cuántos meteoritos normales sale uno largo
     [Export] public int LongMeteorEvery = 8;
+
+
+
+    [Export] public float NormalMeteorSpeed = 250f;
+    [Export] public float LongMeteorSpeed = 140f;
 
     private List<string> words = new List<string>();
     private List<string> paragraphs = new List<string>();
@@ -88,6 +92,8 @@ public partial class MeteorSpawner : Node2D
 
         meteor.Word = words[GD.RandRange(0, words.Count - 1)];
 
+        meteor.Speed = NormalMeteorSpeed;
+
         SetupMeteor(meteor, -100);
     }
 
@@ -96,6 +102,8 @@ public partial class MeteorSpawner : Node2D
         var meteor = MeteorLongScene.Instantiate<MeteorLong>();
 
         meteor.Word = paragraphs[GD.RandRange(0, paragraphs.Count - 1)];
+
+        meteor.Speed = LongMeteorSpeed;
 
         activeLongMeteor = meteor;
 
