@@ -6,46 +6,20 @@
 [ext_resource type="PackedScene" uid="uid://dc8i4ytb2600y" path="res://Escenas/background.tscn" id="3_5er1d"]
 [ext_resource type="FontFile" uid="uid://csb47k5lcd1bn" path="res://Fonts/RussoOne-Regular.ttf" id="3_acdi2"]
 [ext_resource type="Texture2D" uid="uid://dghvepiqugqlg" path="res://assets/precision.png" id="3_rtfuk"]
+[ext_resource type="Texture2D" uid="uid://pvqd8qrxxl18" path="res://Escenas/pad_screen.png" id="4_40kah"]
 [ext_resource type="Texture2D" uid="uid://bw4exdch78m5l" path="res://assets/totalpalabras.png" id="4_acdi2"]
+[ext_resource type="Theme" uid="uid://btt18n35jc653" path="res://button_Theme2.tres" id="8_ey5a1"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_37yi2"]
-bg_color = Color(0.1764706, 0.1764706, 0.1764706, 0.6392157)
-corner_radius_top_left = 50
-corner_radius_top_right = 50
-corner_radius_bottom_right = 50
-corner_radius_bottom_left = 50
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4tnjg"]
+texture = ExtResource("4_40kah")
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_b2ges"]
 content_margin_left = 10.0
 content_margin_top = 10.0
 content_margin_right = 10.0
 content_margin_bottom = 10.0
-color = Color(0.5411765, 0.16862746, 0.8862745, 1)
+color = Color(0, 1, 1, 1)
 thickness = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5er1d"]
-bg_color = Color(0.5411765, 0.16862746, 0.8862745, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-corner_detail = 20
-expand_margin_left = 30.0
-expand_margin_top = 10.0
-expand_margin_right = 30.0
-expand_margin_bottom = 10.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_acdi2"]
-bg_color = Color(0.23679757, 0.033253584, 0.41155759, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-corner_detail = 20
-expand_margin_left = 30.0
-expand_margin_top = 10.0
-expand_margin_right = 30.0
-expand_margin_bottom = 10.0
 
 [node name="GameOver" type="Control" unique_id=764673616]
 layout_mode = 3
@@ -80,7 +54,7 @@ grow_vertical = 2
 [node name="PrincipalPanel" type="PanelContainer" parent="TextureRect/CenterContainer" unique_id=954897349]
 custom_minimum_size = Vector2(1250, 800)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_37yi2")
+theme_override_styles/panel = SubResource("StyleBoxTexture_4tnjg")
 
 [node name="MarginContainer" type="MarginContainer" parent="TextureRect/CenterContainer/PrincipalPanel" unique_id=1682359984]
 layout_mode = 2
@@ -97,7 +71,7 @@ theme_override_constants/separation = 10
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("3_acdi2")
 bbcode_enabled = true
-text = "[center][font_size=100][color=white]GAME [/color][color=#8a2be2]OVER[/color][/font_size][/center]"
+text = "[center][font_size=100][color=white]GAME [/color][color=#00FFFF]OVER[/color][/font_size][/center]"
 fit_content = true
 
 [node name="TopSeparator" type="HSeparator" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox" unique_id=109776100]
@@ -195,22 +169,20 @@ alignment = 1
 
 [node name="BtnRetry" type="Button" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/ButtonsHBox" unique_id=1232384556]
 layout_mode = 2
+theme = ExtResource("8_ey5a1")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("3_acdi2")
 theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxFlat_5er1d")
-theme_override_styles/hover = SubResource("StyleBoxFlat_acdi2")
 text = "Intentar de nuevo"
 
 [node name="BtnMainMenu" type="Button" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/ButtonsHBox" unique_id=1114070502]
 layout_mode = 2
+theme = ExtResource("8_ey5a1")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("3_acdi2")
 theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxFlat_5er1d")
-theme_override_styles/hover = SubResource("StyleBoxFlat_acdi2")
 text = "Volver al menú"

@@ -1,0 +1,42 @@
+[gd_resource type="Theme" format=3 uid="uid://btt18n35jc653"]
+
+[ext_resource type="FontFile" uid="uid://baoo727a24t57" path="res://Fonts/Orbitron-Black.ttf" id="1_sh1vb"]
+[ext_resource type="Texture2D" uid="uid://hpbcjo562lxh" path="res://Escenas/button.png" id="2_dpkff"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3w8xk"]
+content_margin_top = 16.0
+texture = ExtResource("2_dpkff")
+expand_margin_left = 20.0
+expand_margin_right = 20.0
+expand_margin_bottom = 32.0
+modulate_color = Color(0.61745447, 0.6174548, 0.6174547, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vugv7"]
+texture = ExtResource("2_dpkff")
+texture_margin_left = 20.0
+texture_margin_top = 100.0
+expand_margin_right = 30.0
+expand_margin_bottom = 40.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kyn43"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+texture = ExtResource("2_dpkff")
+expand_margin_left = 20.0
+expand_margin_right = 20.0
+expand_margin_bottom = 32.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p8v1y"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+texture = ExtResource("2_dpkff")
+expand_margin_right = 30.0
+expand_margin_bottom = 40.0
+modulate_color = Color(0.6156863, 0.6156863, 0.6156863, 1)
+
+[resource]
+Button/fonts/font = ExtResource("1_sh1vb")
+Button/styles/hover = SubResource("StyleBoxTexture_3w8xk")
+Button/styles/hover_pressed = SubResource("StyleBoxTexture_vugv7")
+Button/styles/normal = SubResource("StyleBoxTexture_kyn43")
+Button/styles/pressed = SubResource("StyleBoxTexture_p8v1y")

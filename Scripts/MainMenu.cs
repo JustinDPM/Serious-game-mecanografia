@@ -49,10 +49,10 @@ public partial class MainMenu : Control
 		foreach (Button btn in botones)
 			ConfigurarAnimacionBoton(btn);
 
-        GetNode<AudioManager>("/root/AudioManager")
+		GetNode<AudioManager>("/root/AudioManager")
 		.PlayMenuMusic();
 
-        ActualizarInterfaz();
+		ActualizarInterfaz();
 	}
 
 	private void ActualizarInterfaz()
@@ -100,16 +100,17 @@ public partial class MainMenu : Control
 			tween.TweenProperty(boton, "scale", new Vector2(1.0f, 1.0f), 0.1f)
 				 .SetTrans(Tween.TransitionType.Sine);
 		};
+		
 	}
 
 	private void OnPlayButtonPressed()     => _global.CambiarEscena("res://Escenas/game.tscn");
 	private void OnSettingsButtonPressed() { _mainPanel.Visible = false; _settingsMenu.Open(false); }
 	private void OnQuitButtonPressed()     => GetTree().Quit();
 
-    private void OnStatsPressed()
-    {
-        _global.CambiarEscena(
+	private void OnStatsPressed()
+	{
+		_global.CambiarEscena(
             "res://Escenas/stats_screen.tscn"
-        );
-    }
+		);
+	}
 }
