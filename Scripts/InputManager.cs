@@ -68,17 +68,13 @@ public partial class InputManager : Node
             return;
         }
 
-        if (
-            key.Unicode <= 0 ||
-            !char.IsLetterOrDigit(
-                (char)key.Unicode
-            )
-        )
-        {
+        if (key.Unicode <= 0)
             return;
-        }
 
         char newChar = (char)key.Unicode;
+
+        if (char.IsControl(newChar))
+            return;
 
         if (currentTarget == null)
         {

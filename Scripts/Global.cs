@@ -46,7 +46,15 @@ public partial class Global : Node
 		"victoria", "derrota", "batalla", "guerra", "paz"
 	};
 
-	public void CambiarEscena(string rutaEscena)
+    public static readonly string[] Parrafos = new string[]
+	{
+		"El gato corre bajo la luna",
+		"La lectura mejora la ortografía y la memoria",
+		"Escribir rápido también requiere precisión",
+		"Los meteoritos grandes son más peligrosos"
+	};
+
+    public void CambiarEscena(string rutaEscena)
 	{
 		Error error = GetTree().ChangeSceneToFile(rutaEscena);
 		if (error != Error.Ok)

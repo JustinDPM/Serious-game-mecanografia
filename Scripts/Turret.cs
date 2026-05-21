@@ -212,7 +212,6 @@ public partial class Turret : CharacterBody2D
 
         shootQueue.Clear();
 
-        // 🔥 salir del combo
         if (comboActive)
         {
             comboActive = false;
