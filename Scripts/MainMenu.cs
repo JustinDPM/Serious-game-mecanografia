@@ -49,10 +49,10 @@ public partial class MainMenu : Control
 		foreach (Button btn in botones)
 			ConfigurarAnimacionBoton(btn);
 
-        GetNode<AudioManager>("/root/AudioManager")
+		GetNode<AudioManager>("/root/AudioManager")
 		.PlayMenuMusic();
 
-        ActualizarInterfaz();
+		ActualizarInterfaz();
 	}
 
 	private void ActualizarInterfaz()
@@ -106,10 +106,10 @@ public partial class MainMenu : Control
 	private void OnSettingsButtonPressed() { _mainPanel.Visible = false; _settingsMenu.Open(false); }
 	private void OnQuitButtonPressed()     => GetTree().Quit();
 
-    private void OnStatsPressed()
-    {
-        _global.CambiarEscena(
+	private void OnStatsPressed()
+	{
+		_global.CambiarEscena(
             "res://Escenas/stats_screen.tscn"
-        );
-    }
+		);
+	}
 }

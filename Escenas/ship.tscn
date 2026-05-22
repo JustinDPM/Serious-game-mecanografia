@@ -143,16 +143,16 @@ script = ExtResource("1_xpyfw")
 position = Vector2(-59, -10)
 rotation = 0.0
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1589949495]
-position = Vector2(2.7499876, -12.000002)
-scale = Vector2(0.1459375, 0.18444444)
-texture = ExtResource("3_xpyfw")
-
 [node name="Flame" type="Node2D" parent="." unique_id=347352705]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Flame" unique_id=1959656057]
-position = Vector2(143, -13)
+position = Vector2(133.00002, -11.000001)
 scale = Vector2(0.11979166, 0.16944446)
 sprite_frames = SubResource("SpriteFrames_2pw62")
 animation = &"idle"
 frame_progress = 0.26744625
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1589949495]
+position = Vector2(3.4999945, -10)
+scale = Vector2(0.14687501, 0.19555555)
+texture = ExtResource("3_xpyfw")

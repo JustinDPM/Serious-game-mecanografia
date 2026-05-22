@@ -2,193 +2,193 @@ using Godot;
 
 public partial class StatsManager : Node
 {
-    private float timeAlive = 0f;
+	private float timeAlive = 0f;
 
-    private int correct = 0;
-    private int wrong = 0;
-    private int words = 0;
-    private int totalInputs = 0;
+	private int correct = 0;
+	private int wrong = 0;
+	private int words = 0;
+	private int totalInputs = 0;
 
-    [Export] public float GameDuration = 120f;
+	[Export] public float GameDuration = 120f;
 
-    private bool gameEnded = false;
+	private bool gameEnded = false;
 
-    private InputManager input;
-    private Turret turret;
-    private Global global;
+	private InputManager input;
+	private Turret turret;
+	private Global global;
 
-    public override void _Ready()
-    {
-        global = GetNode<Global>("/root/Global");
+	public override void _Ready()
+	{
+		global = GetNode<Global>("/root/Global");
 
-        input = GetNodeOrNull<InputManager>("../InputManager");
+		input = GetNodeOrNull<InputManager>("../InputManager");
 
-        turret = GetNodeOrNull<Turret>("../Ship/Turret");
+		turret = GetNodeOrNull<Turret>("../Ship/Turret");
 
-        if (input == null)
-        {
-            GD.PrintErr("StatsManager: InputManager no encontrado.");
-            return;
-        }
+		if (input == null)
+		{
+			GD.PrintErr("StatsManager: InputManager no encontrado.");
+			return;
+		}
 
-        if (turret == null)
-        {
-            GD.PrintErr("StatsManager: Turret no encontrado.");
-        }
+		if (turret == null)
+		{
+			GD.PrintErr("StatsManager: Turret no encontrado.");
+		}
 
-        input.OnCorrectChar += OnCorrectChar;
-        input.OnWrongChar += OnWrongChar;
-        input.OnWordCompleted += OnWordCompleted;
+		input.OnCorrectChar += OnCorrectChar;
+		input.OnWrongChar += OnWrongChar;
+		input.OnWordCompleted += OnWordCompleted;
 
-        if (turret != null)
-            turret.OnGameOver += EndGameByDeath;
-    }
+		if (turret != null)
+			turret.OnGameOver += EndGameByDeath;
+	}
 
-    public override void _ExitTree()
-    {
-        if (input != null)
-        {
-            input.OnCorrectChar -= OnCorrectChar;
-            input.OnWrongChar -= OnWrongChar;
-            input.OnWordCompleted -= OnWordCompleted;
-        }
+	public override void _ExitTree()
+	{
+		if (input != null)
+		{
+			input.OnCorrectChar -= OnCorrectChar;
+			input.OnWrongChar -= OnWrongChar;
+			input.OnWordCompleted -= OnWordCompleted;
+		}
 
-        if (turret != null)
-            turret.OnGameOver -= EndGameByDeath;
-    }
+		if (turret != null)
+			turret.OnGameOver -= EndGameByDeath;
+	}
 
-    public override void _Process(double delta)
-    {
-        if (gameEnded)
-            return;
+	public override void _Process(double delta)
+	{
+		if (gameEnded)
+			return;
 
-        timeAlive += (float)delta;
+		timeAlive += (float)delta;
 
-        if (timeAlive >= GameDuration)
-        {
-            EndGameByTime();
-        }
-    }
+		if (timeAlive >= GameDuration)
+		{
+			EndGameByTime();
+		}
+	}
 
-    public void OnCorrectChar()
-    {
-        if (gameEnded) return;
+	public void OnCorrectChar()
+	{
+		if (gameEnded) return;
 
-        correct++;
-        totalInputs++;
-    }
+		correct++;
+		totalInputs++;
+	}
 
-    public void OnWrongChar()
-    {
-        if (gameEnded) return;
+	public void OnWrongChar()
+	{
+		if (gameEnded) return;
 
-        wrong++;
-        totalInputs++;
-    }
+		wrong++;
+		totalInputs++;
+	}
 
-    public void OnWordCompleted()
-    {
-        if (gameEnded) return;
+	public void OnWordCompleted()
+	{
+		if (gameEnded) return;
 
-        words++;
-    }
+		words++;
+	}
 
-    public float GetWPM()
-    {
-        float minutes = timeAlive / 60f;
+	public float GetWPM()
+	{
+		float minutes = timeAlive / 60f;
 
-        return minutes <= 0
-            ? 0
-            : words / minutes;
-    }
+		return minutes <= 0
+			? 0
+			: words / minutes;
+	}
 
-    public float GetAccuracy()
-    {
-        if (totalInputs == 0)
-            return 100f;
+	public float GetAccuracy()
+	{
+		if (totalInputs == 0)
+			return 100f;
 
-        return (float)correct / totalInputs * 100f;
-    }
+		return (float)correct / totalInputs * 100f;
+	}
 
-    public string GetTime()
-    {
-        float remaining =
-            Mathf.Max(
-                GameDuration - timeAlive,
-                0f
-            );
+	public string GetTime()
+	{
+		float remaining =
+			Mathf.Max(
+				GameDuration - timeAlive,
+				0f
+			);
 
-        int m = (int)(remaining / 60);
-        int s = (int)(remaining % 60);
+		int m = (int)(remaining / 60);
+		int s = (int)(remaining % 60);
 
-        return $"{m:00}:{s:00}";
-    }
+		return $"{m:00}:{s:00}";
+	}
 
-    private void EndGameByTime()
-    {
-        if (gameEnded)
-            return;
+	private void EndGameByTime()
+	{
+		if (gameEnded)
+			return;
 
-        gameEnded = true;
+		gameEnded = true;
 
-        SaveResults();
+		SaveResults();
 
-        GD.Print("TIEMPO TERMINADO");
+		GD.Print("TIEMPO TERMINADO");
 
-        GetTree().ChangeSceneToFile(
+		GetTree().ChangeSceneToFile(
             "res://Escenas/game_over.tscn"
-        );
-    }
+		);
+	}
 
-    private void EndGameByDeath()
-    {
-        if (gameEnded)
-            return;
+	private void EndGameByDeath()
+	{
+		if (gameEnded)
+			return;
 
-        gameEnded = true;
+		gameEnded = true;
 
-        SaveResults();
+		SaveResults();
 
-        GetTree().ChangeSceneToFile(
+		GetTree().ChangeSceneToFile(
             "res://Escenas/game_over.tscn"
-        );
-    }
+		);
+	}
 
-    private void SaveResults()
-    {
-        if (global == null || turret == null)
-            return;
+	private void SaveResults()
+	{
+		if (global == null || turret == null)
+			return;
 
-        global.LastScore = turret.GetScore();
-        global.LastAccuracy = GetAccuracy();
-        global.LastWPM = GetWPM();
+		global.LastScore = turret.GetScore();
+		global.LastAccuracy = GetAccuracy();
+		global.LastWPM = GetWPM();
 
-        global.MatchHistory.Add(
-            new MatchResult
-            {
-                Score = global.LastScore,
-                Accuracy = global.LastAccuracy,
-                WPM = global.LastWPM,
-                Duration = GetTime(),
-                LevelName = GetTree().CurrentScene.Name
-            }
-        );
+		global.MatchHistory.Add(
+			new MatchResult
+			{
+				Score = global.LastScore,
+				Accuracy = global.LastAccuracy,
+				WPM = global.LastWPM,
+				Duration = GetTime(),
+				LevelName = GetTree().CurrentScene.Name
+			}
+		);
 
-        GD.Print("=== PARTIDA TERMINADA ===");
-        GD.Print($"Score:    {global.LastScore}");
-        GD.Print($"Accuracy: {global.LastAccuracy:0.0}%");
-        GD.Print($"WPM:      {global.LastWPM:0.0}");
-        GD.Print($"Partidas guardadas: {global.MatchHistory.Count}");
-    }
+		GD.Print("=== PARTIDA TERMINADA ===");
+		GD.Print($"Score:    {global.LastScore}");
+		GD.Print($"Accuracy: {global.LastAccuracy:0.0}%");
+		GD.Print($"WPM:      {global.LastWPM:0.0}");
+		GD.Print($"Partidas guardadas: {global.MatchHistory.Count}");
+	}
 
-    public void OnMeteorDestroyed(Meteor meteor)
-    {
-        if (gameEnded)
-            return;
+	public void OnMeteorDestroyed(Meteor meteor)
+	{
+		if (gameEnded)
+			return;
 
-        if (turret == null)
-            return;
+		if (turret == null)
+			return;
 
-        turret.AddStreak();
-    }
+		turret.AddStreak();
+	}
 }

@@ -12,10 +12,10 @@ public partial class Level1 : Node2D
 		var turret = GetNode<Turret>("Ship/Turret");
 		var global = GetNode<Global>("/root/Global");
 
-        GetNode<AudioManager>("/root/AudioManager")
+		GetNode<AudioManager>("/root/AudioManager")
 			.PlayGameMusic();
 
-    }
+	}
 
 	public override void _Input(InputEvent @event)
 	{
