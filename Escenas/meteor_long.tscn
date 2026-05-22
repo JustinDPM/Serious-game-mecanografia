@@ -65,8 +65,12 @@ radius = 90.005554
 [node name="long_meteor" type="CharacterBody2D" unique_id=1046465861]
 script = ExtResource("1_jo8j0")
 LongMeteorRotationSpeed = 0.15
+EntryBoostSpeed = 220.0
 Speed = 25.0
 ScorePopupScene = ExtResource("2_d6sxy")
+StreakSpeedBonus = 2.0
+ComboSpeedBonus = 25.0
+MaxDynamicSpeed = 300.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1883853145]
 position = Vector2(22.499989, -25.499996)

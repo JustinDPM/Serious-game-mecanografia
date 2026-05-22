@@ -10,6 +10,10 @@ public partial class Meteor : CharacterBody2D, IDamageable
 
     [Export] public PackedScene ScorePopupScene;
 
+    [Export] public float StreakSpeedBonus = 6f;
+    [Export] public float ComboSpeedBonus = 80f;
+    [Export] public float MaxDynamicSpeed = 550f;
+
     private Tween hitTween;
     private Tween shakeTween;
 
@@ -101,11 +105,15 @@ public partial class Meteor : CharacterBody2D, IDamageable
             if (turret != null)
             {
                 int streak = turret.GetStreak();
+                dynamicSpeed += streak * GetStreakSpeedBonus();
 
-                dynamicSpeed += streak * 6f;
+                if (turret.IsComboActive())
+                {
+                    dynamicSpeed += GetComboSpeedBonus();
+                }
 
                 dynamicSpeed =
-                    Mathf.Min(dynamicSpeed, 450f);
+                    Mathf.Min(dynamicSpeed, GetMaxSpeed());
             }
 
             Velocity = dir * dynamicSpeed;
@@ -515,5 +523,20 @@ public partial class Meteor : CharacterBody2D, IDamageable
     protected bool HasMistake()
     {
         return hadMistake;
+    }
+
+    protected virtual float GetStreakSpeedBonus()
+    {
+        return StreakSpeedBonus;
+    }
+
+    protected virtual float GetComboSpeedBonus()
+    {
+        return ComboSpeedBonus;
+    }
+
+    protected virtual float GetMaxSpeed()
+    {
+        return MaxDynamicSpeed;
     }
 }

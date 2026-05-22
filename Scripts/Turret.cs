@@ -18,7 +18,7 @@ public partial class Turret : CharacterBody2D
     [Export] public int Score = 0;
 
     private Global global;
-    private CameraShake camera;
+    [Export] private CameraShake camera;
 
     private int streak = 0;
 
@@ -43,11 +43,6 @@ public partial class Turret : CharacterBody2D
     public override void _Ready()
     {
         global = GetNode<Global>("/root/Global");
-
-        camera = GetTree().Root
-            .GetNodeOrNull<CameraShake>(
-                "Level1/CameraShake"
-            );
 
         animatedSprite =
             GetNode<AnimatedSprite2D>(
@@ -144,7 +139,6 @@ public partial class Turret : CharacterBody2D
         float brightness =
             1f + glow * 0.35f;
 
-        // 🔥 evitar brillo exagerado
         brightness =
             Mathf.Clamp(brightness, 1f, 1.4f);
 

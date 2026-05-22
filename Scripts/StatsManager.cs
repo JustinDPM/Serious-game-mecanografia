@@ -6,8 +6,11 @@ public partial class StatsManager : Node
 
     private int correct = 0;
     private int wrong = 0;
-    private int words = 0;
     private int totalInputs = 0;
+
+    // Para WPM real tipo mecanografía:
+    // 1 palabra = 5 caracteres correctos
+    private int correctChars = 0;
 
     [Export] public float GameDuration = 120f;
 
@@ -72,34 +75,42 @@ public partial class StatsManager : Node
 
     public void OnCorrectChar()
     {
-        if (gameEnded) return;
+        if (gameEnded)
+            return;
 
         correct++;
+        correctChars++;
         totalInputs++;
     }
 
     public void OnWrongChar()
     {
-        if (gameEnded) return;
+        if (gameEnded)
+            return;
 
         wrong++;
         totalInputs++;
     }
 
-    public void OnWordCompleted()
+    public void OnWordCompleted(Meteor meteor)
     {
-        if (gameEnded) return;
+        if (gameEnded)
+            return;
 
-        words++;
+        // Ya no sumamos palabras aquí para WPM.
+        // El WPM ahora sale de correctChars / 5.
     }
 
     public float GetWPM()
     {
         float minutes = timeAlive / 60f;
 
-        return minutes <= 0
-            ? 0
-            : words / minutes;
+        if (minutes <= 0)
+            return 0;
+
+        float estimatedWords = correctChars / 5f;
+
+        return estimatedWords / minutes;
     }
 
     public float GetAccuracy()
@@ -178,6 +189,7 @@ public partial class StatsManager : Node
         GD.Print($"Score:    {global.LastScore}");
         GD.Print($"Accuracy: {global.LastAccuracy:0.0}%");
         GD.Print($"WPM:      {global.LastWPM:0.0}");
+        GD.Print($"Correct chars: {correctChars}");
         GD.Print($"Partidas guardadas: {global.MatchHistory.Count}");
     }
 

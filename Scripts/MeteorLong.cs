@@ -6,13 +6,29 @@ public partial class MeteorLong : Meteor
     [Export] public int DamageToPlayer = 2;
     [Export] public float LongMeteorRotationSpeed = 0.3f;
 
+    [Export] public float EntryBoostSpeed = 420f;
+    [Export] public float EntryBoostDuration = 1.2f;
+
+    private float originalSpeed;
+
     public override void _Ready()
     {
         RotationSpeed = LongMeteorRotationSpeed;
 
+        originalSpeed = Speed;
+        Speed = EntryBoostSpeed;
+
         base._Ready();
 
         CenterTextInsideMeteor();
+
+        GetTree().CreateTimer(EntryBoostDuration).Timeout += () =>
+        {
+            if (!IsInstanceValid(this))
+                return;
+
+            Speed = originalSpeed;
+        };
     }
 
     private void CenterTextInsideMeteor()
@@ -57,7 +73,7 @@ public partial class MeteorLong : Meteor
     protected override int GetBaseScore()
     {
         return HasMistake()
-            ? 100
-            : 200;
+            ? 250
+            : 500;
     }
 }

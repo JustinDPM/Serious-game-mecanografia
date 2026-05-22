@@ -35,7 +35,7 @@ MeteorScene = ExtResource("5_8fhks")
 MeteorLongScene = ExtResource("6_k57ow")
 Turret = NodePath("../Ship/Turret")
 NormalMeteorSpeed = 150.0
-LongMeteorSpeed = 15.0
+LongMeteorSpeed = 35.0
 
 [node name="InputManager" parent="." unique_id=1312815400 node_paths=PackedStringArray("spawner", "turret") instance=ExtResource("5_pb73w")]
 spawner = NodePath("../MeteorSpawner")
@@ -46,8 +46,9 @@ position = Vector2(952, 833)
 rotation = 1.5707964
 turret = NodePath("Turret")
 
-[node name="Turret" parent="Ship" index="0" unique_id=1807233832 node_paths=PackedStringArray("input")]
+[node name="Turret" parent="Ship" index="0" unique_id=1807233832 node_paths=PackedStringArray("input", "camera")]
 input = NodePath("../../InputManager")
+camera = NodePath("../../CameraShake")
 
 [node name="SettingsMenu" parent="." unique_id=1496994055 instance=ExtResource("7_bc1nb")]
 visible = false
