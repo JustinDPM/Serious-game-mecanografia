@@ -69,8 +69,8 @@ EntryBoostSpeed = 220.0
 Speed = 25.0
 ScorePopupScene = ExtResource("2_d6sxy")
 StreakSpeedBonus = 2.0
-ComboSpeedBonus = 25.0
-MaxDynamicSpeed = 300.0
+ComboSpeedBonus = 15.0
+MaxDynamicSpeed = 175.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1883853145]
 position = Vector2(22.499989, -25.499996)
