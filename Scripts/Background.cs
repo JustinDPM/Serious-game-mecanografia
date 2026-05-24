@@ -27,7 +27,6 @@ public partial class Background : Node2D
     private int baseAmount1;
     private int baseAmount2;
 
-    // 🔥 estado combo
     private bool comboActive = false;
 
     public override void _Ready()
@@ -35,6 +34,8 @@ public partial class Background : Node2D
         bg1 = GetNode<Sprite2D>("BG1");
         bg2 = GetNode<Sprite2D>("BG2");
         bg3 = GetNode<Sprite2D>("BG3");
+
+
 
         stars1 =
             GetNode<GpuParticles2D>("Stars");
@@ -44,6 +45,10 @@ public partial class Background : Node2D
 
         stars3 =
             GetNode<GpuParticles2D>("Stars3");
+
+        stars1.Preprocess = 12f;
+        stars2.Preprocess = 12f;
+        stars3.Preprocess = 12f;
 
         if (BackgroundTexture != null)
         {

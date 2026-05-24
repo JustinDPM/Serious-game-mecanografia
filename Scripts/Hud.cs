@@ -11,7 +11,13 @@ public partial class Hud : CanvasLayer
     private RichTextLabel timeLabel;
     private RichTextLabel comboLabel;
 
+    private ColorRect criticalOverlay;
+    private bool criticalActive = false;
+    private float criticalTime = 0f;
+
     private TextureRect[] hearts;
+
+    private int previousHp = -1;
 
     private Tween comboTween;
     private bool comboActive = false;
@@ -25,6 +31,10 @@ public partial class Hud : CanvasLayer
         accuracyLabel = GetNode<RichTextLabel>("MarginContainer/Root/TopRight/AccuracyLabel");
         timeLabel = GetNode<RichTextLabel>("MarginContainer/Root/TopCenter/TimeLabel");
         comboLabel = GetNode<RichTextLabel>("MarginContainer/Root/TopCenter/ComboLabel");
+
+        criticalOverlay = GetNode<ColorRect>("CriticalMode");
+        criticalOverlay.Color = new Color(1f, 0f, 0f, 0f);
+        criticalOverlay.MouseFilter = Control.MouseFilterEnum.Ignore;
 
         comboLabel.Text = "[center][wave amp=25 freq=7][color=#ffd84a]x2[/color][/wave][/center]";
         comboLabel.Visible = false;
@@ -47,6 +57,9 @@ public partial class Hud : CanvasLayer
         {
             player.OnComboStarted += ShowCombo;
             player.OnComboEnded += HideCombo;
+
+            player.OnCriticalStarted += ShowCritical;
+            player.OnCriticalEnded += HideCritical;
         }
     }
 
@@ -56,6 +69,9 @@ public partial class Hud : CanvasLayer
         {
             player.OnComboStarted -= ShowCombo;
             player.OnComboEnded -= HideCombo;
+
+            player.OnCriticalStarted -= ShowCritical;
+            player.OnCriticalEnded -= HideCritical;
         }
     }
 
@@ -71,6 +87,9 @@ public partial class Hud : CanvasLayer
 
         if (comboActive)
             AnimateComboIdle((float)delta);
+
+        if (criticalActive)
+            AnimateCritical((float)delta);
 
         UpdateHearts();
     }
@@ -91,6 +110,33 @@ public partial class Hud : CanvasLayer
             0.25f,
             1f
         );
+    }
+
+    private void AnimateCritical(float delta)
+    {
+        criticalTime += delta;
+
+        float pulse =
+            (Mathf.Sin(criticalTime * 5f) + 1f)
+            * 0.5f;
+
+        float alpha =
+            Mathf.Lerp(0.05f, 0.14f, pulse);
+
+        criticalOverlay.Color =
+            new Color(1f, 0f, 0f, alpha);
+    }
+
+    private void ShowCritical()
+    {
+        criticalActive = true;
+        criticalTime = 0f;
+    }
+
+    private void HideCritical()
+    {
+        criticalActive = false;
+        criticalOverlay.Color = new Color(1f, 0f, 0f, 0f);
     }
 
     private void ShowCombo()
@@ -177,7 +223,122 @@ public partial class Hud : CanvasLayer
     {
         int hp = player.GetHealth();
 
+        if (previousHp == -1)
+        {
+            for (int i = 0; i < hearts.Length; i++)
+            {
+                hearts[i].Visible = i < hp;
+                hearts[i].Scale = Vector2.One;
+                hearts[i].Modulate = Colors.White;
+            }
+
+            previousHp = hp;
+            return;
+        }
+
+        if (hp > previousHp)
+        {
+            for (int i = previousHp; i < hp && i < hearts.Length; i++)
+            {
+                hearts[i].Visible = true;
+                AnimateHeartGain(hearts[i]);
+            }
+        }
+        else if (hp < previousHp)
+        {
+            for (int i = hp; i < previousHp && i < hearts.Length; i++)
+            {
+                AnimateHeartLoss(hearts[i]);
+            }
+        }
+
         for (int i = 0; i < hearts.Length; i++)
-            hearts[i].Visible = i < hp;
+        {
+            if (i < hp)
+                hearts[i].Visible = true;
+        }
+
+        previousHp = hp;
+    }
+
+    private void AnimateHeartGain(TextureRect heart)
+    {
+        heart.Visible = true;
+        heart.Scale = Vector2.One;
+        heart.Modulate = new Color(0.4f, 1.8f, 0.6f, 1f);
+
+        Tween tween = GetTree().CreateTween();
+
+        tween.TweenProperty(
+            heart,
+            "modulate:a",
+            0.2f,
+            0.08f
+        );
+
+        tween.TweenProperty(
+            heart,
+            "modulate:a",
+            1f,
+            0.08f
+        );
+
+        tween.TweenProperty(
+            heart,
+            "modulate:a",
+            0.2f,
+            0.08f
+        );
+
+        tween.TweenProperty(
+            heart,
+            "modulate",
+            Colors.White,
+            0.12f
+        );
+    }
+
+    private void AnimateHeartLoss(TextureRect heart)
+    {
+        heart.Visible = true;
+        heart.Scale = Vector2.One;
+        heart.Modulate = new Color(1.8f, 0.2f, 0.2f, 1f);
+
+        Tween tween = GetTree().CreateTween();
+
+        tween.TweenProperty(
+            heart,
+            "modulate:a",
+            0.2f,
+            0.08f
+        );
+
+        tween.TweenProperty(
+            heart,
+            "modulate:a",
+            1f,
+            0.08f
+        );
+
+        tween.TweenProperty(
+            heart,
+            "modulate:a",
+            0.2f,
+            0.08f
+        );
+
+        tween.TweenProperty(
+            heart,
+            "modulate:a",
+            0f,
+            0.12f
+        );
+
+        tween.TweenCallback(Callable.From(() =>
+        {
+            heart.Visible = false;
+            heart.Scale = Vector2.One;
+            heart.Modulate = Colors.White;
+        }));
     }
 }

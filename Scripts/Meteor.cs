@@ -10,6 +10,10 @@ public partial class Meteor : CharacterBody2D, IDamageable
 
     [Export] public PackedScene ScorePopupScene;
 
+    [Export] public float StreakSpeedBonus = 6f;
+    [Export] public float ComboSpeedBonus = 80f;
+    [Export] public float MaxDynamicSpeed = 550f;
+
     private Tween hitTween;
     private Tween shakeTween;
 
@@ -32,11 +36,9 @@ public partial class Meteor : CharacterBody2D, IDamageable
 
     protected string currentDisplayInput = "";
 
-    // 🔥 combo
     private bool comboMode = false;
 
-    // 🔥 NUEVO
-    private bool hadMistake = false;
+    protected bool hadMistake = false;
 
     public override void _Ready()
     {
@@ -103,11 +105,15 @@ public partial class Meteor : CharacterBody2D, IDamageable
             if (turret != null)
             {
                 int streak = turret.GetStreak();
+                dynamicSpeed += streak * GetStreakSpeedBonus();
 
-                dynamicSpeed += streak * 6f;
+                if (turret.IsComboActive())
+                {
+                    dynamicSpeed += GetComboSpeedBonus();
+                }
 
                 dynamicSpeed =
-                    Mathf.Min(dynamicSpeed, 450f);
+                    Mathf.Min(dynamicSpeed, GetMaxSpeed());
             }
 
             Velocity = dir * dynamicSpeed;
@@ -134,7 +140,7 @@ public partial class Meteor : CharacterBody2D, IDamageable
             {
                 hasHit = true;
 
-                turret.TakeDamage(1);
+                turret.TakeDamage(GetDamageToPlayer());
 
                 if (IsInsideTree())
                     QueueFree();
@@ -199,10 +205,7 @@ public partial class Meteor : CharacterBody2D, IDamageable
 
         isDead = true;
 
-        int score =
-            hadMistake
-            ? 50
-            : 100;
+        int score = GetBaseScore();
 
         if (
             turret != null &&
@@ -226,7 +229,6 @@ public partial class Meteor : CharacterBody2D, IDamageable
 
     private void SpawnScorePopup(int amount)
     {
-        GD.Print("SPAWN POPUP");
 
         if (ScorePopupScene == null)
         {
@@ -237,7 +239,6 @@ public partial class Meteor : CharacterBody2D, IDamageable
         Node popup =
             ScorePopupScene.Instantiate();
 
-        GD.Print("POPUP INSTANTIATED");
 
         if (popup is Node2D node2D)
         {
@@ -253,7 +254,6 @@ public partial class Meteor : CharacterBody2D, IDamageable
 
         if (popup is FloatingScore floatingScore)
         {
-            GD.Print("SETUP");
 
             Color color;
 
@@ -328,27 +328,10 @@ public partial class Meteor : CharacterBody2D, IDamageable
 
         hitTween?.Kill();
 
-        Vector2 currentScale =
-            sprite.Scale;
-
         hitTween =
             GetTree().CreateTween();
 
         hitTween.TweenProperty(
-            sprite,
-            "scale",
-            currentScale * 1.12f,
-            0.05f
-        );
-
-        hitTween.TweenProperty(
-            sprite,
-            "scale",
-            currentScale,
-            0.08f
-        );
-
-        hitTween.Parallel().TweenProperty(
             sprite,
             "modulate",
             new Color(1, 0.3f, 0.3f),
@@ -525,5 +508,35 @@ public partial class Meteor : CharacterBody2D, IDamageable
             sprite.Modulate =
                 Colors.White;
         }
+    }
+
+    protected virtual int GetDamageToPlayer()
+    {
+        return 1;
+    }
+
+    protected virtual int GetBaseScore()
+    {
+        return hadMistake ? 50 : 100;
+    }
+
+    protected bool HasMistake()
+    {
+        return hadMistake;
+    }
+
+    protected virtual float GetStreakSpeedBonus()
+    {
+        return StreakSpeedBonus;
+    }
+
+    protected virtual float GetComboSpeedBonus()
+    {
+        return ComboSpeedBonus;
+    }
+
+    protected virtual float GetMaxSpeed()
+    {
+        return MaxDynamicSpeed;
     }
 }

@@ -9,10 +9,9 @@ public partial class CameraShake : Camera2D
 
     private float time = 0f;
 
-    // 🔥 estado combo
     private bool comboActive = false;
+    private bool criticalMode = false;
 
-    // 🔥 zoom objetivo
     private float targetZoom = 1f;
 
     public override void _Ready()
@@ -21,6 +20,9 @@ public partial class CameraShake : Camera2D
         {
             turret.OnComboStarted += EnableComboMode;
             turret.OnComboEnded += DisableComboMode;
+
+            turret.OnCriticalStarted += EnableCriticalMode;
+            turret.OnCriticalEnded += DisableCriticalMode;
         }
     }
 
@@ -51,7 +53,6 @@ public partial class CameraShake : Camera2D
                 1f
             );
 
-        // 🔥 shake normal
         if (shakeTime > 0)
         {
             shakeTime -= dt;
@@ -73,7 +74,6 @@ public partial class CameraShake : Camera2D
             Offset = Vector2.Zero;
         }
 
-        // 🔥 pulso combo
         if (comboActive)
         {
             float pulse =
@@ -87,6 +87,21 @@ public partial class CameraShake : Camera2D
             new Vector2(targetZoom, targetZoom),
             4f * dt
         );
+
+        if (criticalMode)
+        {
+
+            float pulse =
+                Mathf.Sin(time * 7f) * 0.02f;
+
+            targetZoom =
+                1.12f + pulse;
+
+            Offset += new Vector2(
+                (float)GD.RandRange(-1, 1),
+                (float)GD.RandRange(-1, 1)
+            ) * 0.8f;
+        }
     }
 
     public void Shake(
@@ -110,5 +125,24 @@ public partial class CameraShake : Camera2D
         comboActive = false;
 
         targetZoom = 1f;
+    }
+
+    private async void EnableCriticalMode()
+    {
+        criticalMode = true;
+
+        Zoom = new Vector2(1.18f, 1.18f);
+
+        await ToSignal(
+            GetTree().CreateTimer(0.08f),
+            "timeout"
+        );
+
+        targetZoom = 1.12f;
+    }
+
+    private void DisableCriticalMode()
+    {
+        criticalMode = false;
     }
 }

@@ -5,7 +5,10 @@ public partial class InputManager : Node
 {
     public event Action OnCorrectChar;
     public event Action OnWrongChar;
-    public event Action OnWordCompleted;
+
+    // 👇 ahora manda el meteor completado
+    public event Action<Meteor> OnWordCompleted;
+
     public event Action<Meteor> OnShootRequested;
 
     private string currentInput = "";
@@ -68,17 +71,13 @@ public partial class InputManager : Node
             return;
         }
 
-        if (
-            key.Unicode <= 0 ||
-            !char.IsLetterOrDigit(
-                (char)key.Unicode
-            )
-        )
-        {
+        if (key.Unicode <= 0)
             return;
-        }
 
         char newChar = (char)key.Unicode;
+
+        if (char.IsControl(newChar))
+            return;
 
         if (currentTarget == null)
         {
@@ -142,7 +141,10 @@ public partial class InputManager : Node
                 hadMistake
             );
 
-            OnWordCompleted?.Invoke();
+            // 👇 manda el meteorito completado
+            OnWordCompleted?.Invoke(
+                currentTarget
+            );
 
             currentInput = "";
 
