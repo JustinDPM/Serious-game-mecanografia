@@ -10,9 +10,9 @@
 [ext_resource type="FontFile" uid="uid://baoo727a24t57" path="res://Fonts/Orbitron-Black.ttf" id="7_0bd8u"]
 [ext_resource type="Texture2D" uid="uid://butgqmdmne71j" path="res://assets/nave-background2 (1).png" id="7_a082v"]
 [ext_resource type="Theme" uid="uid://by36wl14nm3yr" path="res://button_Theme.tres" id="7_mrusn"]
-[ext_resource type="Texture2D" uid="uid://th1fen0g3e6h" path="res://Escenas/pad1.png" id="7_qsgyl"]
+[ext_resource type="Texture2D" uid="uid://th1fen0g3e6h" path="res://assets/pad1.png" id="7_qsgyl"]
 [ext_resource type="FontFile" uid="uid://cpd145hveek8t" path="res://Fonts/Orbitron-Medium.ttf" id="8_mrusn"]
-[ext_resource type="Texture2D" uid="uid://pvqd8qrxxl18" path="res://Escenas/pad_screen.png" id="10_riaih"]
+[ext_resource type="Texture2D" uid="uid://besbogm7d7g3b" path="res://assets/pad_screen1.png" id="10_riaih"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s5s4m"]
 shader = ExtResource("3_7ms0u")
@@ -24,13 +24,14 @@ texture_margin_right = 96.0
 texture_margin_bottom = 72.0
 expand_margin_top = 25.0
 expand_margin_bottom = 26.0
+modulate_color = Color(0.36078432, 0.36078432, 0.36078432, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5aupu"]
 texture = ExtResource("10_riaih")
 expand_margin_left = 72.0
-expand_margin_top = 48.0
-expand_margin_right = 32.0
-expand_margin_bottom = 48.0
+expand_margin_top = 72.0
+expand_margin_right = 48.0
+expand_margin_bottom = 72.0
 
 [node name="MainMenu" type="Control" unique_id=547386503]
 layout_mode = 3
@@ -87,7 +88,7 @@ theme_override_fonts/normal_font = ExtResource("7_0bd8u")
 bbcode_enabled = true
 text = "[center][font_size=86
 
-][color=white]Astro[/color][color=#00FFFF]Type[/color][/font_size][/center]"
+][color=white]Astro[/color][color=#8a2be2]Type[/color][/font_size][/center]"
 fit_content = true
 autowrap_mode = 0
 
@@ -104,8 +105,8 @@ layout_mode = 2
 
 [node name="NameMain" type="Label" parent="MarginContainer/VBoxContainer/TopBar/UserProfile/ProfileTexts" unique_id=744044488]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 1, 1, 1)
+theme_override_colors/font_color = Color(0.5411765, 0.16862746, 0.8862745, 1)
+theme_override_colors/font_outline_color = Color(0.5411765, 0.16862746, 0.8862745, 1)
 theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("5_a082v")
 theme_override_font_sizes/font_size = 35
@@ -134,6 +135,7 @@ theme_override_constants/separation = 30
 [node name="LeftContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/MainArea" unique_id=2067082294]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.7
 theme_override_styles/panel = SubResource("StyleBoxTexture_riaih")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainArea/LeftContainer" unique_id=1121335964]

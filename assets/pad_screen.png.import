@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://th1fen0g3e6h"
-path="res://.godot/imported/pad1.png-935d4138eed7bb2c3006d6c43565c562.ctex"
+uid="uid://pvqd8qrxxl18"
+path="res://.godot/imported/pad_screen.png-ba47efa2737d456fa037b1b0263e7dd4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Escenas/pad1.png"
-dest_files=["res://.godot/imported/pad1.png-935d4138eed7bb2c3006d6c43565c562.ctex"]
+source_file="res://assets/pad_screen.png"
+dest_files=["res://.godot/imported/pad_screen.png-ba47efa2737d456fa037b1b0263e7dd4.ctex"]
 
 [params]
 

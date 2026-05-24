@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://de0jciynbpbpo"]
 
 [ext_resource type="Script" uid="uid://duido8b3o1ufe" path="res://Scripts/SettingsMenu.cs" id="1_xgmn4"]
-[ext_resource type="Texture2D" uid="uid://pvqd8qrxxl18" path="res://Escenas/pad_screen.png" id="2_am2be"]
+[ext_resource type="Texture2D" uid="uid://besbogm7d7g3b" path="res://assets/pad_screen1.png" id="2_am2be"]
 [ext_resource type="FontFile" uid="uid://baoo727a24t57" path="res://Fonts/Orbitron-Black.ttf" id="2_kjyb2"]
 [ext_resource type="Theme" uid="uid://btt18n35jc653" path="res://button_Theme2.tres" id="3_67jsp"]
 [ext_resource type="FontFile" uid="uid://cpd145hveek8t" path="res://Fonts/Orbitron-Medium.ttf" id="4_67jsp"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h8uva"]
 texture = ExtResource("2_am2be")
-expand_margin_left = 72.0
+expand_margin_left = 48.0
 expand_margin_top = 48.0
 expand_margin_right = 48.0
 expand_margin_bottom = 48.0
@@ -24,18 +24,18 @@ PopupMenu/font_sizes/font_size = 16
 PopupMenu/styles/panel = SubResource("StyleBoxFlat_kjyb2")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_67jsp"]
-bg_color = Color(0, 1, 1, 1)
+bg_color = Color(0.5411765, 0.16862746, 0.8862745, 1)
 corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_xgmn4"]
-color = Color(0, 1, 1, 1)
+color = Color(0.5411765, 0.16862746, 0.8862745, 1)
 thickness = 5
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_n7q0y"]
-color = Color(0, 1, 1, 1)
+color = Color(0.5411765, 0.16862746, 0.8862745, 1)
 thickness = 5
 
 [node name="SettingsMenu" type="Control" unique_id=1496994055]
@@ -83,8 +83,8 @@ theme_override_constants/separation = 40
 
 [node name="Title" type="Label" parent="CenterContainer/PanelContainer/HBoxPrincipal/SideBar" unique_id=915616580]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 1, 1, 1)
+theme_override_colors/font_color = Color(0.5411765, 0.16862746, 0.8862745, 1)
+theme_override_colors/font_outline_color = Color(0.5411765, 0.16862746, 0.8862745, 1)
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("2_kjyb2")
 theme_override_font_sizes/font_size = 40
@@ -151,10 +151,11 @@ layout_mode = 2
 [node name="OptionsArea" type="TabContainer" parent="CenterContainer/PanelContainer/HBoxPrincipal" unique_id=797601993]
 layout_mode = 2
 size_flags_horizontal = 3
-current_tab = 0
+current_tab = 1
 tabs_visible = false
 
 [node name="TabVideo" type="MarginContainer" parent="CenterContainer/PanelContainer/HBoxPrincipal/OptionsArea" unique_id=49782299]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
@@ -188,7 +189,6 @@ popup/item_1/text = "Pantalla completa"
 popup/item_1/id = 1
 
 [node name="TabAudio" type="MarginContainer" parent="CenterContainer/PanelContainer/HBoxPrincipal/OptionsArea" unique_id=1481097370]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10

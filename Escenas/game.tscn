@@ -45,7 +45,20 @@ rotation = 1.5707964
 turret = NodePath("Turret")
 
 [node name="Turret" parent="Ship" index="0" unique_id=1807233832 node_paths=PackedStringArray("input")]
+position = Vector2(-65, -10)
 input = NodePath("../../InputManager")
+
+[node name="Sprite2D" parent="Ship" index="1" unique_id=1589949495]
+position = Vector2(2.75, -12)
+scale = Vector2(0.145, 0.184)
+
+[node name="Flame" parent="Ship" index="2" unique_id=347352705]
+show_behind_parent = true
+
+[node name="AnimatedSprite2D" parent="Ship/Flame" index="0" unique_id=1959656057]
+clip_children = 2
+position = Vector2(126.99997, -12.000034)
+scale = Vector2(0.12549423, 0.15856355)
 
 [node name="SettingsMenu" parent="." unique_id=1496994055 instance=ExtResource("6_ijxpu")]
 visible = false
