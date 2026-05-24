@@ -176,7 +176,7 @@ BulletScene = ExtResource("2_0wdi6")
 shootPoint = NodePath("ShootPoint")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=622231940]
-position = Vector2(3.0000029, 65)
+position = Vector2(2.000003, 64)
 rotation = 1.5707964
 scale = Vector2(0.15, 0.15)
 sprite_frames = SubResource("SpriteFrames_cgaxd")
@@ -185,8 +185,8 @@ frame_progress = 0.5882277
 speed_scale = 0.4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1424789678]
-position = Vector2(0.4999989, -17)
+position = Vector2(-7.748604e-07, -18)
 shape = SubResource("RectangleShape2D_i8vih")
 
 [node name="ShootPoint" type="Marker2D" parent="." unique_id=514566109]
-position = Vector2(0.99999785, -49)
+position = Vector2(-2.1855694e-06, -50)

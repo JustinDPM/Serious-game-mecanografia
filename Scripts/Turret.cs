@@ -9,20 +9,28 @@ public partial class Turret : CharacterBody2D
     public event Action OnComboStarted;
     public event Action OnComboEnded;
 
+    public event Action OnCriticalStarted;
+    public event Action OnCriticalEnded;
+
     [Export] public PackedScene BulletScene;
     [Export] public Marker2D shootPoint;
 
     [Export] private InputManager input;
 
     [Export] public int Health = 5;
+    [Export] public int MaxHealth = 5;
+
     [Export] public int Score = 0;
 
     private Global global;
+    private AudioManager audio;
+
     [Export] private CameraShake camera;
 
     private int streak = 0;
 
     private bool comboActive = false;
+    private bool criticalMode = false;
 
     private Queue<Meteor> shootQueue =
         new Queue<Meteor>();
@@ -44,6 +52,11 @@ public partial class Turret : CharacterBody2D
     {
         global = GetNode<Global>("/root/Global");
 
+        audio =
+            GetTree().Root.GetNodeOrNull<AudioManager>(
+                "AudioManager"
+            );
+
         animatedSprite =
             GetNode<AnimatedSprite2D>(
                 "AnimatedSprite2D"
@@ -60,7 +73,6 @@ public partial class Turret : CharacterBody2D
 
     public override void _ExitTree()
     {
-        // 🔥 desconectar evento
         if (input != null)
             input.OnShootRequested -= EnqueueShot;
     }
@@ -194,8 +206,7 @@ public partial class Turret : CharacterBody2D
         GetTree().CurrentScene
             .AddChild(bullet);
 
-        GetNode<AudioManager>("/root/AudioManager")
-            .PlayShoot();
+        audio?.PlayShoot();
     }
 
     public void TakeDamage(int dmg)
@@ -213,10 +224,19 @@ public partial class Turret : CharacterBody2D
             OnComboEnded?.Invoke();
         }
 
+        if (!criticalMode && Health == 1)
+        {
+            criticalMode = true;
+
+            OnCriticalStarted?.Invoke();
+        }
+
         camera?.Shake(8f, 0.2f);
 
         if (Health <= 0)
             Die();
+
+        audio?.PlayTurretDamage();
     }
 
     public void AddScore(int value)
@@ -232,7 +252,25 @@ public partial class Turret : CharacterBody2D
         {
             comboActive = true;
 
+            Heal(1);
+
             OnComboStarted?.Invoke();
+        }
+    }
+
+    private void Heal(int amount)
+    {
+        Health += amount;
+
+        Health = Mathf.Min(
+            Health,
+            MaxHealth
+        );
+
+        if (criticalMode && Health > 1)
+        {
+            criticalMode = false;
+            OnCriticalEnded?.Invoke();
         }
     }
 
