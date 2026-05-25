@@ -4,13 +4,13 @@
 [ext_resource type="Script" uid="uid://c8hrujkcv5p5j" path="res://Scripts/StatsScreen.cs" id="1_xhdp8"]
 [ext_resource type="FontFile" uid="uid://csb47k5lcd1bn" path="res://Fonts/RussoOne-Regular.ttf" id="2_bvhf5"]
 [ext_resource type="PackedScene" uid="uid://dufk63q618c8m" path="res://Escenas/match_result_card.tscn" id="2_jax8k"]
+[ext_resource type="Texture2D" uid="uid://besbogm7d7g3b" path="res://assets/pad_screen1.png" id="4_jqfhw"]
+[ext_resource type="FontFile" uid="uid://baoo727a24t57" path="res://Fonts/Orbitron-Black.ttf" id="5_re42y"]
+[ext_resource type="Theme" uid="uid://btt18n35jc653" path="res://button_Theme2.tres" id="6_pk7l1"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e653h"]
-bg_color = Color(0.1764706, 0.1764706, 0.1764706, 0.6392157)
-corner_radius_top_left = 50
-corner_radius_top_right = 50
-corner_radius_bottom_right = 50
-corner_radius_bottom_left = 50
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e653h"]
+texture = ExtResource("4_jqfhw")
+expand_margin_bottom = 48.0
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_q0iob"]
 content_margin_left = 10.0
@@ -19,30 +19,6 @@ content_margin_right = 10.0
 content_margin_bottom = 10.0
 color = Color(0.5411765, 0.16862746, 0.8862745, 1)
 thickness = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_okmtp"]
-bg_color = Color(0.5411765, 0.16862746, 0.8862745, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-corner_detail = 20
-expand_margin_left = 30.0
-expand_margin_top = 10.0
-expand_margin_right = 30.0
-expand_margin_bottom = 10.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vplb3"]
-bg_color = Color(0.23679757, 0.033253584, 0.41155759, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-corner_detail = 20
-expand_margin_left = 30.0
-expand_margin_top = 10.0
-expand_margin_right = 30.0
-expand_margin_bottom = 10.0
 
 [node name="StatsScreen" type="Control" unique_id=1949683729]
 layout_mode = 3
@@ -79,7 +55,7 @@ offset_right = 641.0
 offset_bottom = 400.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_e653h")
+theme_override_styles/panel = SubResource("StyleBoxTexture_e653h")
 
 [node name="MarginContainer" type="MarginContainer" parent="MainPanel" unique_id=18247813]
 layout_mode = 2
@@ -94,7 +70,7 @@ theme_override_constants/separation = 10
 
 [node name="Title" type="RichTextLabel" parent="MainPanel/MarginContainer/RootVBox" unique_id=1731689195]
 layout_mode = 2
-theme_override_fonts/normal_font = ExtResource("2_bvhf5")
+theme_override_fonts/normal_font = ExtResource("5_re42y")
 bbcode_enabled = true
 text = "[center][font_size=100][color=white]GAME [/color][color=#8a2be2]STATS[/color][/font_size][/center]"
 fit_content = true
@@ -124,11 +100,13 @@ alignment = 1
 
 [node name="BackBtn" type="Button" parent="MainPanel/MarginContainer/RootVBox/ButtonsHBox" unique_id=1508098413]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+size_flags_stretch_ratio = 1.5
+theme = ExtResource("6_pk7l1")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("2_bvhf5")
 theme_override_font_sizes/font_size = 36
-theme_override_styles/normal = SubResource("StyleBoxFlat_okmtp")
-theme_override_styles/hover = SubResource("StyleBoxFlat_vplb3")
 text = "Volver al menú"

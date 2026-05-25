@@ -2,113 +2,147 @@ using Godot;
 
 public partial class CameraShake : Camera2D
 {
-	[Export] public Turret turret;
+    [Export] public Turret turret;
 
-	private float shakeTime = 0f;
-	private float shakeStrength = 0f;
+    private float shakeTime = 0f;
+    private float shakeStrength = 0f;
 
-	private float time = 0f;
+    private float time = 0f;
 
-	// 🔥 estado combo
-	private bool comboActive = false;
+    private bool comboActive = false;
+    private bool criticalMode = false;
 
-	// 🔥 zoom objetivo
-	private float targetZoom = 1f;
+    private float targetZoom = 1f;
 
-	public override void _Ready()
-	{
-		if (turret != null)
-		{
-			turret.OnComboStarted += EnableComboMode;
-			turret.OnComboEnded += DisableComboMode;
-		}
-	}
+    public override void _Ready()
+    {
+        if (turret != null)
+        {
+            turret.OnComboStarted += EnableComboMode;
+            turret.OnComboEnded += DisableComboMode;
 
-	public override void _ExitTree()
-	{
-		if (turret != null)
-		{
-			turret.OnComboStarted -= EnableComboMode;
-			turret.OnComboEnded -= DisableComboMode;
-		}
-	}
+            turret.OnCriticalStarted += EnableCriticalMode;
+            turret.OnCriticalEnded += DisableCriticalMode;
+        }
+    }
 
-	public override void _Process(double delta)
-	{
-		float dt = (float)delta;
+    public override void _ExitTree()
+    {
+        if (turret != null)
+        {
+            turret.OnComboStarted -= EnableComboMode;
+            turret.OnComboEnded -= DisableComboMode;
+        }
+    }
 
-		time += dt;
+    public override void _Process(double delta)
+    {
+        float dt = (float)delta;
 
-		int streak =
-			(turret != null)
-			? turret.GetStreak()
-			: 0;
+        time += dt;
 
-		float intensity =
-			Mathf.Clamp(
-				streak / 10f,
-				0f,
-				1f
-			);
+        int streak =
+            (turret != null)
+            ? turret.GetStreak()
+            : 0;
 
-		// 🔥 shake normal
-		if (shakeTime > 0)
-		{
-			shakeTime -= dt;
+        float intensity =
+            Mathf.Clamp(
+                streak / 10f,
+                0f,
+                1f
+            );
 
-			float currentStrength =
-				shakeStrength
-				+ (
-					1.5f
-					+ intensity * 2.5f
-				);
+        if (shakeTime > 0)
+        {
+            shakeTime -= dt;
 
-			Offset = new Vector2(
-				(float)GD.RandRange(-1, 1),
-				(float)GD.RandRange(-1, 1)
-			) * currentStrength;
-		}
-		else
-		{
-			Offset = Vector2.Zero;
-		}
+            float currentStrength =
+                shakeStrength
+                + (
+                    1.5f
+                    + intensity * 2.5f
+                );
 
-		// 🔥 pulso combo
-		if (comboActive)
-		{
-			float pulse =
-				Mathf.Sin(time * 5f) * 0.015f;
+            Offset = new Vector2(
+                (float)GD.RandRange(-1, 1),
+                (float)GD.RandRange(-1, 1)
+            ) * currentStrength;
+        }
+        else
+        {
+            Offset = Vector2.Zero;
+        }
 
-			targetZoom =
-				1.08f + pulse;
-		}
+        if (comboActive)
+        {
+            float pulse =
+                Mathf.Sin(time * 5f) * 0.015f;
 
-		Zoom = Zoom.Lerp(
-			new Vector2(targetZoom, targetZoom),
-			4f * dt
-		);
-	}
+            targetZoom =
+                1.08f + pulse;
+        }
 
-	public void Shake(
-		float strength,
-		float duration
-	)
-	{
-		shakeStrength = strength;
-		shakeTime = duration;
-	}
+        Zoom = Zoom.Lerp(
+            new Vector2(targetZoom, targetZoom),
+            4f * dt
+        );
 
-	private void EnableComboMode()
-	{
-		comboActive = true;
+        if (criticalMode)
+        {
 
-		targetZoom = 1.08f;
-	}
+            float pulse =
+                Mathf.Sin(time * 7f) * 0.02f;
 
-	private void DisableComboMode()
-	{
-		comboActive = false;
+            targetZoom =
+                1.12f + pulse;
 
-		targetZoom = 1f;
-	}
+            Offset += new Vector2(
+                (float)GD.RandRange(-1, 1),
+                (float)GD.RandRange(-1, 1)
+            ) * 0.8f;
+        }
+    }
+
+    public void Shake(
+        float strength,
+        float duration
+    )
+    {
+        shakeStrength = strength;
+        shakeTime = duration;
+    }
+
+    private void EnableComboMode()
+    {
+        comboActive = true;
+
+        targetZoom = 1.08f;
+    }
+
+    private void DisableComboMode()
+    {
+        comboActive = false;
+
+        targetZoom = 1f;
+    }
+
+    private async void EnableCriticalMode()
+    {
+        criticalMode = true;
+
+        Zoom = new Vector2(1.18f, 1.18f);
+
+        await ToSignal(
+            GetTree().CreateTimer(0.08f),
+            "timeout"
+        );
+
+        targetZoom = 1.12f;
+    }
+
+    private void DisableCriticalMode()
+    {
+        criticalMode = false;
+    }
 }

@@ -2,182 +2,357 @@ using Godot;
 
 public partial class Hud : CanvasLayer
 {
-	[Export] public Turret player;
-	[Export] public StatsManager stats;
+    [Export] public Turret player;
+    [Export] public StatsManager stats;
 
-	private RichTextLabel scoreLabel;
-	private RichTextLabel wpmLabel;
-	private RichTextLabel accuracyLabel;
-	private RichTextLabel timeLabel;
-	private RichTextLabel comboLabel;
+    private RichTextLabel scoreLabel;
+    private RichTextLabel wpmLabel;
+    private RichTextLabel accuracyLabel;
+    private RichTextLabel timeLabel;
+    private RichTextLabel comboLabel;
 
-	private TextureRect[] hearts;
+    private ColorRect criticalOverlay;
+    private bool criticalActive = false;
+    private float criticalTime = 0f;
 
-	private Tween comboTween;
-	private bool comboActive = false;
-	private float comboTime = 0f;
-	private Vector2 comboBasePosition;
+    private TextureRect[] hearts;
 
-	public override void _Ready()
-	{
-		scoreLabel = GetNode<RichTextLabel>("MarginContainer/Root/TopRight/ScoreLabel");
-		wpmLabel = GetNode<RichTextLabel>("MarginContainer/Root/TopRight/WpmLabel");
-		accuracyLabel = GetNode<RichTextLabel>("MarginContainer/Root/TopRight/AccuracyLabel");
-		timeLabel = GetNode<RichTextLabel>("MarginContainer/Root/TopCenter/TimeLabel");
-		comboLabel = GetNode<RichTextLabel>("MarginContainer/Root/TopCenter/ComboLabel");
+    private int previousHp = -1;
 
-		comboLabel.Text = "[center][wave amp=25 freq=7][color=#ffd84a]x2[/color][/wave][/center]";
-		comboLabel.Visible = false;
-		comboLabel.Modulate = new Color(1.4f, 1.2f, 0.4f, 0f);
-		comboLabel.Scale = Vector2.One;
-		comboLabel.PivotOffset = comboLabel.Size / 2f;
+    private Tween comboTween;
+    private bool comboActive = false;
+    private float comboTime = 0f;
+    private Vector2 comboBasePosition;
 
-		comboBasePosition = comboLabel.Position;
+    public override void _Ready()
+    {
+        scoreLabel = GetNode<RichTextLabel>("MarginContainer/Root/TopRight/ScoreLabel");
+        wpmLabel = GetNode<RichTextLabel>("MarginContainer/Root/TopRight/WpmLabel");
+        accuracyLabel = GetNode<RichTextLabel>("MarginContainer/Root/TopRight/AccuracyLabel");
+        timeLabel = GetNode<RichTextLabel>("MarginContainer/Root/TopCenter/TimeLabel");
+        comboLabel = GetNode<RichTextLabel>("MarginContainer/Root/TopCenter/ComboLabel");
 
-		hearts = new TextureRect[]
-		{
-			GetNode<TextureRect>("MarginContainer/Root/TopLeft/LivesContainer/Heart1"),
-			GetNode<TextureRect>("MarginContainer/Root/TopLeft/LivesContainer/Heart2"),
-			GetNode<TextureRect>("MarginContainer/Root/TopLeft/LivesContainer/Heart3"),
-			GetNode<TextureRect>("MarginContainer/Root/TopLeft/LivesContainer/Heart4"),
-			GetNode<TextureRect>("MarginContainer/Root/TopLeft/LivesContainer/Heart5"),
-		};
+        criticalOverlay = GetNode<ColorRect>("CriticalMode");
+        criticalOverlay.Color = new Color(1f, 0f, 0f, 0f);
+        criticalOverlay.MouseFilter = Control.MouseFilterEnum.Ignore;
 
-		if (player != null)
-		{
-			player.OnComboStarted += ShowCombo;
-			player.OnComboEnded += HideCombo;
-		}
-	}
+        comboLabel.Text = "[center][wave amp=25 freq=7][color=#ffd84a]x2[/color][/wave][/center]";
+        comboLabel.Visible = false;
+        comboLabel.Modulate = new Color(1.4f, 1.2f, 0.4f, 0f);
+        comboLabel.Scale = Vector2.One;
+        comboLabel.PivotOffset = comboLabel.Size / 2f;
 
-	public override void _ExitTree()
-	{
-		if (player != null)
-		{
-			player.OnComboStarted -= ShowCombo;
-			player.OnComboEnded -= HideCombo;
-		}
-	}
+        comboBasePosition = comboLabel.Position;
 
-	public override void _Process(double delta)
-	{
-		if (player == null) return;
-		if (stats == null) return;
+        hearts = new TextureRect[]
+        {
+            GetNode<TextureRect>("MarginContainer/Root/TopLeft/LivesContainer/Heart1"),
+            GetNode<TextureRect>("MarginContainer/Root/TopLeft/LivesContainer/Heart2"),
+            GetNode<TextureRect>("MarginContainer/Root/TopLeft/LivesContainer/Heart3"),
+            GetNode<TextureRect>("MarginContainer/Root/TopLeft/LivesContainer/Heart4"),
+            GetNode<TextureRect>("MarginContainer/Root/TopLeft/LivesContainer/Heart5"),
+        };
 
-		wpmLabel.Text = ((int)stats.GetWPM()).ToString();
-		accuracyLabel.Text = stats.GetAccuracy().ToString("0.0") + "%";
-		timeLabel.Text = stats.GetTime();
-		scoreLabel.Text = player.GetScore().ToString();
+        if (player != null)
+        {
+            player.OnComboStarted += ShowCombo;
+            player.OnComboEnded += HideCombo;
 
-		if (comboActive)
-			AnimateComboIdle((float)delta);
+            player.OnCriticalStarted += ShowCritical;
+            player.OnCriticalEnded += HideCritical;
+        }
+    }
 
-		UpdateHearts();
-	}
+    public override void _ExitTree()
+    {
+        if (player != null)
+        {
+            player.OnComboStarted -= ShowCombo;
+            player.OnComboEnded -= HideCombo;
 
-	private void AnimateComboIdle(float delta)
-	{
-		comboTime += delta;
+            player.OnCriticalStarted -= ShowCritical;
+            player.OnCriticalEnded -= HideCritical;
+        }
+    }
 
-		comboLabel.RotationDegrees = Mathf.Sin(comboTime * 6f) * 8f;
+    public override void _Process(double delta)
+    {
+        if (player == null) return;
+        if (stats == null) return;
 
-		float pulse = 1f + Mathf.Sin(comboTime * 8f) * 0.08f;
-		comboLabel.Scale = new Vector2(pulse, pulse);
+        wpmLabel.Text = ((int)stats.GetWPM()).ToString();
+        accuracyLabel.Text = stats.GetAccuracy().ToString("0.0") + "%";
+        timeLabel.Text = stats.GetTime();
+        scoreLabel.Text = player.GetScore().ToString();
 
-		float glow = 1.1f + Mathf.Sin(comboTime * 10f) * 0.25f;
-		comboLabel.Modulate = new Color(
-			glow,
-			glow * 0.85f,
-			0.25f,
-			1f
-		);
-	}
+        if (comboActive)
+            AnimateComboIdle((float)delta);
 
-	private void ShowCombo()
-	{
-		comboTween?.Kill();
+        if (criticalActive)
+            AnimateCritical((float)delta);
 
-		comboActive = false;
-		comboTime = 0f;
+        UpdateHearts();
+    }
 
-		comboLabel.Visible = true;
-		comboLabel.Position = comboBasePosition + new Vector2(0, -30);
-		comboLabel.RotationDegrees = -25f;
-		comboLabel.Scale = new Vector2(0.2f, 0.2f);
-		comboLabel.Modulate = new Color(1.8f, 1.4f, 0.2f, 0f);
+    private void AnimateComboIdle(float delta)
+    {
+        comboTime += delta;
 
-		comboTween = GetTree().CreateTween();
+        comboLabel.RotationDegrees = Mathf.Sin(comboTime * 6f) * 8f;
 
-		comboTween.TweenProperty(comboLabel, "modulate:a", 1f, 0.12f);
+        float pulse = 1f + Mathf.Sin(comboTime * 8f) * 0.08f;
+        comboLabel.Scale = new Vector2(pulse, pulse);
 
-		comboTween.Parallel().TweenProperty(comboLabel, "scale", new Vector2(1.5f, 1.5f), 0.22f)
-			.SetTrans(Tween.TransitionType.Back)
-			.SetEase(Tween.EaseType.Out);
+        float glow = 1.1f + Mathf.Sin(comboTime * 10f) * 0.25f;
+        comboLabel.Modulate = new Color(
+            glow,
+            glow * 0.85f,
+            0.25f,
+            1f
+        );
+    }
 
-		comboTween.Parallel().TweenProperty(comboLabel, "position", comboBasePosition, 0.22f)
-			.SetTrans(Tween.TransitionType.Back)
-			.SetEase(Tween.EaseType.Out);
+    private void AnimateCritical(float delta)
+    {
+        criticalTime += delta;
 
-		comboTween.Parallel().TweenProperty(comboLabel, "rotation_degrees", 18f, 0.15f)
-			.SetTrans(Tween.TransitionType.Sine)
-			.SetEase(Tween.EaseType.Out);
+        float pulse =
+            (Mathf.Sin(criticalTime * 5f) + 1f)
+            * 0.5f;
 
-		comboTween.TweenProperty(comboLabel, "rotation_degrees", -12f, 0.12f)
-			.SetTrans(Tween.TransitionType.Sine)
-			.SetEase(Tween.EaseType.InOut);
+        float alpha =
+            Mathf.Lerp(0.05f, 0.14f, pulse);
 
-		comboTween.TweenProperty(comboLabel, "rotation_degrees", 6f, 0.1f)
-			.SetTrans(Tween.TransitionType.Sine)
-			.SetEase(Tween.EaseType.InOut);
+        criticalOverlay.Color =
+            new Color(1f, 0f, 0f, alpha);
+    }
 
-		comboTween.TweenProperty(comboLabel, "rotation_degrees", 0f, 0.08f)
-			.SetTrans(Tween.TransitionType.Sine)
-			.SetEase(Tween.EaseType.Out);
+    private void ShowCritical()
+    {
+        criticalActive = true;
+        criticalTime = 0f;
+    }
 
-		comboTween.TweenProperty(comboLabel, "scale", Vector2.One, 0.1f);
+    private void HideCritical()
+    {
+        criticalActive = false;
+        criticalOverlay.Color = new Color(1f, 0f, 0f, 0f);
+    }
 
-		comboTween.TweenCallback(Callable.From(() =>
-		{
-			comboActive = true;
-		}));
-	}
+    private void ShowCombo()
+    {
+        comboTween?.Kill();
 
-	private void HideCombo()
-	{
-		comboTween?.Kill();
+        comboActive = false;
+        comboTime = 0f;
 
-		comboActive = false;
+        comboLabel.Visible = true;
+        comboLabel.Position = comboBasePosition + new Vector2(0, -30);
+        comboLabel.RotationDegrees = -25f;
+        comboLabel.Scale = new Vector2(0.2f, 0.2f);
+        comboLabel.Modulate = new Color(1.8f, 1.4f, 0.2f, 0f);
 
-		comboTween = GetTree().CreateTween();
+        comboTween = GetTree().CreateTween();
 
-		comboTween.TweenProperty(comboLabel, "rotation_degrees", 25f, 0.15f)
-			.SetTrans(Tween.TransitionType.Sine)
-			.SetEase(Tween.EaseType.In);
+        comboTween.TweenProperty(comboLabel, "modulate:a", 1f, 0.12f);
 
-		comboTween.Parallel().TweenProperty(comboLabel, "position", comboBasePosition + new Vector2(0, 90), 0.35f)
-			.SetTrans(Tween.TransitionType.Back)
-			.SetEase(Tween.EaseType.In);
+        comboTween.Parallel().TweenProperty(comboLabel, "scale", new Vector2(1.5f, 1.5f), 0.22f)
+            .SetTrans(Tween.TransitionType.Back)
+            .SetEase(Tween.EaseType.Out);
 
-		comboTween.Parallel().TweenProperty(comboLabel, "modulate:a", 0f, 0.35f);
+        comboTween.Parallel().TweenProperty(comboLabel, "position", comboBasePosition, 0.22f)
+            .SetTrans(Tween.TransitionType.Back)
+            .SetEase(Tween.EaseType.Out);
 
-		comboTween.Parallel().TweenProperty(comboLabel, "scale", new Vector2(0.7f, 0.7f), 0.35f)
-			.SetTrans(Tween.TransitionType.Sine)
-			.SetEase(Tween.EaseType.In);
+        comboTween.Parallel().TweenProperty(comboLabel, "rotation_degrees", 18f, 0.15f)
+            .SetTrans(Tween.TransitionType.Sine)
+            .SetEase(Tween.EaseType.Out);
 
-		comboTween.TweenCallback(Callable.From(() =>
-		{
-			comboLabel.Visible = false;
-			comboLabel.Position = comboBasePosition;
-			comboLabel.Scale = Vector2.One;
-			comboLabel.RotationDegrees = 0f;
-		}));
-	}
+        comboTween.TweenProperty(comboLabel, "rotation_degrees", -12f, 0.12f)
+            .SetTrans(Tween.TransitionType.Sine)
+            .SetEase(Tween.EaseType.InOut);
 
-	private void UpdateHearts()
-	{
-		int hp = player.GetHealth();
+        comboTween.TweenProperty(comboLabel, "rotation_degrees", 6f, 0.1f)
+            .SetTrans(Tween.TransitionType.Sine)
+            .SetEase(Tween.EaseType.InOut);
 
-		for (int i = 0; i < hearts.Length; i++)
-			hearts[i].Visible = i < hp;
-	}
+        comboTween.TweenProperty(comboLabel, "rotation_degrees", 0f, 0.08f)
+            .SetTrans(Tween.TransitionType.Sine)
+            .SetEase(Tween.EaseType.Out);
+
+        comboTween.TweenProperty(comboLabel, "scale", Vector2.One, 0.1f);
+
+        comboTween.TweenCallback(Callable.From(() =>
+        {
+            comboActive = true;
+        }));
+    }
+
+    private void HideCombo()
+    {
+        comboTween?.Kill();
+
+        comboActive = false;
+
+        comboTween = GetTree().CreateTween();
+
+        comboTween.TweenProperty(comboLabel, "rotation_degrees", 25f, 0.15f)
+            .SetTrans(Tween.TransitionType.Sine)
+            .SetEase(Tween.EaseType.In);
+
+        comboTween.Parallel().TweenProperty(comboLabel, "position", comboBasePosition + new Vector2(0, 90), 0.35f)
+            .SetTrans(Tween.TransitionType.Back)
+            .SetEase(Tween.EaseType.In);
+
+        comboTween.Parallel().TweenProperty(comboLabel, "modulate:a", 0f, 0.35f);
+
+        comboTween.Parallel().TweenProperty(comboLabel, "scale", new Vector2(0.7f, 0.7f), 0.35f)
+            .SetTrans(Tween.TransitionType.Sine)
+            .SetEase(Tween.EaseType.In);
+
+        comboTween.TweenCallback(Callable.From(() =>
+        {
+            comboLabel.Visible = false;
+            comboLabel.Position = comboBasePosition;
+            comboLabel.Scale = Vector2.One;
+            comboLabel.RotationDegrees = 0f;
+        }));
+    }
+
+    private void UpdateHearts()
+    {
+        int hp = player.GetHealth();
+
+        if (previousHp == -1)
+        {
+            for (int i = 0; i < hearts.Length; i++)
+            {
+                hearts[i].Visible = i < hp;
+                hearts[i].Scale = Vector2.One;
+                hearts[i].Modulate = Colors.White;
+            }
+
+            previousHp = hp;
+            return;
+        }
+
+        if (hp > previousHp)
+        {
+            for (int i = previousHp; i < hp && i < hearts.Length; i++)
+            {
+                hearts[i].Visible = true;
+                AnimateHeartGain(hearts[i]);
+            }
+        }
+        else if (hp < previousHp)
+        {
+            for (int i = hp; i < previousHp && i < hearts.Length; i++)
+            {
+                AnimateHeartLoss(hearts[i]);
+            }
+        }
+
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            if (i < hp)
+                hearts[i].Visible = true;
+        }
+
+        previousHp = hp;
+    }
+
+    private void AnimateHeartGain(TextureRect heart)
+    {
+        heart.Visible = true;
+        heart.Scale = Vector2.One;
+        heart.Modulate = new Color(0.4f, 1.8f, 0.6f, 1f);
+
+        Tween tween = GetTree().CreateTween();
+
+        tween.TweenProperty(
+            heart,
+            "modulate:a",
+            0.15f,
+            0.14f
+        );
+
+        tween.TweenProperty(
+            heart,
+            "modulate:a",
+            1f,
+            0.14f
+        );
+
+        tween.TweenProperty(
+            heart,
+            "modulate:a",
+            0.15f,
+            0.14f
+        );
+
+        tween.TweenProperty(
+            heart,
+            "modulate:a",
+            1f,
+            0.14f
+        );
+
+        tween.TweenProperty(
+            heart,
+            "modulate",
+            Colors.White,
+            0.22f
+        );
+    }
+
+    private void AnimateHeartLoss(TextureRect heart)
+    {
+        heart.Visible = true;
+        heart.Scale = Vector2.One;
+        heart.Modulate = new Color(1.8f, 0.2f, 0.2f, 1f);
+
+        Tween tween = GetTree().CreateTween();
+
+        tween.TweenProperty(
+            heart,
+            "modulate:a",
+            0.15f,
+            0.14f
+        );
+
+        tween.TweenProperty(
+            heart,
+            "modulate:a",
+            1f,
+            0.14f
+        );
+
+        tween.TweenProperty(
+            heart,
+            "modulate:a",
+            0.15f,
+            0.14f
+        );
+
+        tween.TweenProperty(
+            heart,
+            "modulate:a",
+            1f,
+            0.14f
+        );
+
+        tween.TweenProperty(
+            heart,
+            "modulate:a",
+            0f,
+            0.22f
+        );
+
+        tween.TweenCallback(Callable.From(() =>
+        {
+            heart.Visible = false;
+            heart.Scale = Vector2.One;
+            heart.Modulate = Colors.White;
+        }));
+    }
 }

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dvun35beraqgv" path="res://Scripts/MeteorLong.cs" id="1_jo8j0"]
 [ext_resource type="PackedScene" uid="uid://bdv4wriaf4xdt" path="res://Escenas/floating_score.tscn" id="2_d6sxy"]
+[ext_resource type="Texture2D" uid="uid://0s2inig47vi8" path="res://assets/smoke_particle.png" id="3_d6sxy"]
 [ext_resource type="Texture2D" uid="uid://0mxtjmdxf68m" path="res://assets/Meteorito/meteorito1.png" id="3_y6xc5"]
 [ext_resource type="Texture2D" uid="uid://bb74exxxearrc" path="res://assets/Meteorito/meteorito2.png" id="4_rt020"]
 [ext_resource type="Texture2D" uid="uid://d2c4ijfnt0d1j" path="res://assets/Meteorito/meteorito3.png" id="5_4lgk5"]
@@ -9,6 +10,42 @@
 [ext_resource type="Texture2D" uid="uid://cw42r8ileisb3" path="res://assets/Meteorito/meteorito5.png" id="7_g7s3s"]
 [ext_resource type="Texture2D" uid="uid://bxnhj0mudh8l5" path="res://assets/Meteorito/meteorito6.png" id="8_3iu86"]
 [ext_resource type="FontFile" uid="uid://cpd145hveek8t" path="res://Fonts/Orbitron-Medium.ttf" id="9_1tsci"]
+
+[sub_resource type="Curve" id="Curve_d6sxy"]
+_data = [Vector2(0.24295776, 1), 0.0, 0.0, 0, 0, Vector2(0.42605639, 0.85890007), 0.0, 0.0, 0, 0, Vector2(0.8063381, 0.49204046), 0.0, 0.0, 0, 0, Vector2(0.94366205, 0.25687402), 0.0, 0.0, 0, 0, Vector2(0.9964789, 0.040520906), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_qf5k1"]
+curve = SubResource("Curve_d6sxy")
+
+[sub_resource type="Gradient" id="Gradient_y6xc5"]
+offsets = PackedFloat32Array(0.75, 1)
+colors = PackedColorArray(0.75, 0.75, 0.75, 1, 1, 1, 1, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7xcrk"]
+gradient = SubResource("Gradient_y6xc5")
+
+[sub_resource type="Curve" id="Curve_rt020"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.4929577, 0.71623456), 0.0, 0.0, 0, 0, Vector2(0.75704217, 0.5211459), 0.0, 0.0, 0, 0, Vector2(0.88732386, 0.37926322), 0.0, 0.0, 0, 0, Vector2(1, 0.077762485), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveTexture" id="CurveTexture_8i7ky"]
+curve = SubResource("Curve_rt020")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4lgk5"]
+particle_flag_disable_z = true
+direction = Vector3(-1, 1, 0)
+spread = 20.25
+initial_velocity_min = 40.0
+initial_velocity_max = 80.0
+gravity = Vector3(0, 98, 0)
+scale_min = 1.3
+scale_max = 1.3
+scale_curve = SubResource("CurveTexture_8i7ky")
+color = Color(0.8992584, 0.8992584, 0.8992584, 1)
+color_ramp = SubResource("GradientTexture1D_7xcrk")
+alpha_curve = SubResource("CurveTexture_qf5k1")
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_aob3w"]
 animations = [{
@@ -64,13 +101,28 @@ radius = 90.005554
 
 [node name="long_meteor" type="CharacterBody2D" unique_id=1046465861]
 script = ExtResource("1_jo8j0")
-LongMeteorRotationSpeed = 0.15
+LongMeteorRotationSpeed = 0.07
 EntryBoostSpeed = 220.0
+LongSmokeAmount = 8
+LongComboSmokeAmount = 10
+LongSmokeSpeedScale = 2.5
+LongComboSmokeSpeedScale = 2.5
 Speed = 25.0
 ScorePopupScene = ExtResource("2_d6sxy")
 StreakSpeedBonus = 2.0
-ComboSpeedBonus = 25.0
-MaxDynamicSpeed = 300.0
+ComboSpeedBonus = 15.0
+MaxDynamicSpeed = 175.0
+SmokeAmount = 6
+ComboSmokeAmount = 8
+
+[node name="SmokeTrail" type="GPUParticles2D" parent="." unique_id=1283173958]
+scale = Vector2(0.15, 0.15)
+amount = 1
+texture = ExtResource("3_d6sxy")
+lifetime = 2.7399999999999998
+randomness = 0.5
+trail_lifetime = 2.69
+process_material = SubResource("ParticleProcessMaterial_4lgk5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1883853145]
 position = Vector2(22.499989, -25.499996)

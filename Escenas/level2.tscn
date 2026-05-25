@@ -50,6 +50,14 @@ turret = NodePath("Turret")
 input = NodePath("../../InputManager")
 camera = NodePath("../../CameraShake")
 
+[node name="Flame" parent="Ship" index="2" unique_id=347352705]
+show_behind_parent = true
+
+[node name="AnimatedSprite2D" parent="Ship/Flame" index="0" unique_id=1959656057]
+show_behind_parent = true
+position = Vector2(134, -12.000011)
+scale = Vector2(0.1259362, 0.15737082)
+
 [node name="SettingsMenu" parent="." unique_id=1496994055 instance=ExtResource("7_bc1nb")]
 visible = false
 anchors_preset = 8

@@ -4,274 +4,308 @@ using System.Collections.Generic;
 
 public partial class Turret : CharacterBody2D
 {
-	public event Action OnGameOver;
+    public event Action OnGameOver;
 
-	public event Action OnComboStarted;
-	public event Action OnComboEnded;
+    public event Action OnComboStarted;
+    public event Action OnComboEnded;
 
-	[Export] public PackedScene BulletScene;
-	[Export] public Marker2D shootPoint;
+    public event Action OnCriticalStarted;
+    public event Action OnCriticalEnded;
 
-	[Export] private InputManager input;
+    [Export] public PackedScene BulletScene;
+    [Export] public Marker2D shootPoint;
 
-	[Export] public int Health = 5;
-	[Export] public int Score = 0;
+    [Export] private InputManager input;
 
-	private Global global;
-	private CameraShake camera;
+    [Export] public int Health = 5;
+    [Export] public int MaxHealth = 5;
 
-	private int streak = 0;
+    [Export] public int Score = 0;
 
-	private bool comboActive = false;
+    private Global global;
+    private AudioManager audio;
 
-	private Queue<Meteor> shootQueue =
-		new Queue<Meteor>();
+    [Export] private CameraShake camera;
 
-	private float shootCooldown = 0f;
-	private const float cooldownTime = 0.10f;
+    private int streak = 0;
 
-	private float targetRotation;
+    private bool comboActive = false;
+    private bool criticalMode = false;
 
-	private AnimatedSprite2D animatedSprite;
+    private Queue<Meteor> shootQueue =
+        new Queue<Meteor>();
 
-	private bool isFiring = false;
-	private float fireTimer = 0.2f;
-	private const float fireHoldTime = 0.15f;
+    private float shootCooldown = 0f;
+    private const float cooldownTime = 0.10f;
 
-	private float time = 0f;
+    private float targetRotation;
 
-	public override void _Ready()
-	{
-		global = GetNode<Global>("/root/Global");
+    private AnimatedSprite2D animatedSprite;
 
-		camera = GetTree().Root
-			.GetNodeOrNull<CameraShake>(
-                "Level1/CameraShake"
-			);
+    private bool isFiring = false;
+    private float fireTimer = 0.2f;
+    private const float fireHoldTime = 0.15f;
 
-		animatedSprite =
-			GetNode<AnimatedSprite2D>(
+    private float time = 0f;
+
+    public override void _Ready()
+    {
+        global = GetNode<Global>("/root/Global");
+
+        audio =
+            GetTree().Root.GetNodeOrNull<AudioManager>(
+                "AudioManager"
+            );
+
+        animatedSprite =
+            GetNode<AnimatedSprite2D>(
                 "AnimatedSprite2D"
-			);
+            );
 
-		targetRotation = -Mathf.Pi / 2;
-		Rotation = targetRotation;
+        targetRotation = -Mathf.Pi / 2;
+        Rotation = targetRotation;
 
-		if (input != null)
-			input.OnShootRequested += EnqueueShot;
+        if (input != null)
+            input.OnShootRequested += EnqueueShot;
 
-		animatedSprite.Play("shoot_end");
-	}
+        animatedSprite.Play("shoot_end");
+    }
 
-	public override void _ExitTree()
-	{
-		// 🔥 desconectar evento
-		if (input != null)
-			input.OnShootRequested -= EnqueueShot;
-	}
+    public override void _ExitTree()
+    {
+        if (input != null)
+            input.OnShootRequested -= EnqueueShot;
+    }
 
-	public override void _Process(double delta)
-	{
-		float dt = (float)delta;
+    public override void _Process(double delta)
+    {
+        float dt = (float)delta;
 
-		Rotation = Mathf.LerpAngle(
-			Rotation,
-			targetRotation,
-			8f * dt
-		);
+        Rotation = Mathf.LerpAngle(
+            Rotation,
+            targetRotation,
+            8f * dt
+        );
 
-		if (shootCooldown > 0)
-			shootCooldown -= dt;
+        if (shootCooldown > 0)
+            shootCooldown -= dt;
 
-		if (
-			shootQueue.Count > 0 &&
-			shootCooldown <= 0f
-		)
-		{
-			var target = shootQueue.Dequeue();
+        if (
+            shootQueue.Count > 0 &&
+            shootCooldown <= 0f
+        )
+        {
+            var target = shootQueue.Dequeue();
 
-			if (
-				target != null &&
-				IsInstanceValid(target)
-			)
-			{
-				AimAt(target);
+            if (
+                target != null &&
+                IsInstanceValid(target)
+            )
+            {
+                AimAt(target);
 
-				Shoot(target);
+                Shoot(target);
 
-				shootCooldown = cooldownTime;
-			}
-		}
+                shootCooldown = cooldownTime;
+            }
+        }
 
-		if (isFiring)
-		{
-			fireTimer -= dt;
+        if (isFiring)
+        {
+            fireTimer -= dt;
 
-			if (fireTimer <= 0f)
-			{
-				isFiring = false;
+            if (fireTimer <= 0f)
+            {
+                isFiring = false;
 
-				animatedSprite.Play("shoot_end");
-			}
-		}
+                animatedSprite.Play("shoot_end");
+            }
+        }
 
-		UpdateGlow(dt);
-	}
+        UpdateGlow(dt);
+    }
 
-	private void UpdateGlow(float dt)
-	{
-		time += dt;
+    private void UpdateGlow(float dt)
+    {
+        time += dt;
 
-		float intensity =
-			Mathf.Clamp(streak / 10f, 0f, 1f);
+        float intensity =
+            Mathf.Clamp(streak / 10f, 0f, 1f);
 
-		float flickerSpeed =
-			(comboActive)
-			? 25f
-			: 8f;
+        float flickerSpeed =
+            (comboActive)
+            ? 25f
+            : 8f;
 
-		float flickerAmount =
-			(comboActive)
-			? 0.25f
-			: 0.08f;
+        float flickerAmount =
+            (comboActive)
+            ? 0.25f
+            : 0.08f;
 
-		float flicker =
-			Mathf.Sin(time * flickerSpeed)
-			* flickerAmount;
+        float flicker =
+            Mathf.Sin(time * flickerSpeed)
+            * flickerAmount;
 
-		float glow = intensity + flicker;
+        float glow = intensity + flicker;
 
-		float brightness =
-			1f + glow * 0.35f;
+        float brightness =
+            1f + glow * 0.35f;
 
-		// 🔥 evitar brillo exagerado
-		brightness =
-			Mathf.Clamp(brightness, 1f, 1.4f);
+        brightness =
+            Mathf.Clamp(brightness, 1f, 1.4f);
 
-		animatedSprite.Modulate = new Color(
-			brightness,
-			brightness,
-			brightness
-		);
-	}
+        animatedSprite.Modulate = new Color(
+            brightness,
+            brightness,
+            brightness
+        );
+    }
 
-	private void EnqueueShot(Meteor target)
-	{
-		if (
-			target == null ||
-			!IsInstanceValid(target)
-		)
-			return;
+    private void EnqueueShot(Meteor target)
+    {
+        if (
+            target == null ||
+            !IsInstanceValid(target)
+        )
+            return;
 
-		shootQueue.Enqueue(target);
-	}
+        shootQueue.Enqueue(target);
+    }
 
-	public void Shoot(Node2D target)
-	{
-		if (!isFiring)
-		{
-			isFiring = true;
+    public void Shoot(Node2D target)
+    {
+        if (!isFiring)
+        {
+            isFiring = true;
 
-			animatedSprite.Play("shoot_start");
-		}
-		else
-		{
-			if (
-				animatedSprite.Animation
-				!= "shoot_hold"
-			)
-			{
-				animatedSprite.Play(
+            animatedSprite.Play("shoot_start");
+        }
+        else
+        {
+            if (
+                animatedSprite.Animation
+                != "shoot_hold"
+            )
+            {
+                animatedSprite.Play(
                     "shoot_hold"
-				);
-			}
-		}
+                );
+            }
+        }
 
-		fireTimer = fireHoldTime;
+        fireTimer = fireHoldTime;
 
-		var bullet =
-			(Bullet)BulletScene.Instantiate();
+        var bullet =
+            (Bullet)BulletScene.Instantiate();
 
-		bullet.GlobalPosition =
-			shootPoint.GlobalPosition;
+        bullet.GlobalPosition =
+            shootPoint.GlobalPosition;
 
-		bullet.SetTarget(target);
+        bullet.SetTarget(target);
 
-		GetTree().CurrentScene
-			.AddChild(bullet);
+        GetTree().CurrentScene
+            .AddChild(bullet);
 
-		GetNode<AudioManager>("/root/AudioManager")
-			.PlayShoot();
-	}
+        audio?.PlayShoot();
+    }
 
-	public void TakeDamage(int dmg)
-	{
-		Health -= dmg;
+    public void TakeDamage(int dmg)
+    {
+        Health -= dmg;
 
-		streak = 0;
+        streak = 0;
 
-		shootQueue.Clear();
+        shootQueue.Clear();
 
-		// 🔥 salir del combo
-		if (comboActive)
-		{
-			comboActive = false;
+        if (comboActive)
+        {
+            comboActive = false;
 
-			OnComboEnded?.Invoke();
-		}
+            OnComboEnded?.Invoke();
+        }
 
-		camera?.Shake(8f, 0.2f);
+        if (!criticalMode && Health == 1)
+        {
+            criticalMode = true;
 
-		if (Health <= 0)
-			Die();
-	}
+            OnCriticalStarted?.Invoke();
+        }
 
-	public void AddScore(int value)
-	{
-		Score += value;
-	}
+        camera?.Shake(8f, 0.2f);
 
-	public void AddStreak()
-	{
-		streak++;
+        if (Health <= 0)
+            Die();
 
-		if (!comboActive && streak >= 10)
-		{
-			comboActive = true;
+        audio?.PlayTurretDamage();
+    }
 
-			OnComboStarted?.Invoke();
-		}
-	}
+    public void AddScore(int value)
+    {
+        Score += value;
+    }
 
-	public bool IsComboActive()
-	{
-		return comboActive;
-	}
+    public void AddStreak()
+    {
+        streak++;
 
-	public int GetStreak() => streak;
+        if (!comboActive && streak >= 10)
+        {
+            comboActive = true;
 
-	public int GetHealth() => Health;
+            OnComboStarted?.Invoke();
+        }
 
-	public int GetScore() => Score;
+        if (streak % 10 == 0)
+        {
+            Heal(1);
+        }
+    }
 
-	private void Die()
-	{
-		GD.Print("GAME OVER");
+    private void Heal(int amount)
+    {
+        Health += amount;
 
-		camera?.Shake(12f, 0.3f);
+        Health = Mathf.Min(
+            Health,
+            MaxHealth
+        );
 
-		SetProcess(false);
-		SetPhysicsProcess(false);
+        if (criticalMode && Health > 1)
+        {
+            criticalMode = false;
+            OnCriticalEnded?.Invoke();
+        }
+    }
 
-		OnGameOver?.Invoke();
-	}
+    public bool IsComboActive()
+    {
+        return comboActive;
+    }
 
-	private void AimAt(Node2D target)
-	{
-		Vector2 dir =
-			(target.GlobalPosition - GlobalPosition)
-			.Normalized();
+    public int GetStreak() => streak;
 
-		targetRotation = dir.Angle();
-	}
+    public int GetHealth() => Health;
+
+    public int GetScore() => Score;
+
+    private void Die()
+    {
+        GD.Print("GAME OVER");
+
+        camera?.Shake(12f, 0.3f);
+
+        SetProcess(false);
+        SetPhysicsProcess(false);
+
+        OnGameOver?.Invoke();
+    }
+
+    private void AimAt(Node2D target)
+    {
+        Vector2 dir =
+            (target.GlobalPosition - GlobalPosition)
+            .Normalized();
+
+        targetRotation = dir.Angle();
+    }
 }

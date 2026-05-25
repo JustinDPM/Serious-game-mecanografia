@@ -1,194 +1,255 @@
 using Godot;
+using System;
+using System.Collections.Generic;
+
+public class TypingMistake
+{
+    public string Word;
+    public char ExpectedChar;
+    public char TypedChar;
+    public int Position;
+}
 
 public partial class StatsManager : Node
 {
-	private float timeAlive = 0f;
+    private float timeAlive = 0f;
 
-	private int correct = 0;
-	private int wrong = 0;
-	private int words = 0;
-	private int totalInputs = 0;
+    private int correct = 0;
+    private int wrong = 0;
+    private int totalInputs = 0;
 
-	[Export] public float GameDuration = 120f;
+    private int correctChars = 0;
 
-	private bool gameEnded = false;
+    [Export] public float GameDuration = 120f;
 
-	private InputManager input;
-	private Turret turret;
-	private Global global;
+    private bool gameEnded = false;
 
-	public override void _Ready()
-	{
-		global = GetNode<Global>("/root/Global");
+    private InputManager input;
+    private Turret turret;
+    private Global global;
 
-		input = GetNodeOrNull<InputManager>("../InputManager");
+    private List<TypingMistake> mistakes =
+        new List<TypingMistake>();
 
-		turret = GetNodeOrNull<Turret>("../Ship/Turret");
+    public override void _Ready()
+    {
+        global = GetNode<Global>("/root/Global");
 
-		if (input == null)
-		{
-			GD.PrintErr("StatsManager: InputManager no encontrado.");
-			return;
-		}
+        input = GetNodeOrNull<InputManager>("../InputManager");
 
-		if (turret == null)
-		{
-			GD.PrintErr("StatsManager: Turret no encontrado.");
-		}
+        turret = GetNodeOrNull<Turret>("../Ship/Turret");
 
-		input.OnCorrectChar += OnCorrectChar;
-		input.OnWrongChar += OnWrongChar;
-		input.OnWordCompleted += OnWordCompleted;
+        if (input == null)
+        {
+            GD.PrintErr("StatsManager: InputManager no encontrado.");
+            return;
+        }
 
-		if (turret != null)
-			turret.OnGameOver += EndGameByDeath;
-	}
+        if (turret == null)
+        {
+            GD.PrintErr("StatsManager: Turret no encontrado.");
+        }
 
-	public override void _ExitTree()
-	{
-		if (input != null)
-		{
-			input.OnCorrectChar -= OnCorrectChar;
-			input.OnWrongChar -= OnWrongChar;
-			input.OnWordCompleted -= OnWordCompleted;
-		}
+        input.OnCorrectChar += OnCorrectChar;
+        input.OnWrongChar += OnWrongChar;
+        input.OnWordCompleted += OnWordCompleted;
+        input.OnTypingMistake += OnTypingMistake;
 
-		if (turret != null)
-			turret.OnGameOver -= EndGameByDeath;
-	}
+        if (turret != null)
+            turret.OnGameOver += EndGameByDeath;
+    }
 
-	public override void _Process(double delta)
-	{
-		if (gameEnded)
-			return;
+    public override void _ExitTree()
+    {
+        if (input != null)
+        {
+            input.OnCorrectChar -= OnCorrectChar;
+            input.OnWrongChar -= OnWrongChar;
+            input.OnWordCompleted -= OnWordCompleted;
+            input.OnTypingMistake -= OnTypingMistake;
+        }
 
-		timeAlive += (float)delta;
+        if (turret != null)
+            turret.OnGameOver -= EndGameByDeath;
+    }
 
-		if (timeAlive >= GameDuration)
-		{
-			EndGameByTime();
-		}
-	}
+    public override void _Process(double delta)
+    {
+        if (gameEnded)
+            return;
 
-	public void OnCorrectChar()
-	{
-		if (gameEnded) return;
+        timeAlive += (float)delta;
 
-		correct++;
-		totalInputs++;
-	}
+        if (timeAlive >= GameDuration)
+        {
+            EndGameByTime();
+        }
+    }
 
-	public void OnWrongChar()
-	{
-		if (gameEnded) return;
+    public void OnCorrectChar()
+    {
+        if (gameEnded)
+            return;
 
-		wrong++;
-		totalInputs++;
-	}
+        correct++;
+        correctChars++;
+        totalInputs++;
+    }
 
-	public void OnWordCompleted()
-	{
-		if (gameEnded) return;
+    public void OnWrongChar()
+    {
+        if (gameEnded)
+            return;
 
-		words++;
-	}
+        wrong++;
+        totalInputs++;
+    }
 
-	public float GetWPM()
-	{
-		float minutes = timeAlive / 60f;
+    private void OnTypingMistake(
+        string word,
+        char expectedChar,
+        char typedChar,
+        int position
+    )
+    {
+        if (gameEnded)
+            return;
 
-		return minutes <= 0
-			? 0
-			: words / minutes;
-	}
+        mistakes.Add(
+            new TypingMistake
+            {
+                Word = word,
+                ExpectedChar = expectedChar,
+                TypedChar = typedChar,
+                Position = position
+            }
+        );
+    }
 
-	public float GetAccuracy()
-	{
-		if (totalInputs == 0)
-			return 100f;
+    public void OnWordCompleted(Meteor meteor)
+    {
+        if (gameEnded)
+            return;
+    }
 
-		return (float)correct / totalInputs * 100f;
-	}
+    public float GetWPM()
+    {
+        float minutes = timeAlive / 60f;
 
-	public string GetTime()
-	{
-		float remaining =
-			Mathf.Max(
-				GameDuration - timeAlive,
-				0f
-			);
+        if (minutes <= 0)
+            return 0;
 
-		int m = (int)(remaining / 60);
-		int s = (int)(remaining % 60);
+        float estimatedWords = correctChars / 5f;
 
-		return $"{m:00}:{s:00}";
-	}
+        return estimatedWords / minutes;
+    }
 
-	private void EndGameByTime()
-	{
-		if (gameEnded)
-			return;
+    public float GetAccuracy()
+    {
+        if (totalInputs == 0)
+            return 100f;
 
-		gameEnded = true;
+        return (float)correct / totalInputs * 100f;
+    }
 
-		SaveResults();
+    public string GetTime()
+    {
+        float remaining =
+            Mathf.Max(
+                GameDuration - timeAlive,
+                0f
+            );
 
-		GD.Print("TIEMPO TERMINADO");
+        int m = (int)(remaining / 60);
+        int s = (int)(remaining % 60);
 
-		GetTree().ChangeSceneToFile(
+        return $"{m:00}:{s:00}";
+    }
+
+    private void EndGameByTime()
+    {
+        if (gameEnded)
+            return;
+
+        gameEnded = true;
+
+        SaveResults();
+
+        GD.Print("TIEMPO TERMINADO");
+
+        GetTree().ChangeSceneToFile(
             "res://Escenas/game_over.tscn"
-		);
-	}
+        );
+    }
 
-	private void EndGameByDeath()
-	{
-		if (gameEnded)
-			return;
+    private void EndGameByDeath()
+    {
+        if (gameEnded)
+            return;
 
-		gameEnded = true;
+        gameEnded = true;
 
-		SaveResults();
+        SaveResults();
 
-		GetTree().ChangeSceneToFile(
+        GetTree().ChangeSceneToFile(
             "res://Escenas/game_over.tscn"
-		);
-	}
+        );
+    }
 
-	private void SaveResults()
-	{
-		if (global == null || turret == null)
-			return;
+    private void SaveResults()
+    {
+        if (global == null || turret == null)
+            return;
 
-		global.LastScore = turret.GetScore();
-		global.LastAccuracy = GetAccuracy();
-		global.LastWPM = GetWPM();
+        global.LastScore = turret.GetScore();
+        global.LastAccuracy = GetAccuracy();
+        global.LastWPM = GetWPM();
 
-		global.MatchHistory.Add(
-			new MatchResult
-			{
-				Score = global.LastScore,
-				Accuracy = global.LastAccuracy,
-				WPM = global.LastWPM,
-				Duration = GetTime(),
-				LevelName = GetTree().CurrentScene.Name
-			}
-		);
+        global.MatchHistory.Add(
+            new MatchResult
+            {
+                Score = global.LastScore,
+                Accuracy = global.LastAccuracy,
+                WPM = global.LastWPM,
+                Duration = GetTime(),
+                LevelName = GetTree().CurrentScene.Name
+            }
+        );
 
-		GD.Print("=== PARTIDA TERMINADA ===");
-		GD.Print($"Score:    {global.LastScore}");
-		GD.Print($"Accuracy: {global.LastAccuracy:0.0}%");
-		GD.Print($"WPM:      {global.LastWPM:0.0}");
-		GD.Print($"Partidas guardadas: {global.MatchHistory.Count}");
-	}
+        GD.Print("=== PARTIDA TERMINADA ===");
+        GD.Print($"Score:    {global.LastScore}");
+        GD.Print($"Accuracy: {global.LastAccuracy:0.0}%");
+        GD.Print($"WPM:      {global.LastWPM:0.0}");
+        GD.Print($"Correct chars: {correctChars}");
+        GD.Print($"Partidas guardadas: {global.MatchHistory.Count}");
 
-	public void OnMeteorDestroyed(Meteor meteor)
-	{
-		if (gameEnded)
-			return;
+        GD.Print("=== ERRORES DE TIPEO ===");
 
-		if (turret == null)
-			return;
+        if (mistakes.Count == 0)
+        {
+            GD.Print("Sin errores registrados.");
+            return;
+        }
 
-		turret.AddStreak();
-	}
+        foreach (TypingMistake mistake in mistakes)
+        {
+            GD.Print(
+                $"Palabra: {mistake.Word} | " +
+                $"Esperada: {mistake.ExpectedChar} | " +
+                $"Escrita: {mistake.TypedChar} | " +
+                $"Posición: {mistake.Position}"
+            );
+        }
+    }
+
+    public void OnMeteorDestroyed(Meteor meteor)
+    {
+        if (gameEnded)
+            return;
+
+        if (turret == null)
+            return;
+
+        turret.AddStreak();
+    }
 }

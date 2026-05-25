@@ -100,6 +100,7 @@ public partial class MainMenu : Control
 			tween.TweenProperty(boton, "scale", new Vector2(1.0f, 1.0f), 0.1f)
 				 .SetTrans(Tween.TransitionType.Sine);
 		};
+		
 	}
 
 	private void OnPlayButtonPressed()     => _global.CambiarEscena("res://Escenas/game.tscn");

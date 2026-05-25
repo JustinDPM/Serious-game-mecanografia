@@ -3,32 +3,39 @@ using System;
 
 public partial class Level1 : Node2D
 {
-	private SettingsMenu settingsMenu;
+    private SettingsMenu settingsMenu;
+    private Turret turret;
+    private AudioManager audioManager;
 
-	public override void _Ready()
-	{
-		settingsMenu = GetNode<SettingsMenu>("SettingsMenu");
+    public override void _Ready()
+    {
+        settingsMenu = GetNode<SettingsMenu>("SettingsMenu");
+        turret = GetNode<Turret>("Ship/Turret");
+        audioManager = GetNode<AudioManager>("/root/AudioManager");
 
-		var turret = GetNode<Turret>("Ship/Turret");
-		var global = GetNode<Global>("/root/Global");
+        audioManager.PlayGameMusic();
 
-		GetNode<AudioManager>("/root/AudioManager")
-			.PlayGameMusic();
+        turret.OnComboStarted += audioManager.StartComboMusic;
+        turret.OnComboEnded += audioManager.StopComboMusic;
+    }
 
-	}
+    public override void _ExitTree()
+    {
+        if (turret != null && audioManager != null)
+        {
+            turret.OnComboStarted -= audioManager.StartComboMusic;
+            turret.OnComboEnded -= audioManager.StopComboMusic;
+        }
+    }
 
-	public override void _Input(InputEvent @event)
-	{
-		if (Input.IsActionJustPressed("ui_cancel")) 
-		{
-			if (settingsMenu.Visible)
-			{
-				settingsMenu.OnResumePressed();
-			}
-			else
-			{
-				settingsMenu.Open(true); 
-			}
-		}
-	}
+    public override void _Input(InputEvent @event)
+    {
+        if (Input.IsActionJustPressed("ui_cancel"))
+        {
+            if (settingsMenu.Visible)
+                settingsMenu.OnResumePressed();
+            else
+                settingsMenu.Open(true);
+        }
+    }
 }

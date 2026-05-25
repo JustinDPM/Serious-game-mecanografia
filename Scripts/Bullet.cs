@@ -1,48 +1,65 @@
-	using Godot;
+using Godot;
 
-	public partial class Bullet : Area2D
-	{
-		[Export] public float Speed = 2500f;
+public partial class Bullet : Area2D
+{
+    [Export] public float Speed = 2500f;
 
-		private Node2D target;
-		private bool hasHit = false;
+    private Node2D target;
+    private bool hasHit = false;
 
-		public override void _Ready()
-		{
-			BodyEntered += OnBodyEntered;
-		}
+    public override void _Ready()
+    {
+        BodyEntered += OnBodyEntered;
+    }
 
-		public override void _PhysicsProcess(double delta)
-		{
-			if (target == null || !IsInstanceValid(target))
-			{
-				QueueFree();
-				return;
-			}
+    public override void _PhysicsProcess(double delta)
+    {
+        if (target == null || !IsInstanceValid(target))
+        {
+            QueueFree();
+            return;
+        }
 
-			Vector2 dir = (target.GlobalPosition - GlobalPosition).Normalized();
+        Vector2 dir =
+            (target.GlobalPosition - GlobalPosition)
+            .Normalized();
 
-			Position += dir * Speed * (float)delta;
-			Rotation = dir.Angle();
-		}
+        Rotation = dir.Angle();
 
-		public void SetTarget(Node2D t)
-		{
-			target = t;
-		}
+        Position += dir * Speed * (float)delta;
+    }
 
-		private void OnBodyEntered(Node2D body)
-		{
-			if (hasHit) return;
+    public void SetTarget(Node2D t)
+    {
+        target = t;
 
-			if ( body == target && body is IDamageable damageable)
-			{
-				hasHit = true;
+        UpdateRotationToTarget();
+    }
 
-				damageable.TakeDamage();
+    private void UpdateRotationToTarget()
+    {
+        if (target == null || !IsInstanceValid(target))
+            return;
 
-				QueueFree();
-			}
-		}
-	}
-	
+        Vector2 dir =
+            (target.GlobalPosition - GlobalPosition)
+            .Normalized();
+
+        Rotation = dir.Angle();
+    }
+
+    private void OnBodyEntered(Node2D body)
+    {
+        if (hasHit)
+            return;
+
+        if (body == target && body is IDamageable damageable)
+        {
+            hasHit = true;
+
+            damageable.TakeDamage();
+
+            QueueFree();
+        }
+    }
+}

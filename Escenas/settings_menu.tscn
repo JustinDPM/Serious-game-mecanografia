@@ -1,44 +1,17 @@
 [gd_scene format=3 uid="uid://de0jciynbpbpo"]
 
 [ext_resource type="Script" uid="uid://duido8b3o1ufe" path="res://Scripts/SettingsMenu.cs" id="1_xgmn4"]
+[ext_resource type="Texture2D" uid="uid://besbogm7d7g3b" path="res://assets/pad_screen1.png" id="2_am2be"]
 [ext_resource type="FontFile" uid="uid://baoo727a24t57" path="res://Fonts/Orbitron-Black.ttf" id="2_kjyb2"]
-[ext_resource type="FontFile" uid="uid://csb47k5lcd1bn" path="res://Fonts/RussoOne-Regular.ttf" id="2_n7q0y"]
+[ext_resource type="Theme" uid="uid://btt18n35jc653" path="res://button_Theme2.tres" id="3_67jsp"]
+[ext_resource type="FontFile" uid="uid://cpd145hveek8t" path="res://Fonts/Orbitron-Medium.ttf" id="4_67jsp"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xgmn4"]
-content_margin_left = 30.0
-content_margin_top = 30.0
-content_margin_right = 30.0
-content_margin_bottom = 30.0
-bg_color = Color(0, 0, 0, 0.4)
-corner_radius_top_left = 40
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
-corner_radius_bottom_left = 40
-corner_detail = 20
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n7q0y"]
-bg_color = Color(0.5411765, 0.16862746, 0.8862745, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-corner_detail = 20
-expand_margin_top = 13.0
-expand_margin_bottom = 13.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_am2be"]
-bg_color = Color(0.28061113, 0.049760252, 0.47710842, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-corner_detail = 20
-expand_margin_top = 13.0
-expand_margin_bottom = 13.0
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h8uva"]
+texture = ExtResource("2_am2be")
+expand_margin_left = 48.0
+expand_margin_top = 48.0
+expand_margin_right = 48.0
+expand_margin_bottom = 48.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kjyb2"]
 bg_color = Color(0.5411765, 0.16862746, 0.8862745, 1)
@@ -52,12 +25,18 @@ PopupMenu/styles/panel = SubResource("StyleBoxFlat_kjyb2")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_67jsp"]
 bg_color = Color(0.5411765, 0.16862746, 0.8862745, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_xgmn4"]
 color = Color(0.5411765, 0.16862746, 0.8862745, 1)
+thickness = 5
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_n7q0y"]
 color = Color(0.5411765, 0.16862746, 0.8862745, 1)
+thickness = 5
 
 [node name="SettingsMenu" type="Control" unique_id=1496994055]
 process_mode = 3
@@ -91,7 +70,7 @@ grow_vertical = 2
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=444596024]
 custom_minimum_size = Vector2(900, 700)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_xgmn4")
+theme_override_styles/panel = SubResource("StyleBoxTexture_h8uva")
 
 [node name="HBoxPrincipal" type="HBoxContainer" parent="CenterContainer/PanelContainer" unique_id=1714285869]
 layout_mode = 2
@@ -100,7 +79,7 @@ theme_override_constants/separation = 15
 [node name="SideBar" type="VBoxContainer" parent="CenterContainer/PanelContainer/HBoxPrincipal" unique_id=894328856]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
-theme_override_constants/separation = 50
+theme_override_constants/separation = 40
 
 [node name="Title" type="Label" parent="CenterContainer/PanelContainer/HBoxPrincipal/SideBar" unique_id=915616580]
 layout_mode = 2
@@ -114,62 +93,56 @@ horizontal_alignment = 1
 
 [node name="Return" type="Button" parent="CenterContainer/PanelContainer/HBoxPrincipal/SideBar" unique_id=1632101312]
 layout_mode = 2
+theme = ExtResource("3_67jsp")
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("2_kjyb2")
 theme_override_font_sizes/font_size = 26
-theme_override_styles/normal = SubResource("StyleBoxFlat_n7q0y")
-theme_override_styles/hover = SubResource("StyleBoxFlat_am2be")
 text = "Continuar"
 
 [node name="Video" type="Button" parent="CenterContainer/PanelContainer/HBoxPrincipal/SideBar" unique_id=1597602727]
 layout_mode = 2
+theme = ExtResource("3_67jsp")
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("2_kjyb2")
 theme_override_font_sizes/font_size = 26
-theme_override_styles/normal = SubResource("StyleBoxFlat_n7q0y")
-theme_override_styles/hover = SubResource("StyleBoxFlat_am2be")
 text = "Video"
 
 [node name="Audio" type="Button" parent="CenterContainer/PanelContainer/HBoxPrincipal/SideBar" unique_id=50584655]
 layout_mode = 2
+theme = ExtResource("3_67jsp")
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("2_kjyb2")
 theme_override_font_sizes/font_size = 26
-theme_override_styles/normal = SubResource("StyleBoxFlat_n7q0y")
-theme_override_styles/hover = SubResource("StyleBoxFlat_am2be")
 text = "Audio"
 
 [node name="Gameplay" type="Button" parent="CenterContainer/PanelContainer/HBoxPrincipal/SideBar" unique_id=644926162]
 layout_mode = 2
+theme = ExtResource("3_67jsp")
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("2_kjyb2")
 theme_override_font_sizes/font_size = 26
-theme_override_styles/normal = SubResource("StyleBoxFlat_n7q0y")
-theme_override_styles/hover = SubResource("StyleBoxFlat_am2be")
 text = "Gameplay"
 
 [node name="Accessibility" type="Button" parent="CenterContainer/PanelContainer/HBoxPrincipal/SideBar" unique_id=360801593]
 layout_mode = 2
+theme = ExtResource("3_67jsp")
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("2_kjyb2")
 theme_override_font_sizes/font_size = 26
-theme_override_styles/normal = SubResource("StyleBoxFlat_n7q0y")
-theme_override_styles/hover = SubResource("StyleBoxFlat_am2be")
 text = "Accesibilidad"
 
 [node name="Close" type="Button" parent="CenterContainer/PanelContainer/HBoxPrincipal/SideBar" unique_id=792170604]
 layout_mode = 2
+theme = ExtResource("3_67jsp")
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("2_kjyb2")
 theme_override_font_sizes/font_size = 26
-theme_override_styles/normal = SubResource("StyleBoxFlat_n7q0y")
-theme_override_styles/hover = SubResource("StyleBoxFlat_am2be")
 text = "Salir del juego"
 
 [node name="VSeparator" type="VSeparator" parent="CenterContainer/PanelContainer/HBoxPrincipal" unique_id=1193324745]
@@ -198,7 +171,7 @@ theme_override_constants/separation = 10
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
-theme_override_fonts/font = ExtResource("2_n7q0y")
+theme_override_fonts/font = ExtResource("4_67jsp")
 theme_override_font_sizes/font_size = 20
 text = "Modo de pantalla"
 

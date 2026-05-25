@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bdv4wriaf4xdt"]
 
 [ext_resource type="Script" uid="uid://cl0da8gk77yqh" path="res://Scripts/FloatingScore.cs" id="1_w0blm"]
-[ext_resource type="FontFile" uid="uid://csb47k5lcd1bn" path="res://Fonts/RussoOne-Regular.ttf" id="2_d4boe"]
+[ext_resource type="FontFile" uid="uid://cpd145hveek8t" path="res://Fonts/Orbitron-Medium.ttf" id="2_w0blm"]
 
 [node name="FloatingScore" type="Node2D" unique_id=1326728129]
 script = ExtResource("1_w0blm")
@@ -9,7 +9,7 @@ script = ExtResource("1_w0blm")
 [node name="Label" type="Label" parent="." unique_id=995905720]
 offset_right = 156.0
 offset_bottom = 62.0
-theme_override_fonts/font = ExtResource("2_d4boe")
+theme_override_fonts/font = ExtResource("2_w0blm")
 theme_override_font_sizes/font_size = 30
 horizontal_alignment = 2
 vertical_alignment = 1

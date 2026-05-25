@@ -4,20 +4,22 @@
 [ext_resource type="Texture2D" uid="uid://cumvxjwwid0be" path="res://assets/bullet.png" id="2_e7s4r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e7s4r"]
-size = Vector2(56.07232, 7.962957)
+size = Vector2(41.174004, 8.031271)
 
 [node name="bullet" type="Area2D" unique_id=1601157280]
+position = Vector2(0, -8)
 rotation = -1.5341444
 script = ExtResource("1_e7s4r")
+Speed = 3000.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=189199679]
-position = Vector2(-0.9993286, 0.03664303)
-scale = Vector2(0.31570172, 0.19196334)
+position = Vector2(9.0306, 0.6695349)
+scale = Vector2(0.18581103, 0.08468046)
 texture = ExtResource("2_e7s4r")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2027562906]
 visibility_layer = 2
-position = Vector2(-0.9993284, 0.036643744)
+position = Vector2(9.0306, 0.66953564)
 shape = SubResource("RectangleShape2D_e7s4r")
 
 [connection signal="body_entered" from="." to="." method="OnBodyEntered"]
