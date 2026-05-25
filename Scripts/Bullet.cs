@@ -2,64 +2,64 @@ using Godot;
 
 public partial class Bullet : Area2D
 {
-    [Export] public float Speed = 2500f;
+	[Export] public float Speed = 2500f;
 
-    private Node2D target;
-    private bool hasHit = false;
+	private Node2D target;
+	private bool hasHit = false;
 
-    public override void _Ready()
-    {
-        BodyEntered += OnBodyEntered;
-    }
+	public override void _Ready()
+	{
+		BodyEntered += OnBodyEntered;
+	}
 
-    public override void _PhysicsProcess(double delta)
-    {
-        if (target == null || !IsInstanceValid(target))
-        {
-            QueueFree();
-            return;
-        }
+	public override void _PhysicsProcess(double delta)
+	{
+		if (target == null || !IsInstanceValid(target))
+		{
+			QueueFree();
+			return;
+		}
 
-        Vector2 dir =
-            (target.GlobalPosition - GlobalPosition)
-            .Normalized();
+		Vector2 dir =
+			(target.GlobalPosition - GlobalPosition)
+			.Normalized();
 
-        Rotation = dir.Angle();
+		Rotation = dir.Angle();
 
-        Position += dir * Speed * (float)delta;
-    }
+		Position += dir * Speed * (float)delta;
+	}
 
-    public void SetTarget(Node2D t)
-    {
-        target = t;
+	public void SetTarget(Node2D t)
+	{
+		target = t;
 
-        UpdateRotationToTarget();
-    }
+		UpdateRotationToTarget();
+	}
 
-    private void UpdateRotationToTarget()
-    {
-        if (target == null || !IsInstanceValid(target))
-            return;
+	private void UpdateRotationToTarget()
+	{
+		if (target == null || !IsInstanceValid(target))
+			return;
 
-        Vector2 dir =
-            (target.GlobalPosition - GlobalPosition)
-            .Normalized();
+		Vector2 dir =
+			(target.GlobalPosition - GlobalPosition)
+			.Normalized();
 
-        Rotation = dir.Angle();
-    }
+		Rotation = dir.Angle();
+	}
 
-    private void OnBodyEntered(Node2D body)
-    {
-        if (hasHit)
-            return;
+	private void OnBodyEntered(Node2D body)
+	{
+		if (hasHit)
+			return;
 
-        if (body == target && body is IDamageable damageable)
-        {
-            hasHit = true;
+		if (body == target && body is IDamageable damageable)
+		{
+			hasHit = true;
 
-            damageable.TakeDamage();
+			damageable.TakeDamage();
 
-            QueueFree();
-        }
-    }
+			QueueFree();
+		}
+	}
 }

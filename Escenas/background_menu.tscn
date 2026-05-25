@@ -1,0 +1,151 @@
+[gd_scene format=3 uid="uid://vik161c7s1s1"]
+
+[ext_resource type="Script" path="res://Scripts/BackgroundMenu.cs" id="1_42iy5"]
+[ext_resource type="Texture2D" uid="uid://t7rusqota7vq" path="res://assets/image-removebg-preview (1).png" id="2_42iy5"]
+[ext_resource type="Texture2D" uid="uid://b518sojlyy7ji" path="res://assets/Backgrounds/Purple Nebula/Purple_Nebula_07-1024x1024.png" id="2_jfoux"]
+[ext_resource type="Texture2D" uid="uid://sufdccbrbwl4" path="res://assets/blue_star.png" id="3_jfoux"]
+[ext_resource type="Texture2D" path="res://assets/Backgrounds/Background/stars1.png" id="5_42iy5"]
+[ext_resource type="PackedScene" uid="uid://d2w521pundbn2" path="res://Escenas/ship.tscn" id="7_m272x"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lxttf"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(960, -10, 1)
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 70.0
+initial_velocity_max = 90.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -2.2351742e-06
+linear_accel_max = -2.2351742e-06
+scale_min = 0.12
+scale_max = 0.12
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8skxt"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(960, -10, 1)
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 60.0
+initial_velocity_max = 70.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -2.2351742e-06
+linear_accel_max = -2.2351742e-06
+scale_min = 0.089999996
+scale_max = 0.089999996
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_c8lsl"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1080, -10, 1)
+angle_min = 1.0728835e-05
+angle_max = 1.0728835e-05
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 384.31998
+initial_velocity_max = 506.27
+gravity = Vector3(0, 80, 0)
+linear_accel_min = -2.2351742e-06
+linear_accel_max = -2.2351742e-06
+scale_min = 0.01
+scale_max = 0.049999997
+color = Color(0.98039216, 0.9411765, 1, 0.6509804)
+turbulence_noise_strength = 0.0
+
+[node name="BackgroundMenu" type="Node2D" unique_id=64825982]
+script = ExtResource("1_42iy5")
+EscenaNave = ExtResource("7_m272x")
+
+[node name="BG1" type="Sprite2D" parent="." unique_id=946698362]
+texture_repeat = 2
+position = Vector2(-12, -6)
+scale = Vector2(1.8, 1.783)
+texture = ExtResource("2_jfoux")
+centered = false
+
+[node name="BG2" type="Sprite2D" parent="." unique_id=456296594]
+texture_repeat = 2
+position = Vector2(1831, -7)
+scale = Vector2(1.8, 1.783)
+texture = ExtResource("2_jfoux")
+centered = false
+
+[node name="BG3" type="Sprite2D" parent="." unique_id=972620080]
+texture_repeat = 2
+position = Vector2(3673, -11)
+scale = Vector2(1.8, 1.783)
+texture = ExtResource("2_jfoux")
+centered = false
+
+[node name="Stars" type="GPUParticles2D" parent="." unique_id=1190233009]
+position = Vector2(1954, 949)
+rotation = 1.5707964
+amount = 250
+texture = ExtResource("2_42iy5")
+lifetime = 30.69
+preprocess = 2.0
+process_material = SubResource("ParticleProcessMaterial_lxttf")
+
+[node name="BlueStars" type="GPUParticles2D" parent="." unique_id=630236197]
+position = Vector2(-8, 963)
+rotation = 4.712389
+amount = 150
+texture = ExtResource("3_jfoux")
+lifetime = 30.69
+preprocess = 2.0
+process_material = SubResource("ParticleProcessMaterial_8skxt")
+
+[node name="Stars3" type="GPUParticles2D" parent="." unique_id=634412102]
+self_modulate = Color(0.7818486, 0.7878543, 0.77586114, 0.79607844)
+z_index = 10
+position = Vector2(1971.9999, 1076)
+rotation = 2.0647244
+amount = 10
+texture = ExtResource("5_42iy5")
+lifetime = 30.0
+preprocess = 2.0
+trail_enabled = true
+process_material = SubResource("ParticleProcessMaterial_c8lsl")
+
+[node name="Stars4" type="GPUParticles2D" parent="." unique_id=152948064]
+self_modulate = Color(0.7818486, 0.7878543, 0.77586114, 0.79607844)
+z_index = 10
+position = Vector2(-16, 1013.99994)
+rotation = -2.1537364
+amount = 10
+texture = ExtResource("5_42iy5")
+lifetime = 30.0
+preprocess = 2.0
+trail_enabled = true
+process_material = SubResource("ParticleProcessMaterial_c8lsl")
+
+[node name="Stars5" type="GPUParticles2D" parent="." unique_id=1430072422]
+self_modulate = Color(0.7818486, 0.7878543, 0.77586114, 0.79607844)
+z_index = 10
+position = Vector2(1917.9999, 19.999939)
+rotation = -5.145231
+amount = 10
+texture = ExtResource("5_42iy5")
+lifetime = 30.0
+preprocess = 2.0
+trail_enabled = true
+process_material = SubResource("ParticleProcessMaterial_c8lsl")
+
+[node name="Stars6" type="GPUParticles2D" parent="." unique_id=945778819]
+self_modulate = Color(0.7818486, 0.7878543, 0.77586114, 0.79607844)
+z_index = 10
+position = Vector2(-2.000061, 8.999756)
+rotation = -1.0559242
+amount = 10
+texture = ExtResource("5_42iy5")
+lifetime = 30.0
+preprocess = 2.0
+trail_enabled = true
+process_material = SubResource("ParticleProcessMaterial_c8lsl")
+
+[node name="ShipSpawnTimer" type="Timer" parent="." unique_id=404898683]
+wait_time = 15.0
+autostart = true
+
+[connection signal="timeout" from="ShipSpawnTimer" to="." method="_on_ship_spawn_timer_timeout"]

@@ -3,6 +3,7 @@ using Godot;
 public partial class MainMenu : Control
 {
 	private Button _playButton;
+	private Button _databaseButton; 
 	private Button _settingsButton;
 	private Button _quitButton;
 
@@ -24,6 +25,7 @@ public partial class MainMenu : Control
 
 		string rutaBotones = "MarginContainer/VBoxContainer/MainArea/LeftContainer/VBoxContainer/";
 		_playButton     = GetNode<Button>(rutaBotones + "PlayButton");
+		_databaseButton = GetNode<Button>(rutaBotones + "DatabaseButton"); 
 		_settingsButton = GetNode<Button>(rutaBotones + "SettingsButton");
 		_quitButton     = GetNode<Button>(rutaBotones + "QuitButton");
 
@@ -42,10 +44,11 @@ public partial class MainMenu : Control
 		_settingsMenu = GetNode<SettingsMenu>("SettingsMenu");
 
 		_playButton.Pressed     += OnPlayButtonPressed;
+		_databaseButton.Pressed += OnDatabaseButtonPressed; 
 		_settingsButton.Pressed += OnSettingsButtonPressed;
 		_quitButton.Pressed     += OnQuitButtonPressed;
 
-		Button[] botones = { _playButton, _settingsButton, _quitButton };
+		Button[] botones = { _playButton, _databaseButton, _settingsButton, _quitButton };
 		foreach (Button btn in botones)
 			ConfigurarAnimacionBoton(btn);
 
@@ -104,13 +107,16 @@ public partial class MainMenu : Control
 	}
 
 	private void OnPlayButtonPressed()     => _global.CambiarEscena("res://Escenas/game.tscn");
+	
+	private void OnDatabaseButtonPressed() => _global.CambiarEscena("res://Escenas/bank_word.tscn"); 
+	
 	private void OnSettingsButtonPressed() { _mainPanel.Visible = false; _settingsMenu.Open(false); }
 	private void OnQuitButtonPressed()     => GetTree().Quit();
 
 	private void OnStatsPressed()
 	{
 		_global.CambiarEscena(
-            "res://Escenas/stats_screen.tscn"
+			"res://Escenas/stats_screen.tscn"
 		);
 	}
 }

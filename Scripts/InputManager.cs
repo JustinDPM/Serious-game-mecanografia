@@ -3,227 +3,227 @@ using System;
 
 public partial class InputManager : Node
 {
-    public event Action OnCorrectChar;
-    public event Action OnWrongChar;
+	public event Action OnCorrectChar;
+	public event Action OnWrongChar;
 
-    public event Action<Meteor> OnWordCompleted;
-    public event Action<Meteor> OnShootRequested;
+	public event Action<Meteor> OnWordCompleted;
+	public event Action<Meteor> OnShootRequested;
 
-    public event Action<string, char, char, int> OnTypingMistake;
+	public event Action<string, char, char, int> OnTypingMistake;
 
-    private string currentInput = "";
+	private string currentInput = "";
 
-    [Export] public Node2D spawner;
-    [Export] public Turret turret;
+	[Export] public Node2D spawner;
+	[Export] public Turret turret;
 
-    private Meteor currentTarget;
+	private Meteor currentTarget;
 
-    private bool hadMistake = false;
+	private bool hadMistake = false;
 
-    public override void _Process(double delta)
-    {
-        if (
-            currentTarget != null &&
-            !IsInstanceValid(currentTarget)
-        )
-        {
-            ResetInput();
-        }
-    }
+	public override void _Process(double delta)
+	{
+		if (
+			currentTarget != null &&
+			!IsInstanceValid(currentTarget)
+		)
+		{
+			ResetInput();
+		}
+	}
 
-    public override void _Input(InputEvent @event)
-    {
-        if (
-            !(@event is InputEventKey key) ||
-            !key.Pressed
-        )
-        {
-            return;
-        }
+	public override void _Input(InputEvent @event)
+	{
+		if (
+			!(@event is InputEventKey key) ||
+			!key.Pressed
+		)
+		{
+			return;
+		}
 
-        if (key.Keycode == Key.Backspace)
-        {
-            if (currentInput.Length > 0)
-            {
-                currentInput =
-                    currentInput.Substring(
-                        0,
-                        currentInput.Length - 1
-                    );
-            }
+		if (key.Keycode == Key.Backspace)
+		{
+			if (currentInput.Length > 0)
+			{
+				currentInput =
+					currentInput.Substring(
+						0,
+						currentInput.Length - 1
+					);
+			}
 
-            if (currentInput.Length == 0)
-            {
-                currentTarget = null;
+			if (currentInput.Length == 0)
+			{
+				currentTarget = null;
 
-                UpdateUI();
+				UpdateUI();
 
-                return;
-            }
+				return;
+			}
 
-            currentTarget =
-                GetClosestValidMeteor(
-                    currentInput
-                );
+			currentTarget =
+				GetClosestValidMeteor(
+					currentInput
+				);
 
-            UpdateUI();
+			UpdateUI();
 
-            return;
-        }
+			return;
+		}
 
-        if (key.Unicode <= 0)
-            return;
+		if (key.Unicode <= 0)
+			return;
 
-        char newChar = (char)key.Unicode;
+		char newChar = (char)key.Unicode;
 
-        if (char.IsControl(newChar))
-            return;
+		if (char.IsControl(newChar))
+			return;
 
-        if (currentTarget == null)
-        {
-            currentTarget =
-                GetClosestValidMeteor(
-                    currentInput + newChar
-                );
+		if (currentTarget == null)
+		{
+			currentTarget =
+				GetClosestValidMeteor(
+					currentInput + newChar
+				);
 
-            if (currentTarget == null)
-            {
-                OnWrongChar?.Invoke();
+			if (currentTarget == null)
+			{
+				OnWrongChar?.Invoke();
 
-                hadMistake = true;
+				hadMistake = true;
 
-                var nearest =
-                    GetClosestValidMeteor("");
+				var nearest =
+					GetClosestValidMeteor("");
 
-                nearest?.PlayErrorShake();
+				nearest?.PlayErrorShake();
 
-                ResetInput();
+				ResetInput();
 
-                return;
-            }
-        }
+				return;
+			}
+		}
 
-        if (
-            currentTarget.Word.Length
-                <= currentInput.Length ||
+		if (
+			currentTarget.Word.Length
+				<= currentInput.Length ||
 
-            currentTarget.Word[
-                currentInput.Length
-            ] != newChar
-        )
-        {
-            OnWrongChar?.Invoke();
+			currentTarget.Word[
+				currentInput.Length
+			] != newChar
+		)
+		{
+			OnWrongChar?.Invoke();
 
-            hadMistake = true;
+			hadMistake = true;
 
-            if (
-                currentTarget.Word.Length
-                > currentInput.Length
-            )
-            {
-                char expectedChar =
-                    currentTarget.Word[
-                        currentInput.Length
-                    ];
+			if (
+				currentTarget.Word.Length
+				> currentInput.Length
+			)
+			{
+				char expectedChar =
+					currentTarget.Word[
+						currentInput.Length
+					];
 
-                OnTypingMistake?.Invoke(
-                    currentTarget.Word,
-                    expectedChar,
-                    newChar,
-                    currentInput.Length
-                );
-            }
+				OnTypingMistake?.Invoke(
+					currentTarget.Word,
+					expectedChar,
+					newChar,
+					currentInput.Length
+				);
+			}
 
-            currentTarget?.UpdateDisplay(
-                currentInput + newChar
-            );
+			currentTarget?.UpdateDisplay(
+				currentInput + newChar
+			);
 
-            currentTarget?.PlayErrorShake();
+			currentTarget?.PlayErrorShake();
 
-            return;
-        }
+			return;
+		}
 
-        OnCorrectChar?.Invoke();
+		OnCorrectChar?.Invoke();
 
-        currentInput += newChar;
+		currentInput += newChar;
 
-        UpdateUI();
+		UpdateUI();
 
-        OnShootRequested?.Invoke(
-            currentTarget
-        );
+		OnShootRequested?.Invoke(
+			currentTarget
+		);
 
-        if (currentInput == currentTarget.Word)
-        {
-            currentTarget.SetHadMistake(
-                hadMistake
-            );
+		if (currentInput == currentTarget.Word)
+		{
+			currentTarget.SetHadMistake(
+				hadMistake
+			);
 
-            OnWordCompleted?.Invoke(
-                currentTarget
-            );
+			OnWordCompleted?.Invoke(
+				currentTarget
+			);
 
-            currentInput = "";
+			currentInput = "";
 
-            hadMistake = false;
+			hadMistake = false;
 
-            currentTarget = null;
-        }
-    }
+			currentTarget = null;
+		}
+	}
 
-    private void UpdateUI()
-    {
-        currentTarget?.UpdateDisplay(
-            currentInput
-        );
-    }
+	private void UpdateUI()
+	{
+		currentTarget?.UpdateDisplay(
+			currentInput
+		);
+	}
 
-    private Meteor GetClosestValidMeteor(
-        string input
-    )
-    {
-        Meteor closest = null;
+	private Meteor GetClosestValidMeteor(
+		string input
+	)
+	{
+		Meteor closest = null;
 
-        float minDistance =
-            float.MaxValue;
+		float minDistance =
+			float.MaxValue;
 
-        foreach (Node child in spawner.GetChildren())
-        {
-            if (child is Meteor meteor)
-            {
-                if (
-                    !meteor.Word.StartsWith(
-                        input
-                    )
-                )
-                {
-                    continue;
-                }
+		foreach (Node child in spawner.GetChildren())
+		{
+			if (child is Meteor meteor)
+			{
+				if (
+					!meteor.Word.StartsWith(
+						input
+					)
+				)
+				{
+					continue;
+				}
 
-                float dist =
-                    meteor.GlobalPosition
-                    .DistanceTo(
-                        turret.GlobalPosition
-                    );
+				float dist =
+					meteor.GlobalPosition
+					.DistanceTo(
+						turret.GlobalPosition
+					);
 
-                if (dist < minDistance)
-                {
-                    minDistance = dist;
+				if (dist < minDistance)
+				{
+					minDistance = dist;
 
-                    closest = meteor;
-                }
-            }
-        }
+					closest = meteor;
+				}
+			}
+		}
 
-        return closest;
-    }
+		return closest;
+	}
 
-    public void ResetInput()
-    {
-        currentInput = "";
+	public void ResetInput()
+	{
+		currentInput = "";
 
-        currentTarget = null;
+		currentTarget = null;
 
-        hadMistake = false;
-    }
+		hadMistake = false;
+	}
 }

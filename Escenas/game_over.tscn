@@ -149,7 +149,7 @@ theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("3_acdi2")
 theme_override_font_sizes/font_size = 40
-text = "TOTAL DE PALABRAS"
+text = "PUNTAJE TOTAL"
 
 [node name="ValWords" type="Label" parent="TextureRect/CenterContainer/PrincipalPanel/MarginContainer/PrincipalVBox/HBoxContainer/StatsGrid" unique_id=1492709418]
 layout_mode = 2
