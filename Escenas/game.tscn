@@ -18,7 +18,7 @@ glow_enabled = true
 glow_intensity = 1.3
 glow_bloom = 0.2
 
-[node name="Level1" type="Node2D" unique_id=1605905321]
+[node name="Level2" type="Node2D" unique_id=1605905321]
 script = ExtResource("1_dllou")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1173182171]

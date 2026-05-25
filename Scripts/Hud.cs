@@ -272,29 +272,36 @@ public partial class Hud : CanvasLayer
         tween.TweenProperty(
             heart,
             "modulate:a",
-            0.2f,
-            0.08f
+            0.15f,
+            0.14f
         );
 
         tween.TweenProperty(
             heart,
             "modulate:a",
             1f,
-            0.08f
+            0.14f
         );
 
         tween.TweenProperty(
             heart,
             "modulate:a",
-            0.2f,
-            0.08f
+            0.15f,
+            0.14f
+        );
+
+        tween.TweenProperty(
+            heart,
+            "modulate:a",
+            1f,
+            0.14f
         );
 
         tween.TweenProperty(
             heart,
             "modulate",
             Colors.White,
-            0.12f
+            0.22f
         );
     }
 
@@ -309,29 +316,36 @@ public partial class Hud : CanvasLayer
         tween.TweenProperty(
             heart,
             "modulate:a",
-            0.2f,
-            0.08f
+            0.15f,
+            0.14f
         );
 
         tween.TweenProperty(
             heart,
             "modulate:a",
             1f,
-            0.08f
+            0.14f
         );
 
         tween.TweenProperty(
             heart,
             "modulate:a",
-            0.2f,
-            0.08f
+            0.15f,
+            0.14f
+        );
+
+        tween.TweenProperty(
+            heart,
+            "modulate:a",
+            1f,
+            0.14f
         );
 
         tween.TweenProperty(
             heart,
             "modulate:a",
             0f,
-            0.12f
+            0.22f
         );
 
         tween.TweenCallback(Callable.From(() =>
