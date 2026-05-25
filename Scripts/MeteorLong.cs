@@ -4,7 +4,7 @@ using System;
 public partial class MeteorLong : Meteor
 {
     [Export] public int DamageToPlayer = 2;
-    [Export] public float LongMeteorRotationSpeed = 0.3f;
+    [Export] public float LongMeteorRotationSpeed = 0.15f;
 
     [Export] public float EntryBoostSpeed = 420f;
     [Export] public float EntryBoostDuration = 1.2f;

@@ -14,6 +14,9 @@ public partial class Meteor : CharacterBody2D, IDamageable
     [Export] public float ComboSpeedBonus = 80f;
     [Export] public float MaxDynamicSpeed = 550f;
 
+    [Export] public int SmokeAmount = 20;
+    [Export] public int ComboSmokeAmount = 35;
+
     private Tween hitTween;
     private Tween shakeTween;
 
@@ -25,6 +28,7 @@ public partial class Meteor : CharacterBody2D, IDamageable
     protected RichTextLabel label;
     protected Node2D target;
     protected AnimatedSprite2D sprite;
+    protected GpuParticles2D smokeTrail;
 
     private bool hasHit = false;
     protected bool isDead = false;
@@ -51,6 +55,22 @@ public partial class Meteor : CharacterBody2D, IDamageable
             GetNode<AnimatedSprite2D>(
                 "AnimatedSprite2D"
             );
+
+        smokeTrail =
+            GetNodeOrNull<GpuParticles2D>(
+                "SmokeTrail"
+            );
+
+        if (
+            smokeTrail != null &&
+            smokeTrail.ProcessMaterial
+                is ParticleProcessMaterial material
+        )
+        {
+            smokeTrail.ProcessMaterial =
+                (ParticleProcessMaterial)
+                material.Duplicate();
+        }
 
         sprite.Play("break");
         sprite.Stop();
@@ -117,6 +137,8 @@ public partial class Meteor : CharacterBody2D, IDamageable
             }
 
             Velocity = dir * dynamicSpeed;
+
+            UpdateSmokeTrail();
         }
 
         MoveAndSlide();
@@ -147,6 +169,45 @@ public partial class Meteor : CharacterBody2D, IDamageable
 
                 return;
             }
+        }
+    }
+
+    private void UpdateSmokeTrail()
+    {
+        if (
+            smokeTrail == null ||
+            Velocity.Length() <= 0.01f
+        )
+            return;
+
+        Vector2 oppositeDirection =
+            -Velocity.Normalized();
+
+        if (
+            smokeTrail.ProcessMaterial
+                is ParticleProcessMaterial material
+        )
+        {
+            material.Direction =
+                new Vector3(
+                    oppositeDirection.X,
+                    oppositeDirection.Y,
+                    0f
+                );
+        }
+
+        if (
+            turret != null &&
+            turret.IsComboActive()
+        )
+        {
+            smokeTrail.Amount = ComboSmokeAmount;
+            smokeTrail.SpeedScale = 1.4f;
+        }
+        else
+        {
+            smokeTrail.Amount = SmokeAmount;
+            smokeTrail.SpeedScale = 1f;
         }
     }
 
@@ -229,7 +290,6 @@ public partial class Meteor : CharacterBody2D, IDamageable
 
     private void SpawnScorePopup(int amount)
     {
-
         if (ScorePopupScene == null)
         {
             GD.Print("NO SCENE");
@@ -238,7 +298,6 @@ public partial class Meteor : CharacterBody2D, IDamageable
 
         Node popup =
             ScorePopupScene.Instantiate();
-
 
         if (popup is Node2D node2D)
         {
@@ -254,15 +313,14 @@ public partial class Meteor : CharacterBody2D, IDamageable
 
         if (popup is FloatingScore floatingScore)
         {
-
             Color color;
 
             if (amount >= 200)
-                color = new Color(1f, 0.85f, 0.1f); 
+                color = new Color(1f, 0.85f, 0.1f);
             else if (amount >= 100)
-                color = new Color(0.2f, 1f, 1f); 
+                color = new Color(0.2f, 1f, 1f);
             else
-                color = new Color(1f, 0.6f, 0.2f); 
+                color = new Color(1f, 0.6f, 0.2f);
 
             floatingScore.Setup(
                 $"+{amount}",

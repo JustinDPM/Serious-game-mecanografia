@@ -252,9 +252,12 @@ public partial class Turret : CharacterBody2D
         {
             comboActive = true;
 
-            Heal(1);
-
             OnComboStarted?.Invoke();
+        }
+
+        if (streak % 10 == 0)
+        {
+            Heal(1);
         }
     }
 
