@@ -1,4 +1,14 @@
 using Godot;
+using System;
+using System.Collections.Generic;
+
+public class TypingMistake
+{
+    public string Word;
+    public char ExpectedChar;
+    public char TypedChar;
+    public int Position;
+}
 
 public partial class StatsManager : Node
 {
@@ -8,8 +18,6 @@ public partial class StatsManager : Node
     private int wrong = 0;
     private int totalInputs = 0;
 
-    // Para WPM real tipo mecanografía:
-    // 1 palabra = 5 caracteres correctos
     private int correctChars = 0;
 
     [Export] public float GameDuration = 120f;
@@ -19,6 +27,9 @@ public partial class StatsManager : Node
     private InputManager input;
     private Turret turret;
     private Global global;
+
+    private List<TypingMistake> mistakes =
+        new List<TypingMistake>();
 
     public override void _Ready()
     {
@@ -42,6 +53,7 @@ public partial class StatsManager : Node
         input.OnCorrectChar += OnCorrectChar;
         input.OnWrongChar += OnWrongChar;
         input.OnWordCompleted += OnWordCompleted;
+        input.OnTypingMistake += OnTypingMistake;
 
         if (turret != null)
             turret.OnGameOver += EndGameByDeath;
@@ -54,6 +66,7 @@ public partial class StatsManager : Node
             input.OnCorrectChar -= OnCorrectChar;
             input.OnWrongChar -= OnWrongChar;
             input.OnWordCompleted -= OnWordCompleted;
+            input.OnTypingMistake -= OnTypingMistake;
         }
 
         if (turret != null)
@@ -92,13 +105,31 @@ public partial class StatsManager : Node
         totalInputs++;
     }
 
-    public void OnWordCompleted(Meteor meteor)
+    private void OnTypingMistake(
+        string word,
+        char expectedChar,
+        char typedChar,
+        int position
+    )
     {
         if (gameEnded)
             return;
 
-        // Ya no sumamos palabras aquí para WPM.
-        // El WPM ahora sale de correctChars / 5.
+        mistakes.Add(
+            new TypingMistake
+            {
+                Word = word,
+                ExpectedChar = expectedChar,
+                TypedChar = typedChar,
+                Position = position
+            }
+        );
+    }
+
+    public void OnWordCompleted(Meteor meteor)
+    {
+        if (gameEnded)
+            return;
     }
 
     public float GetWPM()
@@ -191,6 +222,24 @@ public partial class StatsManager : Node
         GD.Print($"WPM:      {global.LastWPM:0.0}");
         GD.Print($"Correct chars: {correctChars}");
         GD.Print($"Partidas guardadas: {global.MatchHistory.Count}");
+
+        GD.Print("=== ERRORES DE TIPEO ===");
+
+        if (mistakes.Count == 0)
+        {
+            GD.Print("Sin errores registrados.");
+            return;
+        }
+
+        foreach (TypingMistake mistake in mistakes)
+        {
+            GD.Print(
+                $"Palabra: {mistake.Word} | " +
+                $"Esperada: {mistake.ExpectedChar} | " +
+                $"Escrita: {mistake.TypedChar} | " +
+                $"Posición: {mistake.Position}"
+            );
+        }
     }
 
     public void OnMeteorDestroyed(Meteor meteor)

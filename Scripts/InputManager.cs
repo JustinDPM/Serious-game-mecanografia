@@ -6,10 +6,10 @@ public partial class InputManager : Node
     public event Action OnCorrectChar;
     public event Action OnWrongChar;
 
-    // 👇 ahora manda el meteor completado
     public event Action<Meteor> OnWordCompleted;
-
     public event Action<Meteor> OnShootRequested;
+
+    public event Action<string, char, char, int> OnTypingMistake;
 
     private string currentInput = "";
 
@@ -116,6 +116,24 @@ public partial class InputManager : Node
 
             hadMistake = true;
 
+            if (
+                currentTarget.Word.Length
+                > currentInput.Length
+            )
+            {
+                char expectedChar =
+                    currentTarget.Word[
+                        currentInput.Length
+                    ];
+
+                OnTypingMistake?.Invoke(
+                    currentTarget.Word,
+                    expectedChar,
+                    newChar,
+                    currentInput.Length
+                );
+            }
+
             currentTarget?.UpdateDisplay(
                 currentInput + newChar
             );
@@ -141,7 +159,6 @@ public partial class InputManager : Node
                 hadMistake
             );
 
-            // 👇 manda el meteorito completado
             OnWordCompleted?.Invoke(
                 currentTarget
             );
