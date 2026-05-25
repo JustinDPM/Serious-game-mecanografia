@@ -4,35 +4,47 @@ using System;
 public partial class SettingsMenu : Control
 {
 	private OptionButton displayMode;
+	private HSlider masterSlider;
+	private HSlider musicSlider;
+	private HSlider sfxSlider;
+	private CheckButton typingSoundToggle;
+
 	private bool openedFromGame = false;
 	[Export] private Control mainMenuPanel;
 	
 	private Button resumeButton;
 	private Button exitButton;
-	private Button btnVideo;
-	private Button btnAudio;
-	private Button btnGameplay;
-	private Button btnAccessibility;
 
-	private TabContainer optionsArea;
 	private Global _global;
+
+	// Índices de los buses de audio de Godot
+	private int masterBus;
+	private int musicBus;
+	private int sfxBus;
 
 	public override void _Ready()
 	{
 		Visible = false;
 		_global = GetNodeOrNull<Global>("/root/Global");
 
-		optionsArea = GetNodeOrNull<TabContainer>("CenterContainer/PanelContainer/HBoxPrincipal/OptionsArea");
-		displayMode = GetNodeOrNull<OptionButton>("CenterContainer/PanelContainer/HBoxPrincipal/OptionsArea/TabVideo/OptionButton");
+		// Obtener los canales de audio del sistema
+		masterBus = AudioServer.GetBusIndex("Master");
+		musicBus = AudioServer.GetBusIndex("Music");
+		sfxBus = AudioServer.GetBusIndex("SFX");
+
+		// Ubicación base de tus controles
+		string basePath = "CenterContainer/PanelContainer/HBoxPrincipal/VBoxContainer/";
+
+		displayMode = GetNodeOrNull<OptionButton>(basePath + "OptionButton");
+		masterSlider = GetNodeOrNull<HSlider>(basePath + "HSlider");
+		musicSlider = GetNodeOrNull<HSlider>(basePath + "HSlider2");
+		sfxSlider = GetNodeOrNull<HSlider>(basePath + "HSlider3");
+		typingSoundToggle = GetNodeOrNull<CheckButton>(basePath + "CheckButton");
 		
 		resumeButton = GetNodeOrNull<Button>("CenterContainer/PanelContainer/HBoxPrincipal/SideBar/Return");
 		exitButton = GetNodeOrNull<Button>("CenterContainer/PanelContainer/HBoxPrincipal/SideBar/Close");
 		
-		btnVideo = GetNodeOrNull<Button>("CenterContainer/PanelContainer/HBoxPrincipal/SideBar/Video");
-		btnAudio = GetNodeOrNull<Button>("CenterContainer/PanelContainer/HBoxPrincipal/SideBar/Audio");
-		btnGameplay = GetNodeOrNull<Button>("CenterContainer/PanelContainer/HBoxPrincipal/SideBar/Gameplay");
-		btnAccessibility = GetNodeOrNull<Button>("CenterContainer/PanelContainer/HBoxPrincipal/SideBar/Accessibility");
-
+		// 1. Configurar Modo de Pantalla
 		if (displayMode != null)
 		{
 			displayMode.Clear();
@@ -43,35 +55,59 @@ public partial class SettingsMenu : Control
 			displayMode.ItemSelected += OnDisplayModeChanged;
 		}
 
+		// 2. Configurar Volúmenes (El 70% se escribe como 0.7)
+		ConfigurarSliderVolumen(masterSlider, masterBus);
+		ConfigurarSliderVolumen(musicSlider, musicBus);
+		ConfigurarSliderVolumen(sfxSlider, sfxBus);
+
+		// 3. Configurar CheckButton del teclado (Activo por defecto)
+		if (typingSoundToggle != null)
+		{
+			typingSoundToggle.ButtonPressed = true;
+			typingSoundToggle.Toggled += OnTypingSoundToggled;
+		}
+
+		// 4. Configurar Botones Principales
 		if (resumeButton != null) 
 		{
 			resumeButton.Pressed += OnResumePressed;
 			resumeButton.Text = "Continuar";
 		}
-		
 		if (exitButton != null) exitButton.Pressed += OnExitPressed;
 
-		if (btnVideo != null) btnVideo.Pressed += () => ChangeTab(0);
-		if (btnAudio != null) btnAudio.Pressed += () => ChangeTab(1);
-		if (btnGameplay != null) btnGameplay.Pressed += () => ChangeTab(2);
-		if (btnAccessibility != null) btnAccessibility.Pressed += () => ChangeTab(3);
-
-		Button[] botones = { resumeButton, exitButton, btnVideo, btnAudio, btnGameplay, btnAccessibility };
+		Button[] botones = { resumeButton, exitButton };
 		foreach (Button btn in botones)
 		{
 			if (btn != null) ConfigurarAnimacionBoton(btn);
 		}
 		
-		GD.Print("Settings conectado y pestañas listas");
+		GD.Print("Settings listos con volumen al 70%");
 	}
 
-	private void ChangeTab(int tabIndex)
+	// Esta función prepara los sliders y hace la conversión matemática mágica a decibeles
+	private void ConfigurarSliderVolumen(HSlider slider, int busIndex)
 	{
-		if (optionsArea != null)
+		if (slider == null) return;
+
+		slider.MinValue = 0.0001; // Súper bajito para evitar errores matemáticos
+		slider.MaxValue = 1.0;    // 100%
+		slider.Step = 0.01;
+
+		// Lo ponemos al 70% como pediste
+		slider.Value = 0.7;
+		AudioServer.SetBusVolumeDb(busIndex, (float)Mathf.LinearToDb(0.7));
+
+		// Cuando el jugador mueva el slider, cambiamos el volumen en tiempo real
+		slider.ValueChanged += (value) => 
 		{
-			optionsArea.CurrentTab = tabIndex;
-			GD.Print("Cambiando a pestaña: " + tabIndex);
-		}
+			AudioServer.SetBusVolumeDb(busIndex, (float)Mathf.LinearToDb(value));
+		};
+	}
+
+	private void OnTypingSoundToggled(bool activado)
+	{
+		// Ahorita solo imprime un mensaje, pero después aquí avisaremos a la nave que (no) suene
+		GD.Print("Sonido al teclear activado: " + activado);
 	}
 
 	public void Open(bool pauseGame = true)
@@ -79,8 +115,6 @@ public partial class SettingsMenu : Control
 		openedFromGame = pauseGame;
 		if (pauseGame) GetTree().Paused = true;
 		Visible = true;
-
-		if (optionsArea != null) optionsArea.CurrentTab = 0; 
 		
 		if (displayMode != null) displayMode.GrabFocus();
 	}
@@ -106,7 +140,6 @@ public partial class SettingsMenu : Control
 
 		if (openedFromGame)
 		{
-
 			if (arbol != null) arbol.Paused = false;
 			
 			if (_global != null)
@@ -120,7 +153,6 @@ public partial class SettingsMenu : Control
 		}
 		else
 		{
-	
 			if (arbol != null) 
 			{
 				arbol.Quit();
