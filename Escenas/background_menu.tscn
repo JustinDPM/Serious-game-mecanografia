@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://vik161c7s1s1"]
 
-[ext_resource type="Script" path="res://Scripts/BackgroundMenu.cs" id="1_42iy5"]
+[ext_resource type="Script" uid="uid://de07wvkvtub8b" path="res://Scripts/BackgroundMenu.cs" id="1_42iy5"]
 [ext_resource type="Texture2D" uid="uid://t7rusqota7vq" path="res://assets/image-removebg-preview (1).png" id="2_42iy5"]
 [ext_resource type="Texture2D" uid="uid://b518sojlyy7ji" path="res://assets/Backgrounds/Purple Nebula/Purple_Nebula_07-1024x1024.png" id="2_jfoux"]
 [ext_resource type="Texture2D" uid="uid://sufdccbrbwl4" path="res://assets/blue_star.png" id="3_jfoux"]
-[ext_resource type="Texture2D" path="res://assets/Backgrounds/Background/stars1.png" id="5_42iy5"]
+[ext_resource type="Texture2D" uid="uid://crg7u7cygfw8n" path="res://assets/Backgrounds/Background/stars1.png" id="5_42iy5"]
 [ext_resource type="PackedScene" uid="uid://d2w521pundbn2" path="res://Escenas/ship.tscn" id="7_m272x"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lxttf"]

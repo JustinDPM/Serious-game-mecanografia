@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://cssanomw65w8"]
 
+[ext_resource type="Script" uid="uid://bn3623igwtnda" path="res://Scripts/BankWord.cs" id="1_hoeaa"]
 [ext_resource type="PackedScene" uid="uid://vik161c7s1s1" path="res://Escenas/background_menu.tscn" id="3_ho85a"]
 [ext_resource type="FontFile" uid="uid://csb47k5lcd1bn" path="res://Fonts/RussoOne-Regular.ttf" id="4_1p3dh"]
 
@@ -49,6 +50,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_hoeaa")
 
 [node name="BackgroundMenu" parent="." unique_id=64825982 instance=ExtResource("3_ho85a")]
 script = null
@@ -113,6 +115,17 @@ layout_mode = 2
 theme_override_constants/separation = 120
 alignment = 1
 
+[node name="FileBtn" type="Button" parent="MainPanel/MarginContainer/RootVBox/ButtonsHBox" unique_id=213210292]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("4_1p3dh")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_okmtp")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vplb3")
+text = "Cargar archivos"
+
 [node name="WordBtn" type="Button" parent="MainPanel/MarginContainer/RootVBox/ButtonsHBox" unique_id=1039260956]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -122,7 +135,7 @@ theme_override_fonts/font = ExtResource("4_1p3dh")
 theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxFlat_okmtp")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vplb3")
-text = "Cargar palabras"
+text = "Agregar palabras"
 
 [node name="BackBtn" type="Button" parent="MainPanel/MarginContainer/RootVBox/ButtonsHBox" unique_id=1508098413]
 layout_mode = 2
@@ -138,4 +151,13 @@ text = "Volver al menú"
 [node name="FileDialog" type="FileDialog" parent="." unique_id=439892102]
 title = "Open a File"
 file_mode = 0
+access = 2
 filters = PackedStringArray("*.txt")
+use_native_dialog = true
+
+[node name="AddWordDialog" type="AcceptDialog" parent="." unique_id=494771025]
+dialog_text = "Escribe aquí la nueva palabra..."
+
+[node name="WordInput" type="LineEdit" parent="AddWordDialog" unique_id=2022337595]
+offset_right = 68.5
+offset_bottom = 31.0

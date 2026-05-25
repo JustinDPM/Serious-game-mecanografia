@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ckuagmkw63hi"]
 
 [ext_resource type="Script" uid="uid://brjy64vel3xcf" path="res://Scripts/MainMenu.cs" id="1_r8uxs"]
-[ext_resource type="Texture2D" uid="uid://c0dgnus0tpyq8" path="res://assets/FondoInicio.png" id="2_a3sw6"]
+[ext_resource type="PackedScene" uid="uid://vik161c7s1s1" path="res://Escenas/background_menu.tscn" id="2_riaih"]
 [ext_resource type="Shader" uid="uid://b1lespohkr7ab" path="res://Escenas/Shaders/login.gdshader" id="3_7ms0u"]
 [ext_resource type="PackedScene" uid="uid://de0jciynbpbpo" path="res://Escenas/settings_menu.tscn" id="3_hjcy7"]
 [ext_resource type="Texture2D" uid="uid://chvjwf23ivlt1" path="res://assets/logoIASD.png" id="4_xgkoo"]
@@ -42,16 +42,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_r8uxs")
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=784373680]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_a3sw6")
-expand_mode = 1
-stretch_mode = 6
+[node name="BackgroundMenu" parent="." unique_id=64825982 instance=ExtResource("2_riaih")]
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1247924408]
 layout_mode = 1

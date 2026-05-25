@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://begxxatnaxnew"]
+
+[ext_resource type="PackedScene" uid="uid://vik161c7s1s1" path="res://Escenas/background_menu.tscn" id="1_8rtap"]
+[ext_resource type="Script" uid="uid://cp4h2ldncu3od" path="res://Scripts/LevelSelection.cs" id="1_vds6a"]
+
+[node name="LevelSelection" type="Control" unique_id=1140439947]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vds6a")
+
+[node name="BackgroundMenu" parent="." unique_id=64825982 instance=ExtResource("1_8rtap")]
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1305799011]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1920313554]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=803560830]
+layout_mode = 2
+text = "SELECCIONA UN NIVEL"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1674822453]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Level1Btn" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1759528094]
+custom_minimum_size = Vector2(250, 400)
+layout_mode = 2
+text = "Nivel 1"
+
+[node name="Level2Btn" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=423335777]
+custom_minimum_size = Vector2(250, 400)
+layout_mode = 2
+text = "Nivel 2"
+
+[node name="Level3Btn" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=55897779]
+custom_minimum_size = Vector2(250, 400)
+layout_mode = 2
+text = "Nivel 3"
+
+[node name="Level4Btn" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=2091874366]
+custom_minimum_size = Vector2(250, 400)
+layout_mode = 2
+text = "Nivel 4"
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1219317585]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Regresa al Menú"
+icon_alignment = 1

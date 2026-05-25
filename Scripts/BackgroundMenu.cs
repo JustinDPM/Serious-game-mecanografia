@@ -138,5 +138,7 @@ public partial class BackgroundMenu : Node2D
 		}), 0.0f, 1.0f, duracionVuelo);
 
 		tween.TweenCallback(Callable.From(nave.QueueFree));
+		
+		GD.Print("¡Nave generada!");
 	}
 }

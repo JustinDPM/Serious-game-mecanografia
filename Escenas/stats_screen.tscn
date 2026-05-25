@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://cvrbl2pdfjhsb"]
 
-[ext_resource type="Texture2D" uid="uid://c0dgnus0tpyq8" path="res://assets/FondoInicio.png" id="1_u71so"]
 [ext_resource type="Script" uid="uid://c8hrujkcv5p5j" path="res://Scripts/StatsScreen.cs" id="1_xhdp8"]
 [ext_resource type="FontFile" uid="uid://csb47k5lcd1bn" path="res://Fonts/RussoOne-Regular.ttf" id="2_bvhf5"]
 [ext_resource type="PackedScene" uid="uid://dufk63q618c8m" path="res://Escenas/match_result_card.tscn" id="2_jax8k"]
+[ext_resource type="PackedScene" uid="uid://vik161c7s1s1" path="res://Escenas/background_menu.tscn" id="3_jqfhw"]
 [ext_resource type="Texture2D" uid="uid://besbogm7d7g3b" path="res://assets/pad_screen1.png" id="4_jqfhw"]
 [ext_resource type="FontFile" uid="uid://baoo727a24t57" path="res://Fonts/Orbitron-Black.ttf" id="5_re42y"]
 [ext_resource type="Theme" uid="uid://btt18n35jc653" path="res://button_Theme2.tres" id="6_pk7l1"]
@@ -30,16 +30,7 @@ grow_vertical = 2
 script = ExtResource("1_xhdp8")
 matchCardScene = ExtResource("2_jax8k")
 
-[node name="Background" type="TextureRect" parent="." unique_id=576407810]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_u71so")
-expand_mode = 1
-stretch_mode = 4
+[node name="BackgroundMenu" parent="." unique_id=64825982 instance=ExtResource("3_jqfhw")]
 
 [node name="MainPanel" type="PanelContainer" parent="." unique_id=1083606107]
 custom_minimum_size = Vector2(1250, 800)

@@ -106,7 +106,7 @@ public partial class MainMenu : Control
 		
 	}
 
-	private void OnPlayButtonPressed()     => _global.CambiarEscena("res://Escenas/game.tscn");
+	private void OnPlayButtonPressed()     => _global.CambiarEscena("res://Escenas/level_selection.tscn");
 	
 	private void OnDatabaseButtonPressed() => _global.CambiarEscena("res://Escenas/bank_word.tscn"); 
 	
