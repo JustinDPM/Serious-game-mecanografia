@@ -15,7 +15,7 @@
 _data = [Vector2(0.24295776, 1), 0.0, 0.0, 0, 0, Vector2(0.42605639, 0.85890007), 0.0, 0.0, 0, 0, Vector2(0.8063381, 0.49204046), 0.0, 0.0, 0, 0, Vector2(0.94366205, 0.25687402), 0.0, 0.0, 0, 0, Vector2(0.9964789, 0.040520906), 0.0, 0.0, 0, 0]
 point_count = 5
 
-[sub_resource type="CurveTexture" id="CurveTexture_7xcrk"]
+[sub_resource type="CurveTexture" id="CurveTexture_qf5k1"]
 curve = SubResource("Curve_d6sxy")
 
 [sub_resource type="Gradient" id="Gradient_y6xc5"]
@@ -23,7 +23,7 @@ offsets = PackedFloat32Array(0.75, 1)
 colors = PackedColorArray(0.75, 0.75, 0.75, 1, 1, 1, 1, 1)
 metadata/_snap_enabled = true
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_h4l47"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7xcrk"]
 gradient = SubResource("Gradient_y6xc5")
 
 [sub_resource type="Curve" id="Curve_rt020"]
@@ -40,10 +40,12 @@ spread = 20.25
 initial_velocity_min = 40.0
 initial_velocity_max = 80.0
 gravity = Vector3(0, 98, 0)
+scale_min = 1.3
+scale_max = 1.3
 scale_curve = SubResource("CurveTexture_8i7ky")
 color = Color(0.8992584, 0.8992584, 0.8992584, 1)
-color_ramp = SubResource("GradientTexture1D_h4l47")
-alpha_curve = SubResource("CurveTexture_7xcrk")
+color_ramp = SubResource("GradientTexture1D_7xcrk")
+alpha_curve = SubResource("CurveTexture_qf5k1")
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_aob3w"]
 animations = [{
@@ -99,20 +101,27 @@ radius = 90.005554
 
 [node name="long_meteor" type="CharacterBody2D" unique_id=1046465861]
 script = ExtResource("1_jo8j0")
+LongMeteorRotationSpeed = 0.07
 EntryBoostSpeed = 220.0
+LongSmokeAmount = 8
+LongComboSmokeAmount = 10
+LongSmokeSpeedScale = 2.5
+LongComboSmokeSpeedScale = 2.5
 Speed = 25.0
 ScorePopupScene = ExtResource("2_d6sxy")
 StreakSpeedBonus = 2.0
 ComboSpeedBonus = 15.0
 MaxDynamicSpeed = 175.0
+SmokeAmount = 6
+ComboSmokeAmount = 8
 
-[node name="SmokeTrail" type="GPUParticles2D" parent="." unique_id=1966248227]
+[node name="SmokeTrail" type="GPUParticles2D" parent="." unique_id=1283173958]
 scale = Vector2(0.15, 0.15)
 amount = 1
 texture = ExtResource("3_d6sxy")
-lifetime = 1.56
+lifetime = 2.7399999999999998
 randomness = 0.5
-trail_lifetime = 1.55
+trail_lifetime = 2.69
 process_material = SubResource("ParticleProcessMaterial_4lgk5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1883853145]

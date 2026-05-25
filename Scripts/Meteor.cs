@@ -17,6 +17,9 @@ public partial class Meteor : CharacterBody2D, IDamageable
     [Export] public int SmokeAmount = 20;
     [Export] public int ComboSmokeAmount = 35;
 
+    [Export] public float SmokeSpeedScale = 1f;
+    [Export] public float ComboSmokeSpeedScale = 1.4f;
+
     private Tween hitTween;
     private Tween shakeTween;
 
@@ -125,15 +128,21 @@ public partial class Meteor : CharacterBody2D, IDamageable
             if (turret != null)
             {
                 int streak = turret.GetStreak();
-                dynamicSpeed += streak * GetStreakSpeedBonus();
+
+                dynamicSpeed +=
+                    streak * GetStreakSpeedBonus();
 
                 if (turret.IsComboActive())
                 {
-                    dynamicSpeed += GetComboSpeedBonus();
+                    dynamicSpeed +=
+                        GetComboSpeedBonus();
                 }
 
                 dynamicSpeed =
-                    Mathf.Min(dynamicSpeed, GetMaxSpeed());
+                    Mathf.Min(
+                        dynamicSpeed,
+                        GetMaxSpeed()
+                    );
             }
 
             Velocity = dir * dynamicSpeed;
@@ -162,7 +171,9 @@ public partial class Meteor : CharacterBody2D, IDamageable
             {
                 hasHit = true;
 
-                turret.TakeDamage(GetDamageToPlayer());
+                turret.TakeDamage(
+                    GetDamageToPlayer()
+                );
 
                 if (IsInsideTree())
                     QueueFree();
@@ -172,7 +183,7 @@ public partial class Meteor : CharacterBody2D, IDamageable
         }
     }
 
-    private void UpdateSmokeTrail()
+    protected virtual void UpdateSmokeTrail()
     {
         if (
             smokeTrail == null ||
@@ -180,8 +191,8 @@ public partial class Meteor : CharacterBody2D, IDamageable
         )
             return;
 
-        Vector2 oppositeDirection =
-            -Velocity.Normalized();
+        Vector2 smokeDirection =
+            Velocity.Normalized();
 
         if (
             smokeTrail.ProcessMaterial
@@ -190,24 +201,35 @@ public partial class Meteor : CharacterBody2D, IDamageable
         {
             material.Direction =
                 new Vector3(
-                    oppositeDirection.X,
-                    oppositeDirection.Y,
+                    smokeDirection.X,
+                    smokeDirection.Y,
                     0f
                 );
+
+            material.Gravity = Vector3.Zero;
         }
+
+        smokeTrail.Rotation = 0f;
+        smokeTrail.GlobalRotation = 0f;
 
         if (
             turret != null &&
             turret.IsComboActive()
         )
         {
-            smokeTrail.Amount = ComboSmokeAmount;
-            smokeTrail.SpeedScale = 1.4f;
+            smokeTrail.Amount =
+                GetComboSmokeAmount();
+
+            smokeTrail.SpeedScale =
+                GetComboSmokeSpeedScale();
         }
         else
         {
-            smokeTrail.Amount = SmokeAmount;
-            smokeTrail.SpeedScale = 1f;
+            smokeTrail.Amount =
+                GetSmokeAmount();
+
+            smokeTrail.SpeedScale =
+                GetSmokeSpeedScale();
         }
     }
 
@@ -307,8 +329,6 @@ public partial class Meteor : CharacterBody2D, IDamageable
             GetTree()
                 .CurrentScene
                 .AddChild(node2D);
-
-            GD.Print("POPUP ADDED");
         }
 
         if (popup is FloatingScore floatingScore)
@@ -596,5 +616,25 @@ public partial class Meteor : CharacterBody2D, IDamageable
     protected virtual float GetMaxSpeed()
     {
         return MaxDynamicSpeed;
+    }
+
+    protected virtual int GetSmokeAmount()
+    {
+        return SmokeAmount;
+    }
+
+    protected virtual int GetComboSmokeAmount()
+    {
+        return ComboSmokeAmount;
+    }
+
+    protected virtual float GetSmokeSpeedScale()
+    {
+        return SmokeSpeedScale;
+    }
+
+    protected virtual float GetComboSmokeSpeedScale()
+    {
+        return ComboSmokeSpeedScale;
     }
 }
