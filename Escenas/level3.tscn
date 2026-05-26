@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://c0gr82kxfro1l"]
+[gd_scene format=3 uid="uid://c46e0bwpfijoa"]
 
 [ext_resource type="Script" uid="uid://b3hym8fxnt03t" path="res://Scripts/Level1.cs" id="1_2t4i6"]
 [ext_resource type="PackedScene" uid="uid://dc8i4ytb2600y" path="res://Escenas/background.tscn" id="2_hthiw"]
@@ -34,10 +34,10 @@ turret = NodePath("../Ship/Turret")
 [node name="MeteorSpawner" parent="." unique_id=158739484 node_paths=PackedStringArray("Turret") instance=ExtResource("4_2jmgp")]
 MeteorScene = ExtResource("5_k58ks")
 MeteorLongScene = ExtResource("6_6h87l")
-SpawnInterval = 2.5
+SpawnInterval = 3.5
 Turret = NodePath("../Ship/Turret")
 NormalMeteorSpeed = 100.0
-LongMeteorSpeed = 10.0
+LongMeteorSpeed = 20.0
 
 [node name="InputManager" parent="." unique_id=1312815400 node_paths=PackedStringArray("spawner", "turret") instance=ExtResource("7_kkqn1")]
 spawner = NodePath("../MeteorSpawner")

@@ -76,7 +76,6 @@ public partial class Background : Node2D
 		baseAmount1 = stars1.Amount;
 		baseAmount2 = stars2.Amount;
 
-		// 🔥 conectar eventos
 		if (turret != null)
 		{
 			turret.OnComboStarted += EnableHyperMode;
@@ -86,7 +85,6 @@ public partial class Background : Node2D
 
 	public override void _ExitTree()
 	{
-		// 🔥 desconectar eventos
 		if (turret != null)
 		{
 			turret.OnComboStarted -= EnableHyperMode;

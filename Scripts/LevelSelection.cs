@@ -25,10 +25,6 @@ public partial class LevelSelection : Control
 
 		_bottomBtn = GetNodeOrNull<Button>("MarginContainer/VBoxContainer/PlayButton");
 
-		// =========================
-		// BOTONES NORMALES
-		// =========================
-
 		if (_level1Btn != null)
 			_level1Btn.Pressed += () =>
 				CambiarNivel(
@@ -55,10 +51,6 @@ public partial class LevelSelection : Control
 				);
 		else
 			GD.PrintErr("🚨 ERROR CÓDIGO: No encuentro Level3Btn");
-
-		// =========================
-		// BOTONES CUSTOM
-		// =========================
 
 		if (_custom1Btn != null)
 			_custom1Btn.Pressed += () =>

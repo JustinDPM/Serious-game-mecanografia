@@ -33,8 +33,9 @@ turret = NodePath("../Ship/Turret")
 [node name="MeteorSpawner" parent="." unique_id=158739484 node_paths=PackedStringArray("Turret") instance=ExtResource("4_k57ow")]
 MeteorScene = ExtResource("5_8fhks")
 MeteorLongScene = ExtResource("6_k57ow")
+SpawnInterval = 3.0
 Turret = NodePath("../Ship/Turret")
-NormalMeteorSpeed = 150.0
+NormalMeteorSpeed = 125.0
 LongMeteorSpeed = 35.0
 
 [node name="InputManager" parent="." unique_id=1312815400 node_paths=PackedStringArray("spawner", "turret") instance=ExtResource("5_pb73w")]

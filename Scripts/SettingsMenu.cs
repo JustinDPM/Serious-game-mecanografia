@@ -16,7 +16,6 @@ public partial class SettingsMenu : Control
 	private Button exitButton;
  
 	private Global _global;
-	// FIX: referencia al AudioManager para poder llamar SaveAudioSettings
 	private AudioManager _audioManager;
  
 	private int masterBus;
@@ -27,7 +26,6 @@ public partial class SettingsMenu : Control
 	{
 		Visible = false;
 		_global = GetNodeOrNull<Global>("/root/Global");
-		// FIX: buscamos el AudioManager en los autoloads
 		_audioManager = GetNodeOrNull<AudioManager>("/root/AudioManager");
  
 		masterBus = AudioServer.GetBusIndex("Master");
@@ -45,7 +43,6 @@ public partial class SettingsMenu : Control
 		resumeButton = GetNodeOrNull<Button>("CenterContainer/PanelContainer/HBoxPrincipal/SideBar/Return");
 		exitButton   = GetNodeOrNull<Button>("CenterContainer/PanelContainer/HBoxPrincipal/SideBar/Close");
 		
-		// Modo de pantalla
 		if (displayMode != null)
 		{
 			displayMode.Clear();
@@ -55,8 +52,7 @@ public partial class SettingsMenu : Control
 			displayMode.Select(mode == DisplayServer.WindowMode.Fullscreen ? 1 : 0);
 			displayMode.ItemSelected += OnDisplayModeChanged;
 		}
- 
-		// FIX: configurar sliders leyendo el archivo guardado primero
+
 		ConfigurarSliderVolumen(masterSlider, masterBus, isMaster: true);
 		ConfigurarSliderVolumen(musicSlider,  musicBus,  isMaster: false);
 		ConfigurarSliderVolumen(sfxSlider,    sfxBus,    isMaster: false);
@@ -82,9 +78,7 @@ public partial class SettingsMenu : Control
 		
 		GD.Print("Settings listos.");
 	}
- 
-	// FIX: ahora lee el valor guardado en disco para inicializar el slider correctamente,
-	//      y guarda cada vez que el jugador mueve el slider.
+
 	private void ConfigurarSliderVolumen(HSlider slider, int busIndex, bool isMaster)
 	{
 		if (slider == null) return;
@@ -92,23 +86,17 @@ public partial class SettingsMenu : Control
 		slider.MinValue = 0.0001;
 		slider.MaxValue = 1.0;
 		slider.Step     = 0.01;
- 
-		// Leer valor actual del bus (que ya fue seteado por LoadAudioSettings en _Ready del AudioManager)
+
 		float currentDb     = AudioServer.GetBusVolumeDb(busIndex);
 		double currentLinear = Mathf.DbToLinear(currentDb);
  
-		// Si el archivo no existía aún, el bus estará en 0 dB = linear 1.0,
-		// pero preferimos arrancar en 0.7 como default visual.
-		// Clamp para que no salga del rango del slider.
 		slider.Value = Math.Clamp(currentLinear, slider.MinValue, slider.MaxValue);
  
 		slider.ValueChanged += (value) => 
 		{
 			float db = (float)Mathf.LinearToDb(value);
 			AudioServer.SetBusVolumeDb(busIndex, db);
- 
-			// FIX: guardar en disco inmediatamente al mover el slider de música o SFX
-			if (!isMaster && _audioManager != null)
+ 			if (!isMaster && _audioManager != null)
 			{
 				float musicDb = AudioServer.GetBusVolumeDb(musicBus);
 				float sfxDb   = AudioServer.GetBusVolumeDb(sfxBus);
@@ -128,7 +116,6 @@ public partial class SettingsMenu : Control
 		if (pauseGame) GetTree().Paused = true;
 		Visible = true;
 		
-		// FIX: cada vez que abrimos el menú, refrescamos los sliders con los valores guardados
 		RefrescarSlidersDesdeConfig();
 		
 		if (displayMode != null) displayMode.GrabFocus();

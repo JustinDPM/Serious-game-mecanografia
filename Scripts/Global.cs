@@ -18,14 +18,13 @@ public partial class Global : Node
 	public string RutaNivelCustom = "";
 	public string RutaTxtCustom = "res://Diccionarios/nivel1.txt";
 	
-	// 🔥 VARIABLE DE MEMORIA PARA EL GAME OVER 🔥
 	public string NivelActual = ""; 
 	
 	public string UsuarioActivo  = "Jugador";
 	public string NombreCompleto = "Jugador Local";
 	public string Rol            = "Alumno";
 	public int    IdUsuario      = 0;   
-	public int    IdGrado        = 3;   // Grado por defecto: Secundaria
+	public int    IdGrado        = 3;   
 	public string RutaFotoPerfil = "res://assets/Perfiles/default.jpg";
 
 	public int   LastScore    = 0;

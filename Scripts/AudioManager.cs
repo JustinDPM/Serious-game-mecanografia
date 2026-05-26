@@ -180,8 +180,6 @@ public partial class AudioManager : Node
 			})
 		);
 	}
-	
-	// FIX: corregido typo "ublic" -> "public"
 	public void SaveAudioSettings(float musicDb, float sfxDb)
 	{
 		int musicBus = AudioServer.GetBusIndex("Music");

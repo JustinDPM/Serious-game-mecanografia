@@ -12,8 +12,6 @@ psicología
 sociología
 programación
 algoritmo
-inteligencia artificial
-desarrollo web
 base de datos
 ingeniería
 universidad
@@ -26,7 +24,6 @@ experiencia
 responsabilidad
 creatividad
 innovación
-pensamiento crítico
 análisis
 debate
 hipótesis
@@ -44,27 +41,25 @@ cultura
 ciencia
 futuro
 proyecto
-desarrollo personal
 organización
-investigación científica
 autodisciplina
-El pensamiento crítico es fundamental para resolver problemas complejos
-La tecnología ha transformado la manera en que aprendemos y trabajamos
-Estoy considerando estudiar ingeniería en software en la universidad
-El cálculo diferencial puede ser complicado al inicio
-La inteligencia artificial está cambiando muchas industrias
-Nuestro equipo presentó un proyecto sobre energías renovables
-La disciplina suele ser más importante que la motivación
-La globalización conecta culturas y economías de todo el mundo
-La programación desarrolla habilidades de lógica y análisis
-La literatura permite comprender diferentes perspectivas humanas
-Necesitamos preparar una exposición para la clase de sociología
-El aprendizaje constante es clave en un mundo tan cambiante
-La estadística ayuda a interpretar datos de manera objetiva
-Muchos estudiantes buscan equilibrar escuela, trabajo y vida personal
-El debate fomenta la argumentación y la comunicación efectiva
-La creatividad puede marcar la diferencia en un proyecto innovador
-La economía influye directamente en la vida cotidiana de las personas
-Aprender a organizar el tiempo reduce mucho el estrés académico
-El desarrollo personal implica mejorar habilidades y hábitos constantemente
-La universidad representa una nueva etapa llena de retos y oportunidades
+El pensamiento crítico ayuda a resolver problemas
+La tecnología cambia nuestra forma de aprender
+Quiero estudiar ingeniería en software algún día
+El cálculo diferencial puede parecer complicado
+La inteligencia artificial avanza rápidamente hoy
+Presentamos un proyecto sobre energías renovables
+La disciplina ayuda a cumplir objetivos importantes
+La globalización conecta personas de muchos países
+La programación mejora la lógica y el análisis
+La literatura muestra diferentes perspectivas humanas
+Tenemos una exposición para la clase mañana
+Aprender constantemente es importante para el futuro
+La estadística sirve para analizar información correctamente
+Muchos estudiantes equilibran escuela y vida personal
+El debate fortalece la comunicación y argumentación
+La creatividad puede mejorar cualquier proyecto innovador
+La economía influye en nuestra vida diaria
+Organizar el tiempo ayuda a reducir estrés
+El desarrollo personal requiere esfuerzo y constancia
+La universidad representa nuevos retos y oportunidades

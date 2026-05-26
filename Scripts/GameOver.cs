@@ -24,15 +24,14 @@ public partial class GameOver : Control
 		accuracyLabel.Text = global.LastAccuracy.ToString("0.0") + "%";
 		wpmLabel.Text      = ((int)global.LastWPM).ToString();
 
-		// 🔥 AQUÍ PASA LA MAGIA: SOLO AL DARLE A INTENTAR DE NUEVO REINICIA EL AUDIO 🔥
 		retryButton.Pressed += () => 
 		{
 			var audioManager = GetNodeOrNull<AudioManager>("/root/AudioManager");
 			if (audioManager != null)
 			{
-				audioManager.StopMusic(); // Apagamos la música y borramos el caché de reproducción
+				audioManager.StopMusic(); 
 			}
-			global.CallDeferred("CambiarEscena", global.NivelActual); // Cargamos el mismo nivel
+			global.CallDeferred("CambiarEscena", global.NivelActual);
 		};
 
 		exitButton.Pressed += () => global.CallDeferred("CambiarEscena", "res://Escenas/main_menu.tscn");
