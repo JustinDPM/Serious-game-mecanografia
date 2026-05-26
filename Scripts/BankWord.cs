@@ -6,25 +6,30 @@ public partial class BankWord : Control
 	private RichTextLabel _historyList;
 	private Button _fileBtn;
 	private Button _wordBtn;
-	private Button _gameBtn; // Tu nuevo botón de jugar
+	private Button _gameBtn; 
+	private Button _backBtn; // Tu nuevo botón de Salir
+
 	private FileDialog _fileDialog;
 	private AcceptDialog _addWordDialog;
 	private LineEdit _wordInput;
 	
 	private Global _global;
 
-	// Ahora usamos una sola lista
 	public List<string> ListaPalabras = new List<string>();
 
 	public override void _Ready()
 	{
 		_global = GetNodeOrNull<Global>("/root/Global");
 		
+		// Para que la música fluya si vienes probando la escena directo con F6
+		GetNodeOrNull<Node>("/root/AudioManager")?.Call("PlayMenuMusic");
+		
 		_historyList = GetNode<RichTextLabel>("MainPanel/MarginContainer/RootVBox/ScrollContainer/HistoryList");
 
 		_fileBtn = GetNode<Button>("MainPanel/MarginContainer/RootVBox/ButtonsHBox/FileBtn");
 		_wordBtn = GetNode<Button>("MainPanel/MarginContainer/RootVBox/ButtonsHBox/WordBtn");
-		_gameBtn = GetNode<Button>("MainPanel/MarginContainer/RootVBox/ButtonsHBox/GameBtn"); // Conectamos el botón Iniciar Juego
+		_gameBtn = GetNode<Button>("MainPanel/MarginContainer/RootVBox/ButtonsHBox/GameBtn"); 
+		_backBtn = GetNode<Button>("MainPanel/MarginContainer/RootVBox/ButtonsHBox/BackBtn"); // Enlazamos el botón de salir
 
 		_fileDialog = GetNode<FileDialog>("FileDialog");
 		_addWordDialog = GetNode<AcceptDialog>("AddWordDialog");
@@ -35,25 +40,24 @@ public partial class BankWord : Control
 
 		_fileBtn.Pressed += OnFileBtnPressed;
 		_wordBtn.Pressed += OnWordBtnPressed;
-		
-		// Conectamos el botón jugar
 		_gameBtn.Pressed += OnGameBtnPressed;
+		_backBtn.Pressed += OnBackBtnPressed; // Conectamos el clic de salir
 
 		_fileDialog.FileSelected += OnFileSelected;
 		_addWordDialog.Confirmed += OnDialogConfirmed;
 
-		// Cargamos el Txt que seleccionó el usuario en el menú anterior
 		if (_global != null && !string.IsNullOrEmpty(_global.RutaTxtCustom))
 		{
 			CargarArchivoTxt(_global.RutaTxtCustom);
 		}
 		else
 		{
-			CargarArchivoTxt("res://Diccionarios/nivel1.txt"); // Por defecto por si acaso
+			CargarArchivoTxt("res://Diccionarios/nivel1.txt"); 
 		}
 	}
 
 	private void OnFileBtnPressed() => _fileDialog.PopupCentered(new Vector2I(600, 400));
+	
 	private void OnWordBtnPressed()
 	{
 		_wordInput.Text = "";
@@ -62,24 +66,28 @@ public partial class BankWord : Control
 
 	private void OnDialogConfirmed()
 	{
-		// .Trim() elimina espacios al inicio y al final. Si hay espacios en medio, los respeta (frase).
 		string nuevaPalabra = _wordInput.Text.Trim();
 
 		if (string.IsNullOrEmpty(nuevaPalabra)) return;
 
-		// Guardamos la palabra en el txt actual
 		string ruta = _global != null ? _global.RutaTxtCustom : "res://Diccionarios/nivel1.txt";
 		
-		using var file = FileAccess.Open(ruta, FileAccess.ModeFlags.ReadWrite);
-		if (file != null)
+		// Abrimos el archivo, escribimos y lo cerramos automáticamente
+		using (var file = FileAccess.Open(ruta, FileAccess.ModeFlags.ReadWrite))
 		{
-			file.SeekEnd();
-			file.StoreLine(nuevaPalabra);
-			CargarArchivoTxt(ruta); // Recargamos para verla
-		}
-		else
-		{
-			GD.PrintErr("No se pudo escribir en el archivo: " + ruta);
+			if (file != null)
+			{
+				file.SeekEnd();
+				file.StoreLine(nuevaPalabra);
+				
+				// 🔥 EL TRUCO: Actualizamos la lista en memoria al instante
+				ListaPalabras.Add(nuevaPalabra);
+				ActualizarPantalla();
+			}
+			else
+			{
+				GD.PrintErr("No se pudo escribir en el archivo: " + ruta);
+			}
 		}
 	}
 
@@ -99,7 +107,6 @@ public partial class BankWord : Control
 			
 			while (!file.EofReached())
 			{
-				// .Trim() limpia espacios muertos, pero deja frases intactas
 				string linea = file.GetLine().Trim();
 				if (!string.IsNullOrEmpty(linea))
 				{
@@ -118,7 +125,6 @@ public partial class BankWord : Control
 	{
 		string textoPantalla = "\n";
 		
-		// Ahora solo mostramos una gran categoría de "Palabras Activas"
 		textoPantalla += $"[font_size=28][color=#2dd4bf][b]❖ PALABRAS EN EL DICCIONARIO ({ListaPalabras.Count})[/b][/color][/font_size]\n";
 
 		if (ListaPalabras.Count == 0)
@@ -136,18 +142,29 @@ public partial class BankWord : Control
 		_historyList.Text = textoPantalla;
 	}
 
-	// 🔥 ESTE ES EL BOTÓN MÁGICO 🔥
 	private void OnGameBtnPressed()
 	{
-		// Si sabemos de qué nivel venimos, vamos hacia allá
 		if (_global != null && !string.IsNullOrEmpty(_global.RutaNivelCustom))
 		{
 			_global.CambiarEscena(_global.RutaNivelCustom);
 		}
 		else
 		{
-			// Respaldo por si falló algo
 			GetTree().ChangeSceneToFile("res://Escenas/game.tscn");
+		}
+	}
+
+	// 🔥 NUEVA FUNCIÓN PARA EL BOTÓN SALIR 🔥
+	private void OnBackBtnPressed()
+	{
+		if (_global != null)
+		{
+			// Te regresa a la selección de nivel (ya que de ahí venías)
+			_global.CambiarEscena("res://Escenas/level_selection.tscn");
+		}
+		else
+		{
+			GetTree().ChangeSceneToFile("res://Escenas/level_selection.tscn");
 		}
 	}
 }

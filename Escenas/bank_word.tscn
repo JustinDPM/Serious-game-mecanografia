@@ -53,6 +53,7 @@ grow_vertical = 2
 script = ExtResource("1_hoeaa")
 
 [node name="BackgroundMenu" parent="." unique_id=64825982 instance=ExtResource("3_ho85a")]
+position = Vector2(-31, -7)
 script = null
 
 [node name="MainPanel" type="PanelContainer" parent="." unique_id=1083606107]
@@ -147,6 +148,17 @@ theme_override_font_sizes/font_size = 36
 theme_override_styles/normal = SubResource("StyleBoxFlat_okmtp")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vplb3")
 text = "Iniciar el juego"
+
+[node name="BackBtn" type="Button" parent="MainPanel/MarginContainer/RootVBox/ButtonsHBox" unique_id=1664886851]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("4_1p3dh")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_okmtp")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vplb3")
+text = "Salir"
 
 [node name="FileDialog" type="FileDialog" parent="." unique_id=439892102]
 title = "Open a File"
