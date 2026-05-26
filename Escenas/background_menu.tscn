@@ -79,6 +79,7 @@ texture = ExtResource("2_jfoux")
 centered = false
 
 [node name="Stars" type="GPUParticles2D" parent="." unique_id=1190233009]
+show_behind_parent = true
 position = Vector2(1954, 949)
 rotation = 1.5707964
 amount = 250
@@ -98,6 +99,7 @@ process_material = SubResource("ParticleProcessMaterial_8skxt")
 
 [node name="Stars3" type="GPUParticles2D" parent="." unique_id=634412102]
 self_modulate = Color(0.7818486, 0.7878543, 0.77586114, 0.79607844)
+show_behind_parent = true
 z_index = 10
 position = Vector2(1971.9999, 1076)
 rotation = 2.0647244
@@ -110,6 +112,7 @@ process_material = SubResource("ParticleProcessMaterial_c8lsl")
 
 [node name="Stars4" type="GPUParticles2D" parent="." unique_id=152948064]
 self_modulate = Color(0.7818486, 0.7878543, 0.77586114, 0.79607844)
+show_behind_parent = true
 z_index = 10
 position = Vector2(-16, 1013.99994)
 rotation = -2.1537364
@@ -122,6 +125,7 @@ process_material = SubResource("ParticleProcessMaterial_c8lsl")
 
 [node name="Stars5" type="GPUParticles2D" parent="." unique_id=1430072422]
 self_modulate = Color(0.7818486, 0.7878543, 0.77586114, 0.79607844)
+show_behind_parent = true
 z_index = 10
 position = Vector2(1917.9999, 19.999939)
 rotation = -5.145231
@@ -134,6 +138,7 @@ process_material = SubResource("ParticleProcessMaterial_c8lsl")
 
 [node name="Stars6" type="GPUParticles2D" parent="." unique_id=945778819]
 self_modulate = Color(0.7818486, 0.7878543, 0.77586114, 0.79607844)
+show_behind_parent = true
 z_index = 10
 position = Vector2(-2.000061, 8.999756)
 rotation = -1.0559242

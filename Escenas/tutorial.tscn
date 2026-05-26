@@ -1,0 +1,113 @@
+[gd_scene format=3 uid="uid://bkgh2cqtaiij3"]
+
+[ext_resource type="Script" uid="uid://cqioe2f41qkue" path="res://Scripts/Tutorial.cs" id="1_2kya8"]
+[ext_resource type="Texture2D" uid="uid://bm7cn1d4tit3m" path="res://assets/tutorial-frames/1.png" id="2_5t46x"]
+[ext_resource type="Texture2D" uid="uid://paxmksquqqn5" path="res://assets/tutorial-frames/2.png" id="3_5t46x"]
+[ext_resource type="Theme" uid="uid://btt18n35jc653" path="res://button_Theme2.tres" id="3_snagp"]
+[ext_resource type="Texture2D" uid="uid://dxw1tbgy74qjg" path="res://assets/tutorial-frames/11.png" id="4_6lfbc"]
+[ext_resource type="Texture2D" uid="uid://dn6clb3qb6n2p" path="res://assets/tutorial-frames/3.png" id="4_ara45"]
+[ext_resource type="FontFile" uid="uid://baoo727a24t57" path="res://Fonts/Orbitron-Black.ttf" id="4_jacnu"]
+[ext_resource type="Texture2D" uid="uid://mskp4ijftax0" path="res://assets/tutorial-frames/12.png" id="5_63ebb"]
+[ext_resource type="Texture2D" uid="uid://xs8re2marhah" path="res://assets/tutorial-frames/4.png" id="5_mq8u6"]
+[ext_resource type="Texture2D" uid="uid://bo03n0a3lsv3w" path="res://assets/tutorial-frames/5.png" id="6_usn6d"]
+[ext_resource type="Texture2D" uid="uid://c1htk3dtwi32f" path="res://assets/tutorial-frames/6.png" id="7_8tc1q"]
+[ext_resource type="Texture2D" uid="uid://b7qlvdy1rx2i" path="res://assets/tutorial-frames/7.png" id="10_jkn2x"]
+[ext_resource type="Texture2D" uid="uid://c6cr6npuvug46" path="res://assets/tutorial-frames/8.png" id="11_6qh7d"]
+[ext_resource type="Texture2D" uid="uid://benf5oephlb7l" path="res://assets/tutorial-frames/9.png" id="12_v1cgc"]
+[ext_resource type="Texture2D" uid="uid://7ulc2s6rca4u" path="res://assets/tutorial-frames/10.png" id="13_r6kt5"]
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_rwowx"]
+frames = 12
+speed_scale = 0.0
+frame_0/texture = ExtResource("2_5t46x")
+frame_0/duration = 0.0
+frame_1/texture = ExtResource("3_5t46x")
+frame_1/duration = 0.0
+frame_2/texture = ExtResource("4_ara45")
+frame_2/duration = 0.0
+frame_3/texture = ExtResource("5_mq8u6")
+frame_3/duration = 1.0
+frame_4/texture = ExtResource("6_usn6d")
+frame_4/duration = 1.0
+frame_5/texture = ExtResource("7_8tc1q")
+frame_5/duration = 1.0
+frame_6/texture = ExtResource("10_jkn2x")
+frame_6/duration = 1.0
+frame_7/texture = ExtResource("11_6qh7d")
+frame_7/duration = 1.0
+frame_8/texture = ExtResource("12_v1cgc")
+frame_8/duration = 1.0
+frame_9/texture = ExtResource("13_r6kt5")
+frame_9/duration = 1.0
+frame_10/texture = ExtResource("4_6lfbc")
+frame_10/duration = 1.0
+frame_11/texture = ExtResource("5_63ebb")
+frame_11/duration = 1.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yb1ct"]
+texture = SubResource("AnimatedTexture_rwowx")
+
+[node name="tutorial" type="Control" unique_id=537116408]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2kya8")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1089820147]
+layout_mode = 0
+offset_left = -3.0
+offset_right = 1917.0
+offset_bottom = 1080.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_yb1ct")
+
+[node name="ColorRect" type="ColorRect" parent="PanelContainer" unique_id=1143817524]
+custom_minimum_size = Vector2(100, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+color = Color(0.003921569, 0.003921569, 0.003921569, 0.6627451)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1917642138]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 0
+offset_left = 50.0
+offset_top = 950.0
+offset_right = 1850.0
+offset_bottom = 1050.0
+size_flags_vertical = 8
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="prev" type="Button" parent="HBoxContainer" unique_id=507247191]
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("3_snagp")
+theme_override_fonts/font = ExtResource("4_jacnu")
+theme_override_font_sizes/font_size = 48
+text = "Atras"
+
+[node name="salir" type="Button" parent="HBoxContainer" unique_id=1127714760]
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("3_snagp")
+theme_override_fonts/font = ExtResource("4_jacnu")
+theme_override_font_sizes/font_size = 48
+text = "Volver al menú"
+
+[node name="next" type="Button" parent="HBoxContainer" unique_id=912071212]
+custom_minimum_size = Vector2(500, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("3_snagp")
+theme_override_fonts/font = ExtResource("4_jacnu")
+theme_override_font_sizes/font_size = 48
+text = "Siguiente"
+
+[connection signal="pressed" from="HBoxContainer/prev" to="." method="_on_prev_pressed"]
+[connection signal="pressed" from="HBoxContainer/salir" to="." method="_on_salir_pressed"]
+[connection signal="pressed" from="HBoxContainer/next" to="." method="_on_next_pressed"]

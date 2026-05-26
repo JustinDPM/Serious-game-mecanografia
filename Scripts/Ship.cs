@@ -3,104 +3,104 @@ using System;
 
 public partial class Ship : Node2D
 {
-    [Export] public float FloatAmplitude = 5f;
-    [Export] public float FloatSpeed = 2f;
+	[Export] public float FloatAmplitude = 5f;
+	[Export] public float FloatSpeed = 2f;
 
-    [Export] public Turret turret;
+	[Export] public Turret turret;
 
-    private Vector2 startPosition;
-    private float time;
+	private Vector2 startPosition;
+	private float time;
 
-    private AnimatedSprite2D flame;
-    private Sprite2D sprite;
+	private AnimatedSprite2D flame;
+	private Sprite2D sprite;
 
-    private bool comboActive = false;
+	private bool comboActive = false;
 
-    public override void _Ready()
-    {
-        if (turret != null)
-        {
-            turret.OnComboStarted += ActivateCombo;
-            turret.OnComboEnded += DeactivateCombo;
-        }
+	public override void _Ready()
+	{
+		if (turret != null)
+		{
+			turret.OnComboStarted += ActivateCombo;
+			turret.OnComboEnded += DeactivateCombo;
+		}
 
-        startPosition = Position;
+		startPosition = Position;
 
-        sprite = GetNode<Sprite2D>("Sprite2D");
-        flame = GetNode<AnimatedSprite2D>("Flame/AnimatedSprite2D");
+		sprite = GetNode<Sprite2D>("Sprite2D");
+		flame = GetNode<AnimatedSprite2D>("Flame/AnimatedSprite2D");
 
-        flame.Play("idle");
-    }
+		flame.Play("idle");
+	}
 
-    public override void _Process(double delta)
-    {
-        time += (float)delta;
+	public override void _Process(double delta)
+	{
+		time += (float)delta;
 
-        if (turret == null || sprite == null)
-            return;
+		if (turret == null || sprite == null)
+			return;
 
-        int streak = turret.GetStreak();
+		int streak = turret.GetStreak();
 
-        float floatOffset = Mathf.Sin(time * FloatSpeed) * FloatAmplitude;
+		float floatOffset = Mathf.Sin(time * FloatSpeed) * FloatAmplitude;
 
-        Vector2 basePos = new Vector2(
-            startPosition.X,
-            startPosition.Y + floatOffset
-        );
-
-
-        float intensity = Mathf.Clamp(streak / 10f, 0f, 1f);
-
-        if (comboActive)
-        {
-            float shakeX = Mathf.Sin(time * 30f) * (1.5f + intensity * 2f);
-            float shakeY = Mathf.Cos(time * 34f) * (1.5f + intensity * 2f);
-
-            basePos += new Vector2(shakeX, shakeY);
-        }
+		Vector2 basePos = new Vector2(
+			startPosition.X,
+			startPosition.Y + floatOffset
+		);
 
 
-        float flickerSpeed = (streak >= 10) ? 25f : 8f;
-        float flicker = Mathf.Sin(time * flickerSpeed);
+		float intensity = Mathf.Clamp(streak / 10f, 0f, 1f);
 
-        float flickerAmount = (streak >= 10) ? 0.25f : 0.08f;
+		if (comboActive)
+		{
+			float shakeX = Mathf.Sin(time * 30f) * (1.5f + intensity * 2f);
+			float shakeY = Mathf.Cos(time * 34f) * (1.5f + intensity * 2f);
 
-        float flickerOffset = flicker * flickerAmount;
-
-        float pulse = Mathf.Sin(time * 12f) * 0.1f;
-        float glow = intensity + pulse + flickerOffset;
-
-        float brightness = 1f + glow * 0.5f;
-
-        sprite.Modulate = new Color(
-            brightness,
-            brightness,
-            brightness
-        );
+			basePos += new Vector2(shakeX, shakeY);
+		}
 
 
-        if (flame != null)
-        {
+		float flickerSpeed = (streak >= 10) ? 25f : 8f;
+		float flicker = Mathf.Sin(time * flickerSpeed);
 
-            flame.SpeedScale = 1f + intensity * 2.5f;
+		float flickerAmount = (streak >= 10) ? 0.25f : 0.08f;
 
-            flame.Modulate = new Color(
-                1f + intensity * 0.25f,
-                0.5f + intensity * 0.2f,
-                1f + intensity * 0.7f
-            );
-        }
+		float flickerOffset = flicker * flickerAmount;
 
-        Position = basePos;
-    }
+		float pulse = Mathf.Sin(time * 12f) * 0.1f;
+		float glow = intensity + pulse + flickerOffset;
 
-    private void ActivateCombo()
-    {
-        comboActive = true;
-    }
+		float brightness = 1f + glow * 0.5f;
 
-    private void DeactivateCombo()
-    {
-        comboActive = false;
-    }
+		sprite.Modulate = new Color(
+			brightness,
+			brightness,
+			brightness
+		);
+
+
+		if (flame != null)
+		{
+
+			flame.SpeedScale = 1f + intensity * 2.5f;
+
+			flame.Modulate = new Color(
+				1f + intensity * 0.25f,
+				0.5f + intensity * 0.2f,
+				1f + intensity * 0.7f
+			);
+		}
+
+		Position = basePos;
+	}
+
+	private void ActivateCombo()
+	{
+		comboActive = true;
+	}
+
+	private void DeactivateCombo()
+	{
+		comboActive = false;
+	}
 }

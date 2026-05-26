@@ -129,7 +129,7 @@ expand_mode = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_778gr")
 theme_override_font_sizes/font_size = 24
-text = "PRIMARIA"
+text = "FÁCIL"
 horizontal_alignment = 1
 
 [node name="Level2Btn" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=423335777]
@@ -161,7 +161,7 @@ expand_mode = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_778gr")
 theme_override_font_sizes/font_size = 24
-text = "SECUNDARIA"
+text = "MEDIO"
 horizontal_alignment = 1
 
 [node name="Level3Btn" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=55897779]
@@ -193,7 +193,7 @@ expand_mode = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_778gr")
 theme_override_font_sizes/font_size = 24
-text = "PREPARATORIA"
+text = "Difícil"
 horizontal_alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer" unique_id=1143629872]
