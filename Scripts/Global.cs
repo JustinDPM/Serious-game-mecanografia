@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+
 public class MatchResult
 {
 	public int Score;
@@ -8,14 +9,17 @@ public class MatchResult
 	public string Duration;
 	public string LevelName;
 }
+
 public partial class Global : Node
 {
-
 	public List<MatchResult> MatchHistory = new List<MatchResult>();
 
 	public string EscenaDestino = "";
 	public string RutaNivelCustom = "";
 	public string RutaTxtCustom = "res://Diccionarios/nivel1.txt";
+	
+	// 🔥 VARIABLE DE MEMORIA PARA EL GAME OVER 🔥
+	public string NivelActual = ""; 
 	
 	public string UsuarioActivo  = "Jugador";
 	public string NombreCompleto = "Jugador Local";
@@ -23,7 +27,6 @@ public partial class Global : Node
 	public int    IdUsuario      = 0;   
 	public int    IdGrado        = 3;   // Grado por defecto: Secundaria
 	public string RutaFotoPerfil = "res://assets/Perfiles/default.jpg";
-
 
 	public int   LastScore    = 0;
 	public float LastAccuracy = 0f;

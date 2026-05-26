@@ -182,18 +182,6 @@ text = "Efectos de Sonido"
 layout_mode = 2
 theme_override_styles/slider = SubResource("StyleBoxLine_n7q0y")
 
-[node name="Label5" type="Label" parent="CenterContainer/PanelContainer/HBoxPrincipal/VBoxContainer" unique_id=1873281544]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 0
-theme_override_fonts/font = ExtResource("2_kjyb2")
-theme_override_font_sizes/font_size = 20
-text = "Sonido al Teclear"
-
-[node name="CheckButton" type="CheckButton" parent="CenterContainer/PanelContainer/HBoxPrincipal/VBoxContainer" unique_id=1713205522]
-layout_mode = 2
-
 [connection signal="pressed" from="CenterContainer/PanelContainer/HBoxPrincipal/SideBar/Return" to="." method="OnResumePressed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/HBoxPrincipal/SideBar/Close" to="." method="OnExitPressed"]
 [connection signal="item_selected" from="CenterContainer/PanelContainer/HBoxPrincipal/VBoxContainer/OptionButton" to="." method="OnDisplayModeChanged"]

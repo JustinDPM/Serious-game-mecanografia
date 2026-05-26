@@ -13,6 +13,9 @@ public partial class Level1 : Node2D
 		turret = GetNode<Turret>("Ship/Turret");
 		audioManager = GetNode<AudioManager>("/root/AudioManager");
 
+		// 🔥 GUARDAMOS LA RUTA EXACTA DEL NIVEL ACTUAL EN GLOBAL 🔥
+		GetNode<Global>("/root/Global").NivelActual = SceneFilePath;
+
 		audioManager.PlayGameMusic();
 
 		turret.OnComboStarted += audioManager.StartComboMusic;
