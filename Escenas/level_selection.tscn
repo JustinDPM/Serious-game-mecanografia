@@ -221,5 +221,5 @@ theme_override_colors/icon_pressed_color = Color(0.4635085, 0.40963116, 0.404325
 theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("3_tosgc")
 theme_override_font_sizes/font_size = 50
-text = "INICIAR A JUGAR"
+text = "VOLVER AL MENÚ"
 icon_alignment = 1
