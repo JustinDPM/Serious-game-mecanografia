@@ -1,7 +1,7 @@
-[gd_scene format=3 uid="uid://cssanomw65w8"]
+[gd_scene format=3 uid="uid://p345dxxsplrg"]
 
 [ext_resource type="Script" uid="uid://bn3623igwtnda" path="res://Scripts/BankWord.cs" id="1_hoeaa"]
-[ext_resource type="PackedScene" uid="uid://vik161c7s1s1" path="res://Escenas/background_menu.tscn" id="3_ho85a"]
+[ext_resource type="PackedScene" path="res://Escenas/background_menu.tscn" id="3_ho85a"]
 [ext_resource type="FontFile" uid="uid://csb47k5lcd1bn" path="res://Fonts/RussoOne-Regular.ttf" id="4_1p3dh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e653h"]

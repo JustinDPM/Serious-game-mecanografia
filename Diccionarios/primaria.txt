@@ -1,0 +1,71 @@
+casa
+perro
+gato
+mesa
+silla
+árbol
+flor
+sol
+luna
+estrella
+escuela
+maestra
+amigo
+familia
+jugar
+correr
+saltar
+dibujar
+leer
+escribir
+comer
+beber
+feliz
+triste
+grande
+pequeño
+rojo
+azul
+verde
+amarillo
+zapato
+mochila
+cuaderno
+lápiz
+borrador
+ventana
+puerta
+camino
+pelota
+carro
+bicicleta
+mariposa
+pájaro
+conejo
+tortuga
+león
+elefante
+banana
+manzana
+naranja
+sandía
+Hola, ¿cómo estás?
+Me gusta jugar fútbol
+Mi color favorito es azul
+Hoy hace mucho sol
+La maestra contó un cuento
+Voy a la escuela temprano
+Mi perro corre muy rápido
+El gato duerme en la silla
+Me gusta dibujar animales
+La luna brilla en la noche
+Mi mamá hizo comida rica
+El niño juega con la pelota
+La niña lee un libro
+Tengo muchos amigos en la escuela
+El pájaro canta en el árbol
+Quiero aprender cosas nuevas
+La mariposa tiene muchos colores
+Mi hermano anda en bicicleta
+El conejo come zanahorias
+Hoy fue un día divertido

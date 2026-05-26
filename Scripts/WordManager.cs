@@ -7,16 +7,7 @@ public partial class WordManager : Node
     public string RutaActual =
         "res://Diccionarios/nivel1.txt";
 
-    public List<string> ListaPrimariaBaja =
-        new List<string>();
-
-    public List<string> ListaPrimariaAlta =
-        new List<string>();
-
-    public List<string> ListaSecundaria =
-        new List<string>();
-
-    public List<string> ListaPreparatoria =
+    public List<string> ListaPalabras =
         new List<string>();
 
     public List<string> ListaFrases =
@@ -31,10 +22,7 @@ public partial class WordManager : Node
     {
         RutaActual = ruta;
 
-        ListaPrimariaBaja.Clear();
-        ListaPrimariaAlta.Clear();
-        ListaSecundaria.Clear();
-        ListaPreparatoria.Clear();
+        ListaPalabras.Clear();
         ListaFrases.Clear();
 
         if (!FileAccess.FileExists(ruta))
@@ -57,22 +45,9 @@ public partial class WordManager : Node
                 continue;
 
             if (EsFrase(linea))
-            {
                 ListaFrases.Add(linea);
-                continue;
-            }
-
-            int dificultad =
-                EvaluarDificultadLinea(linea);
-
-            if (dificultad == 1)
-                ListaPrimariaBaja.Add(linea);
-            else if (dificultad == 2)
-                ListaPrimariaAlta.Add(linea);
-            else if (dificultad == 3)
-                ListaSecundaria.Add(linea);
-            else if (dificultad == 4)
-                ListaPreparatoria.Add(linea);
+            else
+                ListaPalabras.Add(linea);
         }
 
         GD.Print(
@@ -80,26 +55,9 @@ public partial class WordManager : Node
         );
     }
 
-    public List<string> ObtenerPalabrasParaJuego(
-        int nivelSeleccionado
-    )
+    public List<string> ObtenerPalabrasParaJuego()
     {
-        List<string> palabrasParaJugar =
-            new List<string>();
-
-        if (nivelSeleccionado >= 1)
-            palabrasParaJugar.AddRange(ListaPrimariaBaja);
-
-        if (nivelSeleccionado >= 2)
-            palabrasParaJugar.AddRange(ListaPrimariaAlta);
-
-        if (nivelSeleccionado >= 3)
-            palabrasParaJugar.AddRange(ListaSecundaria);
-
-        if (nivelSeleccionado >= 4)
-            palabrasParaJugar.AddRange(ListaPreparatoria);
-
-        return palabrasParaJugar;
+        return new List<string>(ListaPalabras);
     }
 
     public List<string> ObtenerFrasesParaJuego()
@@ -147,35 +105,5 @@ public partial class WordManager : Node
             );
 
         return partes.Length > 1;
-    }
-
-    private int EvaluarDificultadLinea(string linea)
-    {
-        string[] partes =
-            linea.Split(
-                ' ',
-                System.StringSplitOptions.RemoveEmptyEntries
-            );
-
-        int cantidadPalabras = partes.Length;
-
-        if (cantidadPalabras == 1)
-        {
-            int letras = linea.Length;
-
-            if (letras < 5) return 1;
-            if (letras < 7) return 2;
-            if (letras < 10) return 3;
-
-            return 4;
-        }
-        else
-        {
-            if (cantidadPalabras <= 3) return 1;
-            if (cantidadPalabras <= 5) return 2;
-            if (cantidadPalabras <= 7) return 3;
-
-            return 4;
-        }
     }
 }
