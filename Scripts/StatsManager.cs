@@ -147,7 +147,7 @@ public partial class StatsManager : Node
 	public float GetAccuracy()
 	{
 		if (totalInputs == 0)
-			return 100f;
+			return 0f;
 
 		return (float)correct / totalInputs * 100f;
 	}
