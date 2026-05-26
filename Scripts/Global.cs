@@ -13,9 +13,10 @@ public partial class Global : Node
 
 	public List<MatchResult> MatchHistory = new List<MatchResult>();
 
-    public string EscenaDestino = "";
-    public string RutaNivelCustom = "";
-    public string RutaTxtCustom = "res://Diccionarios/nivel1.txt";
+	public string EscenaDestino = "";
+	public string RutaNivelCustom = "";
+	public string RutaTxtCustom = "res://Diccionarios/nivel1.txt";
+	
 	public string UsuarioActivo  = "Jugador";
 	public string NombreCompleto = "Jugador Local";
 	public string Rol            = "Alumno";
