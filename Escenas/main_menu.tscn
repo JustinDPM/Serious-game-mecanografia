@@ -2,20 +2,13 @@
 
 [ext_resource type="Script" uid="uid://brjy64vel3xcf" path="res://Scripts/MainMenu.cs" id="1_r8uxs"]
 [ext_resource type="PackedScene" uid="uid://vik161c7s1s1" path="res://Escenas/background_menu.tscn" id="2_riaih"]
-[ext_resource type="Shader" uid="uid://b1lespohkr7ab" path="res://Escenas/Shaders/login.gdshader" id="3_7ms0u"]
 [ext_resource type="PackedScene" uid="uid://de0jciynbpbpo" path="res://Escenas/settings_menu.tscn" id="3_hjcy7"]
-[ext_resource type="Texture2D" uid="uid://chvjwf23ivlt1" path="res://assets/logoIASD.png" id="4_xgkoo"]
-[ext_resource type="FontFile" uid="uid://csb47k5lcd1bn" path="res://Fonts/RussoOne-Regular.ttf" id="5_a082v"]
-[ext_resource type="Texture2D" uid="uid://br4vd8vjysc70" path="res://assets/icon.svg" id="5_s5s4m"]
 [ext_resource type="FontFile" uid="uid://baoo727a24t57" path="res://Fonts/Orbitron-Black.ttf" id="7_0bd8u"]
 [ext_resource type="Texture2D" uid="uid://butgqmdmne71j" path="res://assets/nave-background2 (1).png" id="7_a082v"]
 [ext_resource type="Theme" uid="uid://by36wl14nm3yr" path="res://button_Theme.tres" id="7_mrusn"]
 [ext_resource type="Texture2D" uid="uid://th1fen0g3e6h" path="res://assets/pad1.png" id="7_qsgyl"]
 [ext_resource type="FontFile" uid="uid://cpd145hveek8t" path="res://Fonts/Orbitron-Medium.ttf" id="8_mrusn"]
 [ext_resource type="Texture2D" uid="uid://besbogm7d7g3b" path="res://assets/pad_screen1.png" id="10_riaih"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_s5s4m"]
-shader = ExtResource("3_7ms0u")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_riaih"]
 texture = ExtResource("7_qsgyl")
@@ -65,21 +58,13 @@ theme_override_constants/separation = 30
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="TextureRect2" type="TextureRect" parent="MarginContainer/VBoxContainer/TopBar" unique_id=154749960]
-material = SubResource("ShaderMaterial_s5s4m")
-custom_minimum_size = Vector2(70, 80)
-layout_mode = 2
-texture = ExtResource("4_xgkoo")
-expand_mode = 1
-stretch_mode = 5
-
 [node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/TopBar" unique_id=1811063441]
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("7_0bd8u")
 bbcode_enabled = true
 text = "[center][font_size=86
 
-][color=white]Astro[/color][color=#8a2be2]Type[/color][/font_size][/center]"
+][color=white]  Astro[/color][color=#8a2be2]Type[/color][/font_size][/center]"
 fit_content = true
 autowrap_mode = 0
 
@@ -90,33 +75,6 @@ size_flags_horizontal = 3
 [node name="UserProfile" type="HBoxContainer" parent="MarginContainer/VBoxContainer/TopBar" unique_id=321116250]
 layout_mode = 2
 theme_override_constants/separation = 15
-
-[node name="ProfileTexts" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TopBar/UserProfile" unique_id=1293511793]
-layout_mode = 2
-
-[node name="NameMain" type="Label" parent="MarginContainer/VBoxContainer/TopBar/UserProfile/ProfileTexts" unique_id=744044488]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.5411765, 0.16862746, 0.8862745, 1)
-theme_override_colors/font_outline_color = Color(0.5411765, 0.16862746, 0.8862745, 1)
-theme_override_constants/outline_size = 1
-theme_override_fonts/font = ExtResource("5_a082v")
-theme_override_font_sizes/font_size = 35
-text = "Alumno"
-horizontal_alignment = 2
-
-[node name="UsernameMain" type="Label" parent="MarginContainer/VBoxContainer/TopBar/UserProfile/ProfileTexts" unique_id=1244895150]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("5_a082v")
-theme_override_font_sizes/font_size = 24
-text = "alumno"
-horizontal_alignment = 2
-
-[node name="AvatarImage" type="TextureRect" parent="MarginContainer/VBoxContainer/TopBar/UserProfile" unique_id=885956305]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-texture = ExtResource("5_s5s4m")
-expand_mode = 1
-stretch_mode = 5
 
 [node name="MainArea" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=889659392]
 layout_mode = 2
@@ -191,7 +149,7 @@ theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("7_0bd8u")
 theme_override_font_sizes/font_size = 50
-text = "CERRAR SESIÓN"
+text = "SALIR DEL JUEGO"
 
 [node name="RightContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/MainArea" unique_id=495473227]
 layout_mode = 2
@@ -214,7 +172,7 @@ theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("8_mrusn")
 theme_override_font_sizes/font_size = 30
-text = "PILOTO: EDUARDO"
+text = "PILOTO: ANTUNA"
 
 [node name="Record" type="Label" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer/StatsTop" unique_id=269015211]
 layout_mode = 2
@@ -222,7 +180,7 @@ theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("8_mrusn")
 theme_override_font_sizes/font_size = 30
-text = "RECORD: 300WPM"
+text = "RECORD: 0WPM"
 
 [node name="ShipContainer" type="CenterContainer" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer" unique_id=981138310]
 layout_mode = 2
@@ -236,29 +194,6 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer/ShipContainer/TextureRect" unique_id=1135774190]
-
-[node name="DictBottom" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer" unique_id=1909849222]
-layout_mode = 2
-theme_override_constants/separation = 30
-alignment = 1
-
-[node name="ActiveWords" type="Label" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer/DictBottom" unique_id=930520666]
-layout_mode = 2
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 0
-theme_override_fonts/font = ExtResource("8_mrusn")
-theme_override_font_sizes/font_size = 30
-text = "PALABRAS ACTIVAS: 1,200"
-horizontal_alignment = 1
-
-[node name="Grade" type="Label" parent="MarginContainer/VBoxContainer/MainArea/RightContainer/VBoxContainer/DictBottom" unique_id=406374771]
-layout_mode = 2
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 0
-theme_override_fonts/font = ExtResource("8_mrusn")
-theme_override_font_sizes/font_size = 30
-text = "GRADO: PREPARATORIA"
-horizontal_alignment = 1
 
 [node name="SettingsMenu" parent="." unique_id=1496994055 node_paths=PackedStringArray("mainMenuPanel") instance=ExtResource("3_hjcy7")]
 visible = false
