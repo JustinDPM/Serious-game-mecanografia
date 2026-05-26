@@ -175,10 +175,10 @@ public partial class MainMenu : Control
 
 		_recordLabel.Text =
 			$"RECORD: {_global.LastWPM:0} WPM";
-        int palabrasActivas =
-            _wordManager.ObtenerPalabrasParaJuego().Count;
+		int palabrasActivas =
+			_wordManager.ObtenerPalabrasParaJuego().Count;
 
-        _activeWordsLabel.Text =
+		_activeWordsLabel.Text =
 			$"PALABRAS ACTIVAS: {palabrasActivas}";
 	}
 
