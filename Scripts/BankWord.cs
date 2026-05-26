@@ -3,164 +3,151 @@ using System.Collections.Generic;
 
 public partial class BankWord : Control
 {
-    private RichTextLabel _historyList;
+	private RichTextLabel _historyList;
+	private Button _fileBtn;
+	private Button _wordBtn;
+	private Button _gameBtn; // Tu nuevo botón de jugar
+	private FileDialog _fileDialog;
+	private AcceptDialog _addWordDialog;
+	private LineEdit _wordInput;
+	
+	private Global _global;
 
-    private Button _fileBtn;
-    private Button _wordBtn;
-    private Button _backBtn;
+	// Ahora usamos una sola lista
+	public List<string> ListaPalabras = new List<string>();
 
-    private FileDialog _fileDialog;
+	public override void _Ready()
+	{
+		_global = GetNodeOrNull<Global>("/root/Global");
+		
+		_historyList = GetNode<RichTextLabel>("MainPanel/MarginContainer/RootVBox/ScrollContainer/HistoryList");
 
-    private AcceptDialog _addWordDialog;
-    private LineEdit _wordInput;
+		_fileBtn = GetNode<Button>("MainPanel/MarginContainer/RootVBox/ButtonsHBox/FileBtn");
+		_wordBtn = GetNode<Button>("MainPanel/MarginContainer/RootVBox/ButtonsHBox/WordBtn");
+		_gameBtn = GetNode<Button>("MainPanel/MarginContainer/RootVBox/ButtonsHBox/GameBtn"); // Conectamos el botón Iniciar Juego
 
-    private WordManager wordManager;
+		_fileDialog = GetNode<FileDialog>("FileDialog");
+		_addWordDialog = GetNode<AcceptDialog>("AddWordDialog");
+		_wordInput = GetNode<LineEdit>("AddWordDialog/WordInput");
 
-    private string _rutaActual = "res://Diccionarios/nivel1.txt";
+		_historyList.BbcodeEnabled = true;
+		_fileDialog.CurrentDir = "res://Diccionarios";
 
-    public override void _Ready()
-    {
-        wordManager =
-            GetNode<WordManager>("/root/WordManager");
+		_fileBtn.Pressed += OnFileBtnPressed;
+		_wordBtn.Pressed += OnWordBtnPressed;
+		
+		// Conectamos el botón jugar
+		_gameBtn.Pressed += OnGameBtnPressed;
 
-        _historyList = GetNode<RichTextLabel>("MainPanel/MarginContainer/RootVBox/ScrollContainer/HistoryList");
+		_fileDialog.FileSelected += OnFileSelected;
+		_addWordDialog.Confirmed += OnDialogConfirmed;
 
-        _fileBtn = GetNode<Button>("MainPanel/MarginContainer/RootVBox/ButtonsHBox/FileBtn");
-        _wordBtn = GetNode<Button>("MainPanel/MarginContainer/RootVBox/ButtonsHBox/WordBtn");
-        _backBtn = GetNode<Button>("MainPanel/MarginContainer/RootVBox/ButtonsHBox/BackBtn");
+		// Cargamos el Txt que seleccionó el usuario en el menú anterior
+		if (_global != null && !string.IsNullOrEmpty(_global.RutaTxtCustom))
+		{
+			CargarArchivoTxt(_global.RutaTxtCustom);
+		}
+		else
+		{
+			CargarArchivoTxt("res://Diccionarios/nivel1.txt"); // Por defecto por si acaso
+		}
+	}
 
-        _fileDialog = GetNode<FileDialog>("FileDialog");
-        _addWordDialog = GetNode<AcceptDialog>("AddWordDialog");
-        _wordInput = GetNode<LineEdit>("AddWordDialog/WordInput");
+	private void OnFileBtnPressed() => _fileDialog.PopupCentered(new Vector2I(600, 400));
+	private void OnWordBtnPressed()
+	{
+		_wordInput.Text = "";
+		_addWordDialog.PopupCentered(new Vector2I(350, 100));
+	}
 
-        _historyList.BbcodeEnabled = true;
-        _fileDialog.CurrentDir = "res://Diccionarios";
+	private void OnDialogConfirmed()
+	{
+		// .Trim() elimina espacios al inicio y al final. Si hay espacios en medio, los respeta (frase).
+		string nuevaPalabra = _wordInput.Text.Trim();
 
-        _fileBtn.Pressed += OnFileBtnPressed;
-        _wordBtn.Pressed += OnWordBtnPressed;
-        _backBtn.Pressed += OnBackBtnPressed;
+		if (string.IsNullOrEmpty(nuevaPalabra)) return;
 
-        _fileDialog.FileSelected += OnFileSelected;
+		// Guardamos la palabra en el txt actual
+		string ruta = _global != null ? _global.RutaTxtCustom : "res://Diccionarios/nivel1.txt";
+		
+		using var file = FileAccess.Open(ruta, FileAccess.ModeFlags.ReadWrite);
+		if (file != null)
+		{
+			file.SeekEnd();
+			file.StoreLine(nuevaPalabra);
+			CargarArchivoTxt(ruta); // Recargamos para verla
+		}
+		else
+		{
+			GD.PrintErr("No se pudo escribir en el archivo: " + ruta);
+		}
+	}
 
-        _addWordDialog.Confirmed += OnDialogConfirmed;
+	private void OnFileSelected(string rutaArchivo)
+	{
+		if (_global != null) _global.RutaTxtCustom = rutaArchivo;
+		CargarArchivoTxt(rutaArchivo);
+	}
 
-        wordManager.CargarArchivoTxt(_rutaActual);
-        ActualizarPantalla();
-    }
+	private void CargarArchivoTxt(string ruta)
+	{
+		ListaPalabras.Clear();
 
-    private void OnFileBtnPressed()
-    {
-        _fileDialog.PopupCentered(new Vector2I(600, 400));
-    }
+		if (FileAccess.FileExists(ruta))
+		{
+			using var file = FileAccess.Open(ruta, FileAccess.ModeFlags.Read);
+			
+			while (!file.EofReached())
+			{
+				// .Trim() limpia espacios muertos, pero deja frases intactas
+				string linea = file.GetLine().Trim();
+				if (!string.IsNullOrEmpty(linea))
+				{
+					ListaPalabras.Add(linea);
+				}
+			}
+			ActualizarPantalla();
+		}
+		else
+		{
+			_historyList.Text = $"[center][color=red]Archivo no encontrado:\n{ruta}[/color][/center]";
+		}
+	}
 
-    private void OnWordBtnPressed()
-    {
-        _wordInput.Text = "";
-        _addWordDialog.PopupCentered(new Vector2I(350, 100));
-    }
+	private void ActualizarPantalla()
+	{
+		string textoPantalla = "\n";
+		
+		// Ahora solo mostramos una gran categoría de "Palabras Activas"
+		textoPantalla += $"[font_size=28][color=#2dd4bf][b]❖ PALABRAS EN EL DICCIONARIO ({ListaPalabras.Count})[/b][/color][/font_size]\n";
 
-    private void OnDialogConfirmed()
-    {
-        string nuevaPalabra = _wordInput.Text.Trim();
+		if (ListaPalabras.Count == 0)
+		{
+			textoPantalla += "    [font_size=22][color=#64748b][i]El archivo está vacío...[/i][/color][/font_size]\n\n";
+		}
+		else
+		{
+			foreach (string palabra in ListaPalabras)
+			{
+				textoPantalla += $"    [font_size=26][color=#a855f7]•[/color] {palabra}[/font_size]\n";
+			}
+		}
 
-        if (string.IsNullOrEmpty(nuevaPalabra))
-            return;
+		_historyList.Text = textoPantalla;
+	}
 
-        bool agregada =
-            wordManager.AgregarPalabra(nuevaPalabra);
-
-        if (!agregada)
-        {
-            GD.PrintErr(
-                "No se pudo agregar la palabra: " +
-                nuevaPalabra
-            );
-
-            return;
-        }
-
-        ActualizarPantalla();
-    }
-
-    private void OnFileSelected(string rutaArchivo)
-    {
-        _rutaActual = rutaArchivo;
-
-        wordManager.CargarArchivoTxt(_rutaActual);
-
-        ActualizarPantalla();
-    }
-
-    private void ActualizarPantalla()
-    {
-        if (wordManager == null)
-            return;
-
-        string textoPantalla = "\n";
-
-        textoPantalla += FormatearCategoriaUI(
-            "Nivel 1: Primaria Baja",
-            wordManager.ListaPrimariaBaja
-        );
-
-        textoPantalla += FormatearCategoriaUI(
-            "Nivel 2: Primaria Alta",
-            wordManager.ListaPrimariaAlta
-        );
-
-        textoPantalla += FormatearCategoriaUI(
-            "Nivel 3: Secundaria",
-            wordManager.ListaSecundaria
-        );
-
-        textoPantalla += FormatearCategoriaUI(
-            "Nivel 4: Preparatoria",
-            wordManager.ListaPreparatoria
-        );
-
-        _historyList.Text = textoPantalla;
-    }
-
-    private string FormatearCategoriaUI(
-        string titulo,
-        List<string> lista
-    )
-    {
-        string bloque =
-            $"[font_size=28][color=#2dd4bf][b]❖ {titulo} ({lista.Count})[/b][/color][/font_size]\n";
-
-        if (lista.Count == 0)
-        {
-            bloque +=
-                "    [font_size=22][color=#64748b][i]Sin palabras en esta categoría...[/i][/color][/font_size]\n\n";
-        }
-        else
-        {
-            foreach (string palabra in lista)
-            {
-                bloque +=
-                    $"    [font_size=26][color=#a855f7]•[/color] {palabra}[/font_size]\n";
-            }
-
-            bloque += "\n";
-        }
-
-        return bloque;
-    }
-
-    public List<string> ObtenerPalabrasParaJuego(
-        int nivelSeleccionado
-    )
-    {
-        return wordManager.ObtenerPalabrasParaJuego(
-            nivelSeleccionado
-        );
-    }
-
-    private void OnBackBtnPressed()
-    {
-        GetTree().ChangeSceneToFile(
-            "res://Escenas/main_menu.tscn"
-        );
-    }
+	// 🔥 ESTE ES EL BOTÓN MÁGICO 🔥
+	private void OnGameBtnPressed()
+	{
+		// Si sabemos de qué nivel venimos, vamos hacia allá
+		if (_global != null && !string.IsNullOrEmpty(_global.RutaNivelCustom))
+		{
+			_global.CambiarEscena(_global.RutaNivelCustom);
+		}
+		else
+		{
+			// Respaldo por si falló algo
+			GetTree().ChangeSceneToFile("res://Escenas/game.tscn");
+		}
+	}
 }

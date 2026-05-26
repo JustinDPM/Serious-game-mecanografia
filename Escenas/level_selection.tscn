@@ -7,7 +7,6 @@
 [ext_resource type="FontFile" uid="uid://csb47k5lcd1bn" path="res://Fonts/RussoOne-Regular.ttf" id="5_778gr"]
 [ext_resource type="Texture2D" uid="uid://vxecxmdp3cjo" path="res://assets/Niveles/planeta2.png" id="6_0j8d0"]
 [ext_resource type="Texture2D" uid="uid://yhqwewss238s" path="res://assets/Niveles/planeta3.png" id="7_r6kso"]
-[ext_resource type="Texture2D" uid="uid://bg2v0q4wife7e" path="res://assets/Niveles/planeta4.png" id="8_cutl0"]
 [ext_resource type="Theme" uid="uid://by36wl14nm3yr" path="res://button_Theme.tres" id="9_ow8jk"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_n6x8p"]
@@ -31,6 +30,30 @@ corner_radius_bottom_right = 15
 corner_radius_bottom_left = 15
 shadow_color = Color(0.8308274, 0.7344264, 0.99385065, 1)
 shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wa1wq"]
+bg_color = Color(0.5411765, 0.16862746, 0.8862745, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 20
+expand_margin_left = 30.0
+expand_margin_top = 10.0
+expand_margin_right = 30.0
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tosgc"]
+bg_color = Color(0.23679757, 0.033253584, 0.41155759, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 20
+expand_margin_left = 30.0
+expand_margin_top = 10.0
+expand_margin_right = 30.0
+expand_margin_bottom = 10.0
 
 [node name="LevelSelection" type="Control" unique_id=1140439947]
 layout_mode = 3
@@ -68,17 +91,21 @@ layout_mode = 2
 theme_override_constants/separation = 60
 theme_override_styles/separator = SubResource("StyleBoxLine_n6x8p")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1674822453]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1175207696]
 layout_mode = 2
-theme_override_constants/separation = 100
+theme_override_constants/separation = 50
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer" unique_id=1674822453]
+layout_mode = 2
+theme_override_constants/separation = 200
 alignment = 1
 
-[node name="Level1Btn" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1759528094]
+[node name="Level1Btn" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=1759528094]
 custom_minimum_size = Vector2(250, 400)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_g8ed2")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Level1Btn" unique_id=1747836695]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/Level1Btn" unique_id=1747836695]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -86,11 +113,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Level1Btn/MarginContainer" unique_id=2069153029]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/Level1Btn/MarginContainer" unique_id=2069153029]
 layout_mode = 2
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Level1Btn/MarginContainer/VBoxContainer" unique_id=743582073]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/Level1Btn/MarginContainer/VBoxContainer" unique_id=743582073]
 custom_minimum_size = Vector2(250, 275)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -98,19 +125,19 @@ size_flags_vertical = 4
 texture = ExtResource("4_m5gu4")
 expand_mode = 1
 
-[node name="UsernameMain" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Level1Btn/MarginContainer/VBoxContainer" unique_id=706424029]
+[node name="UsernameMain" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/Level1Btn/MarginContainer/VBoxContainer" unique_id=706424029]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_778gr")
 theme_override_font_sizes/font_size = 24
 text = "PRIMARIA"
 horizontal_alignment = 1
 
-[node name="Level2Btn" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=423335777]
+[node name="Level2Btn" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=423335777]
 custom_minimum_size = Vector2(250, 400)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_g8ed2")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Level2Btn" unique_id=103779890]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/Level2Btn" unique_id=103779890]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -118,11 +145,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Level2Btn/MarginContainer" unique_id=676825975]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/Level2Btn/MarginContainer" unique_id=676825975]
 layout_mode = 2
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Level2Btn/MarginContainer/VBoxContainer" unique_id=2077017737]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/Level2Btn/MarginContainer/VBoxContainer" unique_id=2077017737]
 custom_minimum_size = Vector2(250, 275)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -130,19 +157,19 @@ size_flags_vertical = 4
 texture = ExtResource("6_0j8d0")
 expand_mode = 1
 
-[node name="UsernameMain" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Level2Btn/MarginContainer/VBoxContainer" unique_id=1015793251]
+[node name="UsernameMain" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/Level2Btn/MarginContainer/VBoxContainer" unique_id=1015793251]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_778gr")
 theme_override_font_sizes/font_size = 24
 text = "SECUNDARIA"
 horizontal_alignment = 1
 
-[node name="Level3Btn" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=55897779]
+[node name="Level3Btn" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" unique_id=55897779]
 custom_minimum_size = Vector2(250, 400)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_g8ed2")
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Level3Btn" unique_id=164238759]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/Level3Btn" unique_id=164238759]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -150,11 +177,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Level3Btn/MarginContainer" unique_id=1477934726]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/Level3Btn/MarginContainer" unique_id=1477934726]
 layout_mode = 2
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Level3Btn/MarginContainer/VBoxContainer" unique_id=408990888]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/Level3Btn/MarginContainer/VBoxContainer" unique_id=408990888]
 custom_minimum_size = Vector2(250, 275)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -162,44 +189,50 @@ size_flags_vertical = 4
 texture = ExtResource("7_r6kso")
 expand_mode = 1
 
-[node name="UsernameMain" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Level3Btn/MarginContainer/VBoxContainer" unique_id=271051064]
+[node name="UsernameMain" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/Level3Btn/MarginContainer/VBoxContainer" unique_id=271051064]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_778gr")
 theme_override_font_sizes/font_size = 24
 text = "PREPARATORIA"
 horizontal_alignment = 1
 
-[node name="Level4Btn" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=2091874366]
-custom_minimum_size = Vector2(250, 400)
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer" unique_id=1143629872]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_g8ed2")
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Level4Btn" unique_id=1001467087]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Level4Btn/MarginContainer" unique_id=698563795]
-layout_mode = 2
+theme_override_constants/separation = 270
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Level4Btn/MarginContainer/VBoxContainer" unique_id=1508043989]
-custom_minimum_size = Vector2(250, 275)
+[node name="CustomSecu" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=222310636]
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-texture = ExtResource("8_cutl0")
-expand_mode = 1
-
-[node name="UsernameMain" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Level4Btn/MarginContainer/VBoxContainer" unique_id=393980803]
-layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("5_778gr")
-theme_override_font_sizes/font_size = 24
-text = "CUSTOM"
-horizontal_alignment = 1
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_wa1wq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tosgc")
+text = " CUSTOM "
+
+[node name="CustomSecu2" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=64817875]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("5_778gr")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_wa1wq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tosgc")
+text = " CUSTOM "
+
+[node name="CustomSecu3" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1733288326]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("5_778gr")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxFlat_wa1wq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tosgc")
+text = " CUSTOM "
 
 [node name="TopSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=557194480]
 layout_mode = 2
