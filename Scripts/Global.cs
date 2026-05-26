@@ -2,18 +2,18 @@ using Godot;
 using System.Collections.Generic;
 public class MatchResult
 {
-    public int Score;
-    public float Accuracy;
-    public float WPM;
-    public string Duration;
-    public string LevelName;
+	public int Score;
+	public float Accuracy;
+	public float WPM;
+	public string Duration;
+	public string LevelName;
 }
 public partial class Global : Node
 {
 
-    public List<MatchResult> MatchHistory = new List<MatchResult>();
+	public List<MatchResult> MatchHistory = new List<MatchResult>();
 
-    public string UsuarioActivo  = "Jugador";
+	public string UsuarioActivo  = "Jugador";
 	public string NombreCompleto = "Jugador Local";
 	public string Rol            = "Alumno";
 	public int    IdUsuario      = 0;   
@@ -26,7 +26,7 @@ public partial class Global : Node
 	public float LastWPM      = 0f;
 
 
-    public static readonly string[] Diccionario = new string[]
+	public static readonly string[] Diccionario = new string[]
 	{
 		"gato", "perro", "casa", "árbol", "libro",
 		"cielo", "luna", "sol", "mar", "río",
@@ -46,7 +46,7 @@ public partial class Global : Node
 		"victoria", "derrota", "batalla", "guerra", "paz"
 	};
 
-    public static readonly string[] Parrafos = new string[]
+	public static readonly string[] Parrafos = new string[]
 	{
 		"El gato corre bajo la luna",
 		"La lectura mejora la ortografía y la memoria",
@@ -54,7 +54,7 @@ public partial class Global : Node
 		"Los meteoritos grandes son más peligrosos"
 	};
 
-    public void CambiarEscena(string rutaEscena)
+	public void CambiarEscena(string rutaEscena)
 	{
 		Error error = GetTree().ChangeSceneToFile(rutaEscena);
 		if (error != Error.Ok)
