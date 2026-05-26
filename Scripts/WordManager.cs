@@ -19,6 +19,9 @@ public partial class WordManager : Node
     public List<string> ListaPreparatoria =
         new List<string>();
 
+    public List<string> ListaFrases =
+        new List<string>();
+
     public override void _Ready()
     {
         CargarArchivoTxt(RutaActual);
@@ -32,6 +35,7 @@ public partial class WordManager : Node
         ListaPrimariaAlta.Clear();
         ListaSecundaria.Clear();
         ListaPreparatoria.Clear();
+        ListaFrases.Clear();
 
         if (!FileAccess.FileExists(ruta))
         {
@@ -51,6 +55,12 @@ public partial class WordManager : Node
 
             if (string.IsNullOrEmpty(linea))
                 continue;
+
+            if (EsFrase(linea))
+            {
+                ListaFrases.Add(linea);
+                continue;
+            }
 
             int dificultad =
                 EvaluarDificultadLinea(linea);
@@ -92,6 +102,11 @@ public partial class WordManager : Node
         return palabrasParaJugar;
     }
 
+    public List<string> ObtenerFrasesParaJuego()
+    {
+        return new List<string>(ListaFrases);
+    }
+
     public bool AgregarPalabra(string palabra)
     {
         palabra = palabra.Trim();
@@ -121,6 +136,17 @@ public partial class WordManager : Node
         CargarArchivoTxt(RutaActual);
 
         return true;
+    }
+
+    private bool EsFrase(string linea)
+    {
+        string[] partes =
+            linea.Split(
+                ' ',
+                System.StringSplitOptions.RemoveEmptyEntries
+            );
+
+        return partes.Length > 1;
     }
 
     private int EvaluarDificultadLinea(string linea)

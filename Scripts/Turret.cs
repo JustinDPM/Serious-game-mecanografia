@@ -275,7 +275,9 @@ public partial class Turret : CharacterBody2D
 			criticalMode = false;
 			OnCriticalEnded?.Invoke();
 		}
-	}
+
+        audio?.PlayHeal();
+    }
 
 	public bool IsComboActive()
 	{

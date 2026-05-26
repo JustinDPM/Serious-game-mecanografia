@@ -13,8 +13,9 @@ public partial class AudioManager : Node
 	[Export] public AudioStream MeteorDestroySFX;
 	[Export] public AudioStream MeteorDestroyedSFX;
 	[Export] public AudioStream TurretDamageSFX;
+    [Export] public AudioStream HealSFX;
 
-	private Tween musicTween;
+    private Tween musicTween;
 
 	public override void _Ready()
 	{
@@ -78,7 +79,12 @@ public partial class AudioManager : Node
 		PlaySFX(TurretDamageSFX, 10f);
 	}
 
-	private void PlaySFX(AudioStream stream, float volumeDb = 0f)
+    public void PlayHeal()
+    {
+        PlaySFX(HealSFX, 3f);
+    }
+
+    private void PlaySFX(AudioStream stream, float volumeDb = 0f)
 	{
 		if (stream == null)
 			return;

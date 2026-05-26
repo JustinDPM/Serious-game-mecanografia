@@ -13,6 +13,9 @@ public partial class Global : Node
 
 	public List<MatchResult> MatchHistory = new List<MatchResult>();
 
+    public string EscenaDestino = "";
+    public string RutaNivelCustom = "";
+    public string RutaTxtCustom = "res://Diccionarios/nivel1.txt";
 	public string UsuarioActivo  = "Jugador";
 	public string NombreCompleto = "Jugador Local";
 	public string Rol            = "Alumno";
@@ -24,35 +27,6 @@ public partial class Global : Node
 	public int   LastScore    = 0;
 	public float LastAccuracy = 0f;
 	public float LastWPM      = 0f;
-
-
-	public static readonly string[] Diccionario = new string[]
-	{
-		"gato", "perro", "casa", "árbol", "libro",
-		"cielo", "luna", "sol", "mar", "río",
-		"fuego", "agua", "viento", "tierra", "nube",
-		"ciudad", "campo", "montaña", "valle", "bosque",
-		"amor", "miedo", "sueño", "tiempo", "vida",
-		"escuela", "mesa", "silla", "puerta", "ventana",
-		"avión", "cohete", "barco", "tren", "coche",
-		"música", "pintura", "teatro", "danza", "poema",
-		"estrella", "planeta", "galaxia", "universo", "cosmos",
-		"dragón", "espada", "escudo", "héroe", "magia",
-		"computadora", "teclado", "pantalla", "ratón", "código",
-		"tiempo", "espacio", "energía", "materia", "átomo",
-		"naranja", "manzana", "uva", "sandía", "limón",
-		"México", "Guerrero", "Acapulco", "Chilpancingo", "Taxco",
-		"rápido", "lento", "grande", "pequeño", "fuerte",
-		"victoria", "derrota", "batalla", "guerra", "paz"
-	};
-
-	public static readonly string[] Parrafos = new string[]
-	{
-		"El gato corre bajo la luna",
-		"La lectura mejora la ortografía y la memoria",
-		"Escribir rápido también requiere precisión",
-		"Los meteoritos grandes son más peligrosos"
-	};
 
 	public void CambiarEscena(string rutaEscena)
 	{
