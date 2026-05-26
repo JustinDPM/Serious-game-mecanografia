@@ -35,7 +35,9 @@ public partial class MeteorSpawner : Node2D
             )
         );
 
-        paragraphs.AddRange(Global.Parrafos);
+        paragraphs.AddRange(
+            wordManager.ObtenerFrasesParaJuego()
+        );
 
         if (words.Count == 0)
         {
@@ -45,7 +47,7 @@ public partial class MeteorSpawner : Node2D
 
         if (paragraphs.Count == 0)
         {
-            GD.PrintErr("MeteorSpawner: párrafos vacío, usando respaldo.");
+            GD.PrintErr("MeteorSpawner: frases vacío, usando respaldo.");
             paragraphs = new List<string>
             {
                 "El gato corre bajo la luna.",
@@ -54,7 +56,7 @@ public partial class MeteorSpawner : Node2D
         }
 
         GD.Print($"MeteorSpawner: {words.Count} palabras cargadas.");
-        GD.Print($"MeteorSpawner: {paragraphs.Count} párrafos cargados.");
+        GD.Print($"MeteorSpawner: {paragraphs.Count} frases cargadas.");
 
         SpawnLoop();
     }
