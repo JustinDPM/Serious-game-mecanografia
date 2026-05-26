@@ -307,5 +307,5 @@ public partial class Turret : CharacterBody2D
 			.Normalized();
 
 		targetRotation = dir.Angle();
-	}
+	}	
 }

@@ -41,36 +41,6 @@ public partial class InputManager : Node
 			return;
 		}
 
-		if (key.Keycode == Key.Backspace)
-		{
-			if (currentInput.Length > 0)
-			{
-				currentInput =
-					currentInput.Substring(
-						0,
-						currentInput.Length - 1
-					);
-			}
-
-			if (currentInput.Length == 0)
-			{
-				currentTarget = null;
-
-				UpdateUI();
-
-				return;
-			}
-
-			currentTarget =
-				GetClosestValidMeteor(
-					currentInput
-				);
-
-			UpdateUI();
-
-			return;
-		}
-
 		if (key.Unicode <= 0)
 			return;
 

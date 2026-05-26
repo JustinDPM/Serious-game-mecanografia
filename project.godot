@@ -23,6 +23,7 @@ config/icon="res://assets/icon.svg"
 
 Global="*uid://dbe2cv2iv2c7s"
 AudioManager="*res://Escenas/audio_manager.tscn"
+WordManager="*uid://dft4dpudjrvth"
 
 [display]
 
